@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>2KHUB Draft Machine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Play:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="script2.js" defer></script>
+</head>
+<body>
+  <div id="logo-container">
+    <a href="home.html"><img src="https://static.wikia.nocookie.net/logopedia/images/3/3b/Wwe_draft_2016_logo_by_sarthakgarg-da7ggc4.png/revision/latest?cb=20160721004323" id="site-logo"></a>
+  </div>
+  <video autoplay muted loop id="myVideo">
+            <source src="video.mp4" type="video/mp4">
+        </video>
+  <div id="main-container" style="display: flex; gap: 20px;">
+
+  <!-- Stânga: Formul -->
+  <div id="animation-area">
+    <h3>Drafting...</h3>
+    <div id="superstar-animation"></div>
+  </div>
+  
+  <!-- Dreapta: Butoane + branduri -->
+  <div style="flex: 1; display: flex; flex-direction: column;">
+
+    <div style="margin-bottom: 15px;display: flex;
+  justify-content: center; /* centrează pe orizontală */
+  gap: 20px; /* spațiu între butoane */
+  flex-wrap: wrap; /* ca să nu iasă în afara ecranului pe rezoluții mici */
+  margin: 20px 0;">
+      <button class="buttonmen" onclick="setCategory('man')">Draft MEN</button>
+      <button class="buttonwomen" onclick="setCategory('woman')">Draft WOMEN</button>
+    </div>
+
+    <div id="draft-container" style="display: flex; gap: 20px; flex-wrap: wrap;">
+
+      <div class="raw" id="raw" style="flex: 1;">
+        <br>
+        <button class="buttonraw" onclick="draftForBrand('RAW')">Draft to <br>
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ac5fd338-5b8e-4d9b-a1f0-d535e9ce7621/diq2blx-baf83783-a674-46e7-a293-5ba031a782ac.png/v1/fill/w_1192,h_421/wwe_raw_on_netflix_logo_remake_2025_by_lastbreathgfx_diq2blx-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9NDIxIiwicGF0aCI6IlwvZlwvYWM1ZmQzMzgtNWI4ZS00ZDliLWExZjAtZDUzNWU5Y2U3NjIxXC9kaXEyYmx4LWJhZjgzNzgzLWE2NzQtNDZlNy1hMjkzLTViYTAzMWE3ODJhYy5wbmciLCJ3aWR0aCI6Ijw9MTE5MiJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.4lndjSRfn4g4b3rBcr7BrAT7djc5pZwgycNsxrjuq3A" style="height: 25px; vertical-align: middle; margin-left: 5px;"
+          style="height: 25px; vertical-align: middle; margin-left: 5px;">
+        </button>
+        <ul id="RAW-list"></ul>
+      </div>
+
+      <div class="sd" id="smackdown" style="flex: 1;">
+        <br>
+        <button class="buttonsd" onclick="draftForBrand('SmackDown')">Draft to <br>
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/ac5fd338-5b8e-4d9b-a1f0-d535e9ce7621/di6gh9h-d4292db8-2b91-411a-90a0-3e8c4e7d5180.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcL2FjNWZkMzM4LTViOGUtNGQ5Yi1hMWYwLWQ1MzVlOWNlNzYyMVwvZGk2Z2g5aC1kNDI5MmRiOC0yYjkxLTQxMWEtOTBhMC0zZThjNGU3ZDUxODAucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.OXTTqFh6S4ElkG4eRT2CG7KSfD49ukio5BWVGkOxghM" style="height: 25px; vertical-align: middle; margin-left: 5px;">
+        </button>
+        <ul id="SmackDown-list"></ul>
+      </div>
+
+      <div class="nxt" id="nxt" style="flex: 1;">
+        <br>
+        <button class ="buttonnxt" onclick="draftForBrand('NXT')">Draft to <br>
+          <img src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/0104ec68-4823-457b-9ac4-ca10b5317304/did6fzx-4b7e3280-1ad5-41c7-bf0a-bf9ca440001e.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7InBhdGgiOiJcL2ZcLzAxMDRlYzY4LTQ4MjMtNDU3Yi05YWM0LWNhMTBiNTMxNzMwNFwvZGlkNmZ6eC00YjdlMzI4MC0xYWQ1LTQxYzctYmYwYS1iZjljYTQ0MDAwMWUucG5nIn1dXSwiYXVkIjpbInVybjpzZXJ2aWNlOmZpbGUuZG93bmxvYWQiXX0.n_tsm-exP3BTKWnFugJWzHGtAoiKp-0HfR9zBpv243U" style="height: 25px; vertical-align: middle; margin-left: 5px;">
+        </button>
+        <ul id="NXT-list"></ul>
+      </div>
+      
+
+    </div>
+
+  </div>
+  <div id="add-form" style="margin:0;">
+    <h3>Add a superstar</h3>
+    <input type="text" id="name" placeholder="Name">
+    <input type="text" id="img" placeholder="Image URL (optional)">
+    <select id="tier">
+      <option value="high">Main event</option>
+      <option value="mid">Mid Card</option>
+      <option value="low">Jobber</option>
+    </select>
+    <select id="sex">
+      <option value="man">Man</option>
+      <option value="woman">Woman</option>
+    </select>
+    <button type="button" class="defaultbutton" onclick="addSuperstar()">Add</button>
+  </div>
+</div>
+<div class="export">
+    <button class="defaultbutton2" onclick="exportToExcel()">Export Draft to Excel</button>
+  </div>
+  </div>
+
+  <div class="export">
+    <button class="defaultbutton2" onclick="exportToExcel()">Export Draft to Excel</button>
+  </div>
+  
+
+  <div id="all-superstars">
+    <p style="font-size:150%">WWE CURRENT ROSTER</p>
+    <input type="text" id="search-input" placeholder="Search superstar..." style="width: 90%; padding: 6px; margin: 10px auto; border-radius: 6px; font-family: 'Play', sans-serif; font-size: 16px;  background-color: rgba(55, 52, 52, 0.541); color: white;">
+    <div style="margin-top: 10px; display: flex; justify-content: center; gap: 10px;">
+</div>
+
+</select>
+
+</select>
+
+    <div id="superstar-list"></div>
+  </div>
+
+  <p style="text-align: left;
+    position: fixed;
+  bottom: 0.5%; /* distanță de jos */
+  left: 30%;   /* distanță de la stânga */
+  z-index: 1000; /* să fie deasupra altor elemente */">
+  This site is a fan-made WWE 2K Universe Draft simulator. All names, logos, and images are trademarks or copyrights of WWE, AEW, and 2K. This site is not affiliated with any official brand. For entertainment purposes only.
+  </p>
+</body>
+</html>

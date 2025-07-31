@@ -1,0 +1,609 @@
+    body {
+      background-color: #111;
+      color: white;
+      font-family: 'Play', sans-serif;
+      text-align: center;
+      padding: 20px;
+      margin-left: 270px; /* spațiu pentru sidebar */
+      background-image: url('https://cdn.wallpapersafari.com/2/53/XNySEL.jpg');
+      background-repeat: no-repeat;
+      background-size:cover;
+      opacity: 0;
+      animation: fadeIn 2s ease forwards;
+      overflow-x: hidden;
+      
+    }
+    @keyframes fadeIn {
+    to {
+    opacity: 1;
+      }
+    }
+    #draft-container {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      flex-wrap: wrap;
+    }
+    .raw {
+    background-color: #222;
+    padding: 15px;
+    border-radius: 10px;
+    flex: 1 1 300px;
+    max-width: 350px;
+    min-width: 280px;
+    box-shadow: 0 0 10px #000;
+    background-repeat: no-repeat;
+    background-size: cover;
+    box-shadow: 0 0 10px #000;
+    background-image: url('https://occ-0-8407-90.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTd6l2ZHjZdgrKUhnuMGbiLcZJzD1vEk3CNL-3_WvjQZbnxfSWM4RV1WRzp6ewkkn3IACcX5N0W7PDk2BObM0irDxetTc4Fd1o3C.jpg?r=634');
+    background-repeat: no-repeat;
+    background-size:cover;
+    font-family: 'Play', sans-serif;
+    max-width: 100%;
+  min-width: 10.5%;
+    }
+    .sd {
+      background-color: #222;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 0 10px #000;
+      background-image: url('https://www.wwe.com/f/styles/shows_header_xl/public/all/2024/09/20240913_SD_GlobalHeader_%281%29--dfff4bb0b98849ec51973605414563b4.jpg');
+      background-repeat: no-repeat;
+      background-size:cover;
+      font-family: 'Play', sans-serif;
+      max-width: 100%;
+      min-width: 10.5%;
+    }
+    .nxt {
+      background-color: #222;
+      padding: 15px;
+      border-radius: 10px;
+      width: 250px;
+      box-shadow: 0 0 10px #000;
+      background-image: url('https://www.wwe.com/f/styles/og_image/public/all/2024/10/20240930_NXTonCW_ShowHub--cac7cda26a1367a5672f0fbca5f84550.jpg');
+      background-repeat: no-repeat;
+      background-size:cover;
+      font-family: 'Play', sans-serif;
+      max-width: 100%;
+  min-width: 10.5%;
+    }
+    #RAW-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: red black;
+    }
+    #SmackDown-list {
+    max-height: 400px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(0, 8, 255) black;
+    }
+    #NXT-list {
+    max-height: 500px;
+    overflow-y: auto;
+    padding-right: 10px;
+    scrollbar-width: thin;
+    scrollbar-color: rgb(186, 170, 170) black;
+    }
+    .brand h2 {
+      margin-top: 0;
+    }
+    .buttonraw {
+    padding: 12px 24px;
+    background: linear-gradient(145deg, #8b0000, #000);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+    border: 2px solid crimson;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 0 10px #ff000080;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    max-width: 100%;
+  min-width: 6.77%;
+  }
+
+  .buttonraw:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #d40000, #111);
+  box-shadow: 0 0 15px #ff0000cc;
+  }
+  .buttonsd {
+    padding: 12px 24px;
+    background: linear-gradient(145deg, #012fa5, #000);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+    border: 2px solid rgb(20, 53, 220);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 0 10px #0015ff80;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    max-width: 100%;
+  min-width: 6.77%;
+  }
+
+  .buttonsd:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #0400d4, #111);
+  box-shadow: 0 0 15px #0008ffcc;
+  }
+  .buttonnxt {
+    padding: 12px 24px;
+    background: linear-gradient(145deg, #bebdb7, #000);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+    border: 2px solid rgb(59, 59, 56);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 0 10px #02020280;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    max-width: 100%;
+  min-width: 6.77%;
+  }
+  .defaultbutton {
+    padding: 12px 24px;
+    background: linear-gradient(145deg, #000000, #000);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+    border: 2px solid rgb(59, 59, 56);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 0 10px #02020280;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+  }
+  .defaultbutton:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #515149cc;
+  }
+
+  .defaultbutton2 {
+  padding: 10px 15px;
+    background: linear-gradient(145deg, #000000, #000);
+    color: white;
+    font-weight: bold;
+    text-shadow: 1px 1px 3px black;
+    border: 2px solid rgb(59, 59, 56);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease;
+    box-shadow: 0 0 10px #02020280;
+    font-family: 'Play', sans-serif;
+    font-size: 20px;
+    margin: 0px;
+    text-align: left;
+    position: fixed;
+  bottom: 10px; /* distanță de jos */
+  left: 300px;   /* distanță de la stânga */
+  z-index: 1000; /* să fie deasupra altor elemente */
+  }
+  .defaultbutton2:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 15px #515149cc;
+  }
+
+  .buttonnxt:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #d0d0c9, #111);
+  box-shadow: 0 0 15px #515149cc;
+  }
+
+    ul {
+      list-style: none;
+      padding: 0;
+    }
+    li {
+      margin: 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: center;
+    }
+    .superstar-img {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    #animation-area {
+      
+      background-color: #1e1e1e;
+      border-radius: 10px;
+      max-height: 300px;
+      font-family: 'Play', sans-serif;
+    font-size: 20px;
+  padding: 20px;
+  width: 400px;
+  background: rgba(34, 34, 34, 0.3);
+  backdrop-filter: blur(2px);
+  -webkit-backdrop-filter: blur(2px);
+  font-family: 'Play', sans-serif;
+  border: 1px solid;
+  border-image: linear-gradient(135deg, #ff0000, #3300ff, #afb8ae) 0;
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #0d00ff,
+    0 0 40px #aebbac;
+    }
+    .superstar-img-large {
+      width: 150px;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 50%;
+      animation: pulse 0.5s infinite alternate;
+    }
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
+    }
+#add-form {
+  margin: 30px auto;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  width: 200px;
+  height: 325px;
+  background: rgba(34, 34, 34, 0.3);
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  font-family: 'Play', sans-serif;
+  border: 1px solid;
+  border-image: linear-gradient(135deg, #ff0000, #3300ff, #afb8ae) 0;
+  text-align: center;
+  
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #0d00ff,
+    0 0 40px #aebbac;
+}
+#add-form select {
+  width: 100%;
+  padding: 10px;
+  margin: 8px 0;
+  font-family: 'Play', sans-serif;
+  font-size: 16px;
+  background-color: #1e1e1e;
+  color: #fff;
+  border: 1px solid #555;
+  border-radius: 6px;
+  box-shadow: inset 0 0 5px rgba(255, 255, 255, 0.05);
+  transition: all 0.3s ease;
+}
+
+#add-form input:focus,
+#add-form select:focus {
+  color: #ffffff; /* culoarea fontului când tastezi */
+  border-color: #e60000;
+  box-shadow: 0 0 5px #e60000;
+  background-color: #2a2a2a5b;
+}
+#add-form h3 {
+  font-family: 'Play', sans-serif;
+  color: white;
+  margin-bottom: 10px;
+}
+
+    input, select {
+      width: 100%;
+      margin: 10px 0;
+      padding: 8px;
+      border-radius: 5px;
+      border: none;
+    }
+    .superstar-entry {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #333;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 5px;
+      font-family: 'Play', sans-serif;
+    }
+    .superstar-entry button {
+      background: rgb(0, 0, 0);
+      padding: 5px;
+      border-radius: 5px;
+      font-family: 'Play', sans-serif;
+    }
+    #all-superstars {
+      position: fixed;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 250px;
+      background: #1c1c1ca2;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 20px;
+      border-right: 2px solid #333;
+      z-index: 100;
+      scrollbar-width: thin;
+      scrollbar-color: red black;
+      border: 1px solid;
+  border-image: linear-gradient(135deg, #ff0000, #3300ff, #afb8ae) 0;
+  text-align: center;
+  
+  box-shadow:
+    0 0 10px #ff0000,
+    0 0 20px #0d00ff,
+    0 0 40px #aebbac;
+    }
+    #all-superstars img {
+      width: 110%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+    #all-superstars img {
+      width: 110%;
+      max-width: 300px;
+      margin-bottom: 10px;
+    }
+    #titlu img {
+      width: 200%;
+      max-width: 500px;
+      margin-bottom: 10px;
+    }
+    #superstar-list {
+      font-family: 'Play', sans-serif;
+      font-size: 20px
+    }
+    #myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+    z-index: -1;
+}
+  .export {
+    margin: 0;
+  }
+  #logo-container {
+  text-align: center;
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+#site-logo {
+  max-width: 30%;
+  height: auto;
+  margin-left: 15%;
+  filter: drop-shadow(0 0 10px #ff0040);
+  transition: transform 0.3s ease;
+}
+
+#site-logo:hover {
+  transform: scale(1.05);
+}
+.buttonwomen {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(145deg, #8b0000, #000);
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px black;
+  border: 2px solid crimson;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 0 10px #ff000080;
+  font-family: 'Play', sans-serif;
+  font-size: 1.25rem;
+  margin:0;
+  display: block;
+  margin: 20px auto; /* Centrează butonul orizontal */
+}
+
+
+  .buttonwomen:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #d40000, #111);
+  box-shadow: 0 0 15px #ff0000cc;
+  }
+  .buttonmen {
+  padding: 0.75rem 1.5rem;
+  background: linear-gradient(145deg, #09008b, #000);
+  color: white;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px black;
+  border: 2px solid rgb(27, 20, 220);
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.3s ease;
+  box-shadow: 0 0 10px #0011ff80;
+  font-family: 'Play', sans-serif;
+  font-size: 1.25rem;
+  margin:0;
+  display: block;
+  margin: 20px auto; /* Centrează butonul orizontal */
+}
+
+  .buttonmen:hover {
+  transform: scale(1.05);
+  background: linear-gradient(145deg, #0400d4, #111);
+  box-shadow: 0 0 15px #0008ffcc;
+  }
+  @media (max-width: 768px) {
+  body {
+    margin-left: 0;
+    padding: 10px;
+  }
+
+  #all-superstars {
+    position: static;
+    width: 100%;
+    height: auto;
+    border-right: none;
+    box-shadow: none;
+  }
+
+  #main-container {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #animation-area,
+  .raw,
+  .sd,
+  .nxt,
+  #add-form {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-bottom: 20px;
+  }
+
+  #site-logo {
+    max-width: 80%;
+    margin-left: 0;
+  }
+
+  .defaultbutton2 {
+    position: static;
+    margin: 20px auto;
+    display: block;
+  }
+}
+@media (max-width: 1440px) {
+  body {
+    margin-left: 200px; /* mai puțin decât 270px */
+    padding: 10px;
+  }
+
+  #site-logo {
+    max-width: 50%;
+    margin-left: 5%;
+  }
+
+  #animation-area,
+  #add-form {
+    width: 300px;
+  }
+
+  .raw, .sd, .nxt {
+    flex: 1 1 250px;
+    min-width: 250px;
+    max-width: 300px;
+  }
+
+  .defaultbutton2 {
+    left: 220px;
+  }
+}
+#superstar-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  padding: 10px;
+}
+
+.superstar-card {
+  width: 400px;
+  height: 100px;
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 0 12px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 8px;
+}
+
+.superstar-card::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 0;
+}
+
+.superstar-card .delete-btn {
+  position: absolute;
+  top: 4px;
+  right: 6px;
+  background: rgba(255, 0, 0, 0.8);
+  border: none;
+  background-image: url('https://occ-0-8407-90.1.nflxso.net/dnm/api/v6/6AYY37jfdO6hpXcMjf9Yu5cnmO0/AAAABTd6l2ZHjZdgrKUhnuMGbiLcZJzD1vEk3CNL-3_WvjQZbnxfSWM4RV1WRzp6ewkkn3IACcX5N0W7PDk2BObM0irDxetTc4Fd1o3C.jpg?r=634');
+  color: white;
+  font-size: 14px;
+  padding: 3px 6px;
+  cursor: pointer;
+  z-index: 2;
+  transition: background 0.3s;
+}
+
+.superstar-card .delete-btn:hover {
+  background: red;
+}
+
+.superstar-card .info {
+  position: relative;
+  z-index: 1;
+  color: white;
+  padding: 4px 6px 2px;
+  text-align: center;
+  font-family: 'Play', sans-serif;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-shadow: 1px 1px 3px black;
+}
+
+.superstar-card .buttons {
+  display: flex;
+  justify-content: center;
+  gap: 5px;
+  padding: 4px 0 6px;
+  z-index: 1;
+  position: relative;
+}
+
+.superstar-card button {
+  padding: 3px 6px;
+  font-size: 0.7rem;
+  font-weight: bold;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-family: 'Play', sans-serif;
+  transition: transform 0.2s;
+}
+
+.buttonraw {
+  background-color: crimson;
+  color: white;
+}
+
+.buttonsmackdown {
+  background-color: rgb(37, 20, 220);
+  color: white;
+}
+
+.buttonnxt {
+  background-color: gold;
+  color: rgb(255, 255, 255);
+}
+
+.superstar-card button:hover {
+  transform: scale(1.05);
+}
+
