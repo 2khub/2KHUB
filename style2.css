@@ -5,7 +5,6 @@
       text-align: center;
       padding: 20px;
       margin-left: 270px; /* spațiu pentru sidebar */
-      background-image: url('https://cdn.wallpapersafari.com/2/53/XNySEL.jpg');
       background-repeat: no-repeat;
       background-size:cover;
       opacity: 0;
@@ -371,6 +370,7 @@
     bottom: 0;
     min-width: 100%;
     min-height: 100%;
+    transform: scale(1.1);
     z-index: -1;
 }
   .export {
@@ -386,7 +386,7 @@
   max-width: 30%;
   height: auto;
   margin-left: 15%;
-  filter: drop-shadow(0 0 10px #ff0040);
+  filter: drop-shadow(0 0 10px #ff00ea);
   transition: transform 0.3s ease;
 }
 

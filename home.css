@@ -107,21 +107,21 @@ body {
   padding: 10px 20px;
   font-size: 20px;
   font-family: 'Play', sans-serif;
-  border: 2px solid crimson;
+  border: 2px solid rgb(255, 0, 0);
   border-radius: 8px;
   cursor: pointer;
   transition: background 0.3s ease;
 }
 
 .dropbtn:hover {
-  background-color: crimson;
+  background-color: rgb(255, 0, 0);
 }
 
 .dropdown-content {
   display: none;
   position: absolute;
   background-color: #222;
-  border: 1px solid crimson;
+  border: 1px solid rgb(196, 0, 0);
   min-width: 180px;
   box-shadow: 0 0 10px rgba(255,0,0,0.4);
   z-index: 100;
@@ -142,7 +142,7 @@ body {
 }
 
 .dropdown-content a:hover {
-  background-color: crimson;
+  background-color: rgb(196, 0, 0);
 }
 
 .dropdown:hover .dropdown-content {
