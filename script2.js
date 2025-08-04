@@ -23,6 +23,7 @@
   { name: "Bianca Belair", tier: "high", sex: "woman", img: "images/bianca-belair.png" },
   { name: "Blake Monroe", tier: "high", sex: "woman", img: "images/mariah-may-2025.png" },
   { name: "Brinley Reece", tier: "low", sex: "woman", img: "images/brinley-reece-2024.png" },
+  { name: "Brock Lesnar", tier: "high", sex: "man", img:"images/images_wrestling_wrestlers_b_brock-lesnar-2021-new.webp" },
   { name: "Bronn Breakker", tier: "high", sex: "man", img: "images/images_wwe2k24_roster_bron-breakker.webp" },
   { name: "Bronco Nima", tier: "mid", sex: "man", img: "images/bronco-nima.png" },
   { name: "Bronson Reed", tier: "high", sex: "man", img: "images/images_wwe2k24_roster_bronson-reed.webp" },
@@ -390,3 +391,4 @@ document.getElementById("search-input").addEventListener("input", function () {
     }
   });
 });
+
