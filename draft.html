@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WWE Universe Draft Tool – 2KHUB | WWE 2K25 Roster & Fantasy Booking</title>
+  <meta name="description" content="Free WWE 2K25 Universe Mode draft tool. Draft superstars to brands, export to Excel, download draft graphics. Fantasy booking and roster maker for WWE 2K.">
+  <meta name="theme-color" content="#f1c40f">
+  <meta name="keywords" content="WWE 2K25, Universe Mode, Draft Tool, WWE 2K Roster, Fantasy Booking, Wrestling Custom Maker, brand split, 2KHUB">
+  <link rel="canonical" href="https://2khub.info/draft">
+  <meta property="og:title" content="WWE Universe Draft Tool – 2KHUB | WWE 2K25 Roster Draft">
+  <meta property="og:description" content="Free WWE 2K25 Universe Mode draft tool. Draft superstars to brands, export to Excel, download draft graphics.">
+  <meta property="og:image" content="https://2khub.info/logo.png">
+  <meta property="og:url" content="https://2khub.info/draft">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="2KHUB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="WWE Universe Draft Tool – 2KHUB">
+  <meta name="twitter:description" content="Free WWE 2K25 Universe Mode draft tool. Draft superstars to brands, export to Excel, download graphics.">
+  <meta name="twitter:image" content="https://2khub.info/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2KHUB WWE Universe Draft Tool",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web Browser",
+    "description": "Free WWE 2K25 Universe Mode draft tool. Draft superstars to brands, export to Excel, download draft graphics. Fantasy booking and roster maker.",
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+    "url": "https://2khub.info/draft"
+  }
+  </script>
+  <script src="app.js" defer></script>
+</head>
+<body class="animate-page">
+
+  <video autoplay muted loop id="bg-video" aria-hidden="true">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <header role="banner">
+    <div class="logo-area">
+      <a href="index.html" class="header-logo-link" title="Back to 2KHUB Home" aria-label="Back to 2KHUB Home">
+        <img src="logo.png" alt="2KHUB – WWE 2K25 Universe Mode Draft Tool logo" class="site-logo">
+      </a>
+    </div>
+    <h1 class="sr-only">WWE Universe Draft Tool</h1>
+  </header>
+
+  <main class="grid-container">
+
+    <section class="control-panel">
+      <div id="animation-area"></div>
+      <div class="controls"></div>
+      <div class="add-form">
+        <h2 class="add-form-heading">Add Custom Superstar</h2>
+        <div class="form-row">
+          <input type="text" id="custom-name" placeholder="Name (Required)">
+        </div>
+        <div class="form-row">
+          <input type="text" id="custom-img" placeholder="Image URL (Optional)">
+        </div>
+        <div class="form-row">
+          <select id="custom-sex">
+            <option value="man">Man</option>
+            <option value="woman">Woman</option>
+          </select>
+          <select id="custom-tier">
+            <option value="high">Main Event</option>
+            <option value="mid">Mid Card</option>
+            <option value="low">Jobber</option>
+          </select>
+        </div>
+        <button class="btn btn-add" onclick="addCustomSuperstar()" aria-label="Add custom superstar to roster">+ Add to Roster</button>
+      </div>
+    </section>
+
+    <div class="brands-wrapper">
+      <section class="brands-container" id="brands-area"></section>
+      <div class="add-brand-cell">
+        <button type="button" onclick="addNewBrand()" class="btn-add-brand" title="Add New Brand" aria-label="Add new brand column">+ Add Brand</button>
+      </div>
+    </div>
+
+    <section class="roster-pool">
+      <div class="pool-header">
+        <button type="button" id="draft-rules-btn" class="btn-draft-rules" title="How to use the Draft tool" aria-label="Open draft rules and help">Help / Rules</button>
+        <div class="pool-title-banner">
+          <span class="pool-title-text">Available Roster</span>
+          <span id="roster-count" class="pool-count">0</span>
+        </div>
+        <div class="filters-container">
+          <input type="text" id="search-input" placeholder="Search name...">
+          <div class="filter-row">
+            <select id="filter-sex" onchange="renderSuperstarList()">
+              <option value="all">All Genders</option>
+              <option value="man">Men</option>
+              <option value="woman">Women</option>
+            </select>
+            <select id="filter-tier" onchange="renderSuperstarList()">
+              <option value="all">All Tiers</option>
+              <option value="high">Main Event</option>
+              <option value="mid">Mid Card</option>
+              <option value="low">Jobber</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="superstar-list" class="cards-grid"></div>
+    </section>
+  </main>
+
+  <footer class="actions-footer" role="contentinfo">
+    <button class="btn btn-export" onclick="exportToExcel()" aria-label="Export draft to Excel">Export to Excel</button>
+    <button class="btn btn-finalize" onclick="openDraftPreview()" aria-label="Finalize draft and download graphic">Finalize Draft</button>
+    <button class="btn btn-reset" onclick="resetDraft()" aria-label="Reset draft">Reset Draft</button>
+  </footer>
+
+  <div id="draft-export-board" style="position: absolute; left: -9999px; top: -9999px; width: 1400px; background: #0a0a0a; padding: 50px; box-sizing: border-box; z-index: -100;">
+  </div>
+
+  <div id="site-notifications" class="site-notifications" aria-live="polite"></div>
+
+  <div id="draft-preview-modal" class="site-modal draft-preview-modal" role="dialog" aria-modal="true" aria-labelledby="draft-preview-title" hidden>
+    <div class="modal-backdrop" id="draft-preview-backdrop"></div>
+    <div class="modal-box draft-preview-box">
+      <h3 id="draft-preview-title" class="modal-title">Draft Results Preview</h3>
+      <div id="draft-preview-content" class="draft-preview-content"></div>
+      <div class="modal-actions draft-preview-actions">
+        <button type="button" class="btn-modal btn-modal-cancel" id="draft-preview-close">Close</button>
+        <button type="button" class="btn-modal btn-modal-ok" id="draft-preview-save">Save draft results</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="site-modal" class="site-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <h3 id="modal-title" class="modal-title"></h3>
+      <p class="modal-message"></p>
+      <input type="text" class="modal-input" id="modal-input" placeholder="" style="display: none;">
+      <div class="modal-actions">
+        <button type="button" class="btn-modal btn-modal-cancel">Cancel</button>
+        <button type="button" class="btn-modal btn-modal-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="draft-rules-modal" class="site-modal draft-rules-modal" role="dialog" aria-modal="true" aria-labelledby="draft-rules-title" hidden>
+    <div class="modal-backdrop" id="draft-rules-backdrop"></div>
+    <div class="modal-box draft-rules-box">
+      <h3 id="draft-rules-title" class="modal-title">How to Play / Rules</h3>
+      <div class="draft-rules-content">
+        <p><strong>The Pool</strong> — You can only draft superstars available in the left pool. Use the search and filters (gender, tier) to find them.</p>
+        <p><strong>Drafting</strong> — Drag and drop superstars from the pool into the brand columns, or use the &quot;Auto Draft&quot; button (in the animation area) to assign superstars automatically.</p>
+        <p><strong>Saving</strong> — Use the bottom bar to <strong>Export to Excel</strong> (roster data) or <strong>Finalize Draft</strong> to preview and download an HQ graphic of your draft results.</p>
+      </div>
+      <div class="modal-actions">
+        <button type="button" class="btn-modal btn-modal-ok" id="draft-rules-close">Got it</button>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

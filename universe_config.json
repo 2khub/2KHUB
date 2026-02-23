@@ -1,0 +1,28 @@
+{
+  "wwe2k25": {
+    "settings": { "year": 2025, "engine": "classic" },
+    "brands": [
+      {
+        "id": "raw25",
+        "name": "RAW",
+        "color": "#ab0001",
+        "is_active": true,
+        "roster_file": "data/wwe2k25_gamerant.json"
+      },
+      {
+        "id": "nxt25",
+        "name": "NXT",
+        "color": "#adaeb0",
+        "is_active": true,
+        "roster_file": "data/wwe2k25_gamerant.json"
+      },
+      {
+        "id": "sd25",
+        "name": "SmackDown",
+        "color": "#214e9a",
+        "is_active": true,
+        "roster_file": "data/wwe2k25_gamerant.json"
+      }
+    ]
+  }
+}

@@ -1,0 +1,840 @@
+:root {
+    --raw-color: #e10600;
+    --sd-color: #006bb6;
+    --nxt-color: #ffc72c;
+    --text-primary: #000000;
+    --text-muted: #a0a0a0;
+    --wwe-red: #e10600;
+    --wwe-red-dark: #b80500;
+    --wwe-black: #0a0a0a;
+    --wwe-panel: rgba(12, 12, 12, 0.96);
+    --wwe-panel-elevated: rgba(22, 22, 22, 0.98);
+    --wwe-border: rgba(255, 255, 255, 0.06);
+    --wwe-border-strong: rgba(255, 255, 255, 0.12);
+    --led-grid: repeating-linear-gradient(0deg, rgba(0,0,0,0.2) 0px, transparent 1px, transparent 3px);
+    --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --broadcast-shadow: 0 2px 0 rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.04);
+    /* Red–blue brand gradient for site-wide accents */
+    --brand-gradient: linear-gradient(90deg, var(--raw-color) 0%, #8b004e 50%, var(--sd-color) 100%);
+    --brand-gradient-vertical: linear-gradient(180deg, var(--raw-color) 0%, #8b004e 50%, var(--sd-color) 100%);
+}
+
+/* --- BAZĂ & FUNDAL VIDEO --- */
+* { box-sizing: border-box; }
+
+/* --- BAZĂ & FUNDAL VIDEO --- */
+* { box-sizing: border-box; }
+
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+
+/* 1. Vopsim fundația absolută a paginii în negru */
+html {
+    background-color: #000;
+}
+
+/* 2. Lăsăm body-ul transparent ca să se vadă video-ul, dar păstrăm setările de text */
+body {
+    height: 100%; margin: 0; overflow: hidden;
+    background-color: transparent;
+    font-family: var(--font-main); color: var(--text-primary);
+    font-weight: 500; font-size: 15px;
+}
+
+#bg-video {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    object-fit: cover; z-index: -10;
+    /* Reducem opacitatea la 20% ca să fie FOARTE subtil și să nu distragă atenția */
+    opacity: 0.45;
+}
+
+.overlay {
+    position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+    /* Păstrăm gradientul tău roșu-albastru, dar îl facem mai întunecat la mijloc */
+    background: linear-gradient(135deg, rgba(225,6,0,0.1) 0%, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.85) 60%, rgba(0,107,182,0.1) 100%);
+    z-index: -9;
+}
+h1, h2, h3, h4 { font-weight: 800; letter-spacing: 0.03em; text-transform: uppercase; }
+.brand-title { font-weight: 800; letter-spacing: 0.04em; text-transform: uppercase; }
+.btn { font-weight: 700; letter-spacing: 0.05em; text-transform: uppercase; }
+.card-name { font-weight: 700; letter-spacing: 0.02em; text-transform: uppercase; }
+.draft-list li span { font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; }
+
+
+
+/* --- HEADER --- */
+header {
+    position: relative;
+    background: linear-gradient(180deg, #0f0f0f 0%, var(--wwe-black) 100%);
+    padding: 14px 24px;
+    display: flex; justify-content: space-between; align-items: center;
+    box-shadow: 0 6px 24px rgba(0,0,0,0.6), 0 1px 0 rgba(255,255,255,0.03) inset; z-index: 100;
+}
+header::after {
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
+    background: var(--brand-gradient);
+}
+.logo-area { display: flex; align-items: center; gap: 20px; }
+.header-home-link {
+    font-size: 0.9rem; font-weight: 600; color: rgba(255,255,255,0.8);
+    text-decoration: none; padding: 8px 14px; border: 2px solid var(--wwe-border-strong);
+    transition: 0.2s;
+}
+.header-home-link:hover { color: #fff; border-color: rgba(255,255,255,0.4); }
+.header-logo-link {
+    display: inline-flex;
+    align-items: center;
+    text-decoration: none;
+    transition: opacity 0.2s, filter 0.2s;
+}
+.header-logo-link:hover {
+    opacity: 0.95;
+    filter: drop-shadow(0 0 16px rgba(255, 255, 255, 0.45)) brightness(1.15);
+}
+.header-logo-link .site-logo {
+    display: block;
+}
+.site-logo { height: 52px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
+
+header select {
+    background: var(--wwe-panel); color: #eee; border: 1px solid var(--wwe-border);
+    padding: 8px 14px; font-family: var(--font-main); font-size: 0.9rem;
+    font-weight: 500; cursor: pointer; transition: 0.2s;
+    border-radius: 4px;
+}
+header select:hover { border-color: rgba(255,255,255,0.4); color: #fff; }
+header .settings-area { display: flex; gap: 20px; align-items: center; }
+header .roster-selector, header .brand-selector { display: flex; align-items: center; }
+header label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; margin-right: 8px; }
+
+/* --- LAYOUT --- */
+/* --- LAYOUT --- */
+.grid-container {
+    display: flex;
+    height: calc(100vh - 160px); /* Aici e secretul: facem loc pentru butoanele de jos */
+    padding: 20px;
+    gap: 20px;
+}
+.brands-wrapper {
+    flex: 1; display: flex; flex-direction: row; gap: 12px; overflow: hidden; min-width: 0;
+}
+.add-brand-cell {
+    flex: 0 0 100px; display: flex; align-items: center; justify-content: center;
+    padding: 12px;
+}
+.btn-add-brand {
+    font-family: var(--font-main); font-size: 0.85rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 2px solid var(--wwe-border-strong);
+    padding: 12px 16px; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.06em;
+    transition: 0.2s border-color, 0.2s background, 0.2s color;
+}
+.btn-add-brand:hover, .btn-add-brand:focus {
+    border-color: #fff; background: rgba(255,255,255,0.08); color: #fff;
+    outline: none;
+}
+
+.control-panel, .roster-pool {
+    background: var(--wwe-panel);
+    border: 1px solid var(--wwe-border);
+    border-radius: 4px;
+    display: flex; flex-direction: column;
+    box-shadow: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 var(--wwe-border-strong);
+}
+
+/* --- STÂNGA: CONTROL PANEL --- */
+.control-panel { flex: 0 0 320px; max-width: 320px; padding: 15px; gap: 15px; overflow: hidden;}
+
+#animation-area {
+    background: linear-gradient(145deg, #0a0a0a 0%, #000 100%);
+    border: 1px solid var(--wwe-border);
+    width: 100%; height: 220px;
+    position: relative; overflow: hidden;
+    margin-bottom: 14px; border-radius: 0;
+    box-shadow: inset 0 0 60px rgba(0,0,0,0.5);
+    user-select: none;
+    pointer-events: none;
+}
+#animation-area * {
+    user-select: none;
+    pointer-events: none;
+}
+#animation-area img {
+    -webkit-user-drag: none;
+    user-drag: none;
+}
+#animation-area::before {
+    content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
+    background: var(--brand-gradient);
+    z-index: 11; pointer-events: none;
+}
+#animation-area::after {
+    content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: repeating-linear-gradient(0deg, transparent 0px, transparent 2px, rgba(0,0,0,0.03) 2px, rgba(0,0,0,0.03) 4px);
+    pointer-events: none; z-index: 10;
+}
+
+/* Grafica Animație (TV Style) */
+.tv-graphic-container {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(135deg, #111 0%, #000 100%);
+    animation: fadeInGraphic 0.3s ease-out; z-index: 5;
+}
+.tv-graphic-image {
+    position: absolute; right: 0; bottom: 0; height: 100%; width: 50%;
+    display: flex; justify-content: flex-end; align-items: flex-end; z-index: 1;
+}
+.tv-graphic-image img { height: 95%; width: auto; max-width: 100%; object-fit: contain; object-position: bottom right; filter: drop-shadow(-5px 0 10px rgba(0,0,0,0.8));}
+.tv-graphic-text {
+    position: absolute; left: 15px; top: 0; height: 100%; width: 60%;
+    display: flex; flex-direction: column; justify-content: center; z-index: 2;
+}
+.tv-drafted-to { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; margin-bottom: 0; font-style: italic}
+.tv-brand-name { font-size: 1.75rem; font-weight: 800; letter-spacing: 0.06em; margin: 0 0 4px 0; line-height: 1.1; color: #fff; text-shadow: 0 2px 4px #000; }
+.tv-superstar-name { font-size: 1rem; font-weight: 700; letter-spacing: 0.03em; text-transform: uppercase; color: #fff; padding-bottom: 4px; margin-bottom: 4px; text-shadow: 0 1px 2px #000; }
+.tv-details { font-size: 10px; color: var(--text-muted); font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; line-height: 1.4; }
+
+.drafting-state {
+    position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+    background: #000; display: flex; flex-direction: column;
+    align-items: center; justify-content: center; z-index: 10;
+}
+.drafting-state h3 { font-size: 1.1rem; font-weight: 800; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; margin-bottom: 10px; animation: pulse 0.2s infinite alternate; }
+.drafting-state img { height: 120px; width: 120px; object-fit: cover; border: 2px solid var(--wwe-border); border-radius: 8px; }
+
+.add-form h4,
+.add-form .add-form-heading {
+    position: relative;
+    font-size: 0.85rem; font-weight: 800; letter-spacing: 0.08em; margin-bottom: 12px;
+    color: #fff; text-transform: uppercase;
+    padding: 8px 0 10px;
+}
+.add-form h4::after,
+.add-form .add-form-heading::after {
+    content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+    background: var(--brand-gradient);
+}
+.add-form {
+    background: rgba(0,0,0,0.5); padding: 14px; border: 1px solid var(--wwe-border);
+    border-radius: 0; box-shadow: var(--broadcast-shadow);
+}
+input, select {
+    background: rgba(22,22,22,0.95); border: 1px solid var(--wwe-border); color: #fff;
+    padding: 8px 10px; border-radius: 0; width: 100%; margin-bottom: 8px;
+    font-family: var(--font-main); font-size: 0.9rem;
+}
+input:focus, select:focus { border-color: rgba(255,255,255,0.4); outline: none; box-shadow: 0 0 0 2px rgba(255,255,255,0.1); }
+input::placeholder { color: var(--text-muted); }
+
+.btn-add {
+    font-family: var(--font-main); font-size: 0.9rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 2px solid var(--wwe-border-strong);
+    padding: 12px 16px; width: 100%; cursor: pointer;
+    text-transform: uppercase; letter-spacing: 0.08em;
+    transition: 0.2s border-color, 0.2s background, 0.2s color;
+}
+.btn-add:hover, .btn-add:focus {
+    border-color: #fff; background: rgba(255,255,255,0.08);
+    outline: none;
+}
+.btn-add:active { opacity: 0.9; }
+
+.brands-container {
+    flex: 1; display: flex; flex-direction: row; gap: 15px; overflow: hidden; min-width: 0;
+}
+
+.brand-col {
+    flex: 1; min-width: 0;
+    background: var(--wwe-panel);
+    border: 1px solid var(--wwe-border);
+    border-top: 4px solid var(--raw-color);
+    border-radius: 0;
+    display: flex; flex-direction: column; overflow: hidden;
+    position: relative;
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.3);
+}
+
+.brand-header {
+    padding: 12px 14px;
+    background: linear-gradient(180deg, rgba(0,0,0,0.6) 0%, rgba(0,0,0,0.4) 100%);
+    border-bottom: 2px solid var(--wwe-border);
+    display: flex; justify-content: space-between; align-items: center;
+}
+.brand-title {
+    font-size: 1.25rem; font-weight: 800; letter-spacing: 0.06em;
+    background: transparent; border: none; color: #fff;
+    width: 80%; font-family: var(--font-main);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+}
+.brand-controls { display: flex; gap: 8px; align-items: center; }
+
+/* Color picker – more visible */
+.brand-color-wrap { display: flex; align-items: center; gap: 8px; }
+.brand-color-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--text-muted); }
+.brand-color-input {
+    width: 32px; height: 32px; padding: 2px; cursor: pointer;
+    border: 2px solid var(--wwe-border-strong); border-radius: 4px;
+    background: rgba(30,30,30,0.9);
+}
+.brand-color-input:hover { border-color: rgba(255,255,255,0.4); }
+.brand-color-input::-webkit-color-swatch-wrapper { padding: 0; }
+.brand-color-input::-webkit-color-swatch { border: none; border-radius: 2px; }
+
+.btn-draft-auto {
+    font-family: var(--font-main); font-size: 0.9rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 2px solid var(--brand-color, var(--wwe-red));
+    padding: 12px 18px; margin: 10px 12px;
+    cursor: pointer; text-transform: uppercase; letter-spacing: 0.1em;
+    transition: 0.2s background, 0.2s border-color, 0.2s color;
+}
+.btn-draft-auto:hover, .btn-draft-auto:focus {
+    background: var(--brand-color, var(--wwe-red));
+    border-color: var(--brand-color, var(--wwe-red));
+    outline: none;
+}
+.btn-draft-auto:active { opacity: 0.9; }
+
+/* Angled "DRAFT PICKS" banner (brand-colored) */
+.draft-picks-banner {
+    background: var(--brand-color, var(--wwe-red));
+    color: #fff; font-size: 0.75rem; font-weight: 800;
+    letter-spacing: 0.2em; text-transform: uppercase;
+    padding: 5px 14px 5px 20px; margin: 0 12px 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4), inset 0 1px 0 rgba(255,255,255,0.15);
+}
+
+/* Draft list – broadcast rows (dark band + thumb + bold name + brand accent) */
+.draft-list {
+    padding: 0 12px 12px; overflow-y: auto; flex: 1; min-height: 0;
+    list-style: none; margin: 0; display: flex; flex-direction: column; gap: 6px;
+    background-image: var(--led-grid);
+}
+.draft-list li {
+    background: linear-gradient(90deg, rgba(28,28,28,0.98) 0%, rgba(18,18,18,0.98) 100%);
+    padding: 8px 10px 8px 8px; display: flex; align-items: center;
+    border: 1px solid var(--wwe-border); border-left: 4px solid var(--brand-color, var(--wwe-red));
+    border-radius: 0; cursor: grab; transition: 0.2s; position: relative;
+    box-shadow: var(--broadcast-shadow);
+}
+.draft-list li::before {
+    content: ""; position: absolute; top: 0; right: 0; width: 4px; height: 100%;
+    background: var(--brand-color, var(--wwe-red)); opacity: 0.5;
+}
+.draft-list li:hover {
+    background: linear-gradient(90deg, rgba(38,38,38,0.98) 0%, rgba(26,26,26,0.98) 100%);
+    border-color: var(--wwe-border-strong);
+}
+.list-thumb {
+    width: 44px; height: 44px; border-radius: 50%;
+    border: 2px solid var(--wwe-border-strong);
+    margin-right: 12px; object-fit: cover; object-position: top center; flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.draft-list li span {
+    font-size: 0.85rem; color: #fff; text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    flex: 1; min-width: 0; white-space: normal; word-break: break-word;
+}
+
+/* --- DREAPTA: ROSTER POOL --- */
+.roster-pool {
+    flex: 0 0 320px; display: flex; flex-direction: column; overflow: hidden; padding: 0;
+}
+.pool-header {
+    padding: 0 90px 14px 0; background: transparent; border-bottom: 2px solid var(--wwe-border);
+    flex-shrink: 0;
+    position: relative;
+}
+.btn-draft-rules {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 6px 12px;
+    font-family: var(--font-main);
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.85);
+    background: rgba(30, 30, 30, 0.9);
+    border: 1px solid var(--wwe-border-strong);
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.2s color, 0.2s background, 0.2s border-color;
+}
+.btn-draft-rules:hover {
+    color: #fff;
+    background: rgba(50, 50, 50, 0.95);
+    border-color: rgba(255, 255, 255, 0.25);
+}
+.pool-title-banner {
+    background: var(--brand-gradient);
+    color: #fff; font-size: 0.8rem; font-weight: 800; letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 12px 20px; margin-bottom: 12px;
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+}
+.pool-title-text { flex: 1; }
+.pool-count {
+    background: rgba(0,0,0,0.4); padding: 4px 12px; border-radius: 0;
+    font-weight: 800; font-size: 1rem;
+}
+.pool-header .filters-container { padding: 0 16px; }
+.pool-header .filters-container input { margin-bottom: 8px; border-radius: 0; }
+.pool-header .filter-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.pool-header select { padding: 6px 10px; font-size: 0.85rem; border-radius: 0; }
+
+.cards-grid {
+    padding: 15px; overflow-y: auto; flex: 1; min-height: 0; /* Min-height 0 REPARĂ SCROLL-UL */
+    display: flex; flex-direction: column; gap: 10px;
+}
+
+/* Roster cards – broadcast panel style (dark block + bold name) */
+.roster-card {
+    display: flex; align-items: center;
+    background: linear-gradient(90deg, rgba(28,28,28,0.98) 0%, rgba(18,18,18,0.98) 100%);
+    padding: 10px 12px 10px 10px; min-height: 70px; gap: 14px;
+    border: 1px solid var(--wwe-border); border-left-width: 4px;
+    border-radius: 0; position: relative; cursor: grab; transition: 0.2s;
+    box-shadow: var(--broadcast-shadow);
+}
+.roster-card:hover {
+    background: linear-gradient(90deg, rgba(38,38,38,0.98) 0%, rgba(28,28,28,0.98) 100%);
+    border-color: var(--wwe-border-strong);
+}
+.roster-card img {
+    flex-shrink: 0; width: 50px; height: 50px; border-radius: 50%;
+    object-fit: cover; object-position: top center;
+    border: 2px solid var(--wwe-border-strong);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.card-info { flex: 1; min-width: 0; display: flex; flex-direction: column; justify-content: center; }
+.card-name {
+    font-size: 0.9rem; color: #fff; margin-bottom: 2px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.8);
+    white-space: normal; word-break: break-word; overflow: visible;
+}
+.card-meta { font-size: 0.7rem; color: var(--text-muted); font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; }
+
+.card-actions { flex-shrink: 0; display: flex; gap: 10px; z-index: 2; }
+.action-btn { background: none; border: none; font-size: 18px; cursor: pointer; color: #777; transition: 0.2s; padding: 5px; }
+.edit-btn:hover { color: #FFD700; }
+.delete-btn:hover { color: #FF0000; }
+
+.actions-footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    display: flex; gap: 14px; justify-content: center; align-items: center;
+    padding: 12px 24px;
+    background: linear-gradient(0deg, var(--wwe-black) 0%, #0f0f0f 100%);
+    border-top: 2px solid var(--wwe-border);
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.8); /* O umbră mai mare să se vadă clar */
+}
+.actions-footer .btn {
+    font-family: var(--font-main); font-size: 0.85rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 2px solid var(--wwe-border-strong);
+    padding: 12px 24px; cursor: pointer;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: 0.2s border-color, 0.2s background, 0.2s color;
+}
+.btn-export:hover, .btn-export:focus { border-color: var(--sd-color); background: rgba(0,107,182,0.15); outline: none; }
+.btn-reset:hover, .btn-reset:focus { border-color: rgb(171, 0, 1); background: rgba(188, 0, 0, 0.2); outline: none; }
+.actions-footer .btn:active { opacity: 0.9; }
+
+.btn-close-brand {
+    font-size: 1.25rem; line-height: 1;
+    background: rgba(60,60,60,0.8); color: #aaa; border: 1px solid var(--wwe-border);
+    width: 28px; height: 28px; padding: 0; cursor: pointer; border-radius: 6px;
+    transition: 0.2s;
+}
+.btn-close-brand:hover { color: #fff; background: rgba(255,255,255,0.15); border-color: rgba(255,255,255,0.3); }
+
+.drag-over { border-color: rgba(255,255,255,0.4) !important; background: rgba(255,255,255,0.06) !important; box-shadow: 0 0 0 2px rgba(255,255,255,0.2); }
+::-webkit-scrollbar { width: 8px; background: rgba(0,0,0,0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.35); }
+
+/* --- In-site notifications (toasts) --- */
+.site-notifications {
+    position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%);
+    z-index: 9999; display: flex; flex-direction: column; gap: 8px;
+    max-width: 90vw; pointer-events: none;
+}
+.toast {
+    pointer-events: auto;
+    padding: 12px 20px; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 500;
+    border: 2px solid rgba(255,255,255,0.2);
+    background: rgba(18,18,18,0.96);
+    color: #fff;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+    animation: toastIn 0.35s ease-out;
+}
+.toast.toast-success { border-color: rgba(0,180,100,0.6); }
+.toast.toast-warning { border-color: rgba(255,180,0,0.7); }
+.toast.toast-error { border-color: rgba(225,6,0,0.6); }
+@keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px) scale(0.98); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+/* --- In-site modal (confirm / prompt) --- */
+.site-modal {
+    position: fixed; inset: 0; z-index: 10000;
+    display: flex; align-items: center; justify-content: center;
+    padding: 20px;
+}
+.site-modal[hidden] { display: none !important; }
+.modal-backdrop {
+    position: absolute; inset: 0;
+    background: rgba(0,0,0,0.7);
+}
+.modal-box {
+    position: relative;
+    background: rgba(18,18,18,0.98);
+    border: 2px solid var(--wwe-border-strong);
+    padding: 24px;
+    min-width: 320px; max-width: 420px;
+    box-shadow: 0 16px 48px rgba(0,0,0,0.6);
+}
+.modal-title { font-size: 1.1rem; margin: 0 0 12px 0; color: #fff; }
+.modal-message { font-size: 0.95rem; color: var(--text-muted); margin: 0 0 16px 0; line-height: 1.4; }
+.modal-input {
+    width: 100%; margin-bottom: 16px; padding: 10px 12px;
+    background: rgba(30,30,30,0.95); border: 2px solid var(--wwe-border);
+    color: #fff; font-family: var(--font-main); font-size: 0.95rem;
+}
+.modal-input:focus { border-color: rgba(255,255,255,0.3); outline: none; }
+.modal-actions { display: flex; gap: 12px; justify-content: flex-end; }
+.btn-modal {
+    padding: 10px 20px; font-family: var(--font-main); font-size: 0.9rem; font-weight: 600;
+    border: 2px solid var(--wwe-border-strong); background: transparent; color: #fff;
+    cursor: pointer; transition: 0.2s;
+}
+.btn-modal-cancel:hover { background: rgba(255,255,255,0.08); }
+.btn-modal-ok { background: var(--sd-color); border-color: var(--sd-color); }
+.btn-modal-ok:hover { filter: brightness(1.15); }
+
+@keyframes fadeInGraphic { from { opacity: 0; } to { opacity: 1; } }
+@keyframes pulse { from { opacity: 0.5; } to { opacity: 1; } }
+
+/* --- Page & element animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes dissolveIn {
+    from { opacity: 0; transform: scale(0.97); }
+    to { opacity: 1; transform: scale(1); }
+}
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(16px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes slideInRight {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* WWE draft page: main sections fade in on load */
+.animate-page .grid-container > .control-panel {
+    opacity: 0;
+    animation: slideUp 0.5s ease-out forwards;
+}
+.animate-page .grid-container > .brands-wrapper {
+    opacity: 0;
+    animation: fadeIn 0.5s ease-out 0.1s forwards;
+}
+.animate-page .grid-container > .roster-pool {
+    opacity: 0;
+    animation: slideInRight 0.5s ease-out 0.15s forwards;
+}
+.animate-page header {
+    opacity: 0;
+    animation: fadeIn 0.4s ease-out forwards;
+}
+
+/* Dynamically added elements (start invisible, animate in) */
+.brand-col.animate-in {
+    opacity: 0;
+    animation: dissolveIn 0.4s ease-out forwards;
+}
+.roster-card.animate-in {
+    opacity: 0;
+    animation: slideUp 0.35s ease-out forwards;
+}
+.draft-list li.animate-in {
+    opacity: 0;
+    animation: slideUp 0.3s ease-out forwards;
+}
+
+/* Modal: backdrop fade, box dissolve */
+.site-modal .modal-backdrop {
+    animation: fadeIn 0.2s ease-out;
+}
+.site-modal .modal-box {
+    animation: dissolveIn 0.25s ease-out;
+}
+
+/* Draft rules / onboarding modal */
+.draft-rules-modal .draft-rules-box {
+    max-width: 440px;
+    width: 100%;
+}
+.draft-rules-content {
+    margin: 0 0 20px 0;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+    line-height: 1.55;
+}
+.draft-rules-content p {
+    margin: 0 0 14px 0;
+}
+.draft-rules-content p:last-child {
+    margin-bottom: 0;
+}
+.draft-rules-content strong {
+    color: rgba(255, 255, 255, 0.95);
+}
+
+/* --- ECRAN AȘTEPTARE DRAFT (IDLE STATE) --- */
+/* --- ECRAN AȘTEPTARE DRAFT (IDLE STATE) --- */
+.idle-state {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000; /* Punem un fundal negru curat în spate */
+    z-index: 5;
+    overflow: hidden; /* Ne asigurăm că nimic nu iese din pătrat */
+}
+
+.idle-logo-custom {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* "cover" forțează imaginea să umple ABSOLUT TOT pătratul, din buză în buză */
+    object-position: center; /* Centrează imaginea */
+    display: block;
+    /* Am eliminat animația de plutire, acum stă fixă */
+}
+/* --- CUSTOM DROP-DOWN PENTRU ROSTERE (CU LOGO) --- */
+.custom-select {
+  position: relative;
+  font-family: var(--font-main, 'Inter', sans-serif);
+  width: 100%;
+}
+
+/* Caseta care stă mereu vizibilă */
+.select-selected {
+  background: rgba(22,22,22,0.95);
+  border: 2px solid var(--wwe-border, rgba(255,255,255,0.08));
+  color: #fff;
+  padding: 8px 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: 0.2s;
+}
+.select-selected:hover { border-color: rgba(255,255,255,0.3); }
+
+/* Săgeata de dropdown */
+.select-selected::after {
+  content: "▼"; position: absolute; right: 14px;
+  font-size: 0.8rem; color: var(--text-muted, #a0a0a0);
+}
+
+/* Logo-ul din interiorul meniului */
+.roster-select-logo {
+  height: 32px; width: auto; max-width: 90px;
+  object-fit: contain;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.8));
+}
+.roster-select-name { font-weight: 700; font-size: 0.95rem; }
+
+/* Lista ascunsă cu restul jocurilor */
+.select-items {
+  position: absolute; top: 100%; left: 0; right: 0;
+  background: rgba(18,18,18,0.98);
+  border: 2px solid var(--wwe-border); border-top: none;
+  z-index: 99; max-height: 250px; overflow-y: auto;
+  display: flex; flex-direction: column;
+}
+.select-hide { display: none; }
+
+/* Fiecare joc din lista drop-down */
+.select-item {
+  padding: 10px 14px; cursor: pointer;
+  display: flex; align-items: center; gap: 12px;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  color: #ccc; transition: 0.2s;
+}
+.select-item:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+/* --- BUTONUL DE FINALIZE DRAFT --- */
+.btn-finalize {
+    border-color: #f1c40f !important;
+    color: #f1c40f !important;
+}
+.btn-finalize:hover {
+    background: rgba(241, 196, 15, 0.15) !important;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+}
+
+/* --- DESIGN PENTRU IMAGINEA GENERATĂ --- */
+#draft-export-board {
+    font-family: var(--font-main);
+    color: #fff;
+    background: linear-gradient(135deg, #0f0f0f 0%, #000 100%);
+}
+.export-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+.export-logo {
+    height: 120px;
+    object-fit: contain;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 5px 15px rgba(255,255,255,0.1));
+}
+.export-title {
+    font-size: 2.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin: 0;
+    color: #fff;
+    text-shadow: 0 4px 10px rgba(0,0,0,0.8);
+}
+.export-grid {
+    display: flex;
+    gap: 25px;
+    align-items: flex-start;
+    justify-content: center;
+}
+.export-brand-col {
+    flex: 1;
+    background: rgba(20,20,20,0.95);
+    border: 2px solid rgba(255,255,255,0.1);
+    border-top-width: 10px;
+    padding: 25px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+.export-brand-title {
+    font-size: 2rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 0 0 25px 0;
+    text-transform: uppercase;
+    text-shadow: 0 2px 5px rgba(0,0,0,0.8);
+}
+.export-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+.export-item {
+    display: flex;
+    align-items: center;
+    background: linear-gradient(90deg, #1c1c1c 0%, #111 100%);
+    padding: 12px;
+    border: 1px solid rgba(255,255,255,0.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.4);
+}
+.export-item img {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: top center;
+    border: 3px solid #444;
+    margin-right: 20px;
+}
+.export-item span {
+    font-size: 1.3rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #fff;
+}
+
+/* --- WATERMARK PE IMAGINEA GENERATĂ --- */
+/* Containerul principal al studioului ascuns trebuie să fie relativ pt poziționare */
+#draft-export-board {
+    position: relative; /* Asigură-te că această linie există deja sau adaug-o */
+    padding-bottom: 70px; /* Facem loc jos pentru watermark */
+}
+
+
+
+/* Logo-ul micuț dintre cuvinte */
+.watermark-logo-img {
+    height: 24px; /* Înălțimea logo-ului */
+    width: auto;
+    margin: 0 6px; /* Spațiu stânga-dreapta între text */
+    opacity: 0.6; /* Îl facem și pe el ușor transparent */
+    filter: grayscale(100%) brightness(1.5); /* Opțional: îl face alb-negru subtil */
+}
+/* --- WATERMARK LÂNGĂ LOGO --- */
+.logo-wrapper {
+    position: relative;
+    display: inline-flex; /* Se mulează perfect pe lățimea logo-ului */
+    align-items: flex-end;
+    margin-bottom: 10px;
+}
+
+.export-watermark-inline {
+    position: absolute;
+    bottom: 20px; /* Îl ridicăm puțin ca să fie la nivel cu baza logo-ului */
+    left: 100%; /* Îl aruncă exact în dreapta logo-ului */
+    margin-left: 20px; /* Pune 20px spațiu între logo și watermark */
+    display: flex;
+    align-items: center;
+    white-space: nowrap; /* Ține tot textul pe un singur rând, să nu se spargă */
+    font-family: var(--font-main);
+    font-size: 0.95rem;
+    color: rgba(255, 255, 255, 0.5); /* Gri subtil */
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 700;
+}
+
+/* Dacă logo-ul watermark e prea mic/mare, poți ajusta de aici */
+.watermark-logo-img {
+    height: 22px;
+    width: auto;
+    margin: 0 6px;
+    opacity: 0.7;
+}
+
+/* --- Draft results preview modal --- */
+.draft-preview-modal .draft-preview-box {
+    max-width: 95vw;
+    width: 900px;
+    max-height: 90vh;
+    display: flex;
+    flex-direction: column;
+}
+.draft-preview-content {
+    flex: 1;
+    overflow: auto;
+    background: #0a0a0a;
+    padding: 24px;
+    border: 1px solid rgba(255,255,255,0.1);
+    margin-bottom: 16px;
+    max-height: 70vh;
+}
+.draft-preview-content .export-header,
+.draft-preview-content .export-grid,
+.draft-preview-content .export-brand-col,
+.draft-preview-content .export-list,
+.draft-preview-content .export-item { max-width: 100%; }
+.draft-preview-content .export-logo { max-height: 80px; }
+.draft-preview-content .export-title { font-size: 1.5rem; }
+.draft-preview-content .export-brand-title { font-size: 1.25rem; }
+.draft-preview-content .export-item span { font-size: 1rem; }
+.draft-preview-content .export-item img { width: 50px; height: 50px; }
+.draft-preview-actions { margin-top: 0; }
