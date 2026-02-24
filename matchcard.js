@@ -152,6 +152,34 @@
     var nextEventId = 1;
     var events = [{ id: 1, matchType: '1v1', championship: 'none', stipulation: 'normal', slots: [null, null] }];
 
+    var selectedSuperstar = null;
+    var selectedElement = null;
+
+    function isMobileTapMode() {
+        return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+    }
+
+    function clearSelection() {
+        if (selectedElement) {
+            selectedElement.classList.remove('tap-selected');
+            selectedElement = null;
+        }
+        selectedSuperstar = null;
+        document.querySelectorAll('.mc-slot-empty.tap-drop-target').forEach(function (el) { el.classList.remove('tap-drop-target'); });
+    }
+
+    function setSelection(superstar, element) {
+        clearSelection();
+        selectedSuperstar = superstar;
+        selectedElement = element;
+        if (element) element.classList.add('tap-selected');
+        if (isMobileTapMode()) {
+            document.querySelectorAll('.mc-slot.mc-slot-empty').forEach(function (el) {
+                el.classList.add('tap-drop-target');
+            });
+        }
+    }
+
     function getRosterId() {
         return typeof sessionStorage !== 'undefined' ? (sessionStorage.getItem('draftRoster') || 'wwe2k25') : 'wwe2k25';
     }
@@ -191,6 +219,7 @@
 
     function renderRosterList() {
         if (!rosterListEl) return;
+        if (isMobileTapMode()) clearSelection();
         var list = getFilteredRoster();
         rosterListEl.innerHTML = '';
         if (rosterCountEl) rosterCountEl.textContent = String(list.length);
@@ -221,6 +250,12 @@
                 card.style.opacity = '0.5';
             });
             card.addEventListener('dragend', function () { card.style.opacity = '1'; });
+            card.addEventListener('click', function (e) {
+                if (isMobileTapMode()) {
+                    e.preventDefault();
+                    setSelection(s, card);
+                }
+            });
             rosterListEl.appendChild(card);
         });
     }
@@ -335,6 +370,16 @@
                     var data = JSON.parse(e.dataTransfer.getData('text/plain'));
                     if (data && data.name) setSlot(eid, idx, data);
                 } catch (err) {}
+            });
+            slot.addEventListener('click', function (e) {
+                if (isMobileTapMode() && selectedSuperstar) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var eid = parseInt(this.dataset.eventId, 10);
+                    var idx = parseInt(this.dataset.slotIndex, 10);
+                    setSlot(eid, idx, selectedSuperstar);
+                    clearSelection();
+                }
             });
         }
         slotsEl.appendChild(slot);
@@ -503,7 +548,7 @@
         var ppvTitle = PPV_TITLE_NAMES[theme] || theme;
 
         var html = '<div class="matchcard-export-preview ' + themeClass + '" style="';
-        if (bg) html += 'background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(\'' + bg.replace(/'/g, "\\'") + '\'); background-size: cover; background-position: center;';
+        if (bg) html += 'background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(\'' + bg.replace(/'/g, "\\'") + '\'); background-size: cover; background-position: center; background-repeat: no-repeat;';
         html += '">';
         html += '<h2 class="matchcard-export-ppv-title">' + ppvTitle + ' Match Card</h2>';
 

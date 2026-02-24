@@ -497,9 +497,12 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
 .mc-slot img {
   width: 72px;
   height: 72px;
-  object-fit: cover;
+  object-fit: contain !important;
+  object-position: bottom;
   border-radius: 50%;
   border: 2px solid rgba(255, 255, 255, 0.2);
+  position: relative;
+  z-index: 2;
 }
 .mc-slot span.mc-slot-name {
   font-size: 0.85rem;
@@ -558,7 +561,10 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   padding: 40px;
   z-index: -100;
 }
+/* Match card preview: theme/background strictly contained */
 .matchcard-export-preview {
+  position: relative;
+  overflow: hidden;
   font-family: var(--font-main);
   color: #fff;
   padding: 30px;
@@ -638,20 +644,26 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: flex-end;
   gap: 4px;
   padding: 6px 8px;
   width: 80px;
   min-height: 78px;
   box-sizing: border-box;
+  position: relative;
+  z-index: 2;
 }
+/* Wrestler images: full visibility, no crop; anchored to bottom */
 .matchcard-export-slot img {
   width: 52px;
   height: 52px;
   flex-shrink: 0;
-  object-fit: cover;
+  object-fit: contain !important;
+  object-position: bottom;
   border-radius: 50%;
   border: 2px solid rgba(255,255,255,0.25);
+  position: relative;
+  z-index: 2;
 }
 .matchcard-export-slot span {
   font-size: 0.75rem;
@@ -889,4 +901,284 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
 @keyframes matchcardToastIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
+}
+
+/* --- Match Card Generator: Mobile (max-width 768px) --- */
+@media (max-width: 768px) {
+  .matchcard-page {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+    touch-action: manipulation;
+  }
+
+  .matchcard-layout {
+    flex-direction: column;
+    overflow: visible;
+    overflow-x: hidden;
+  }
+
+  .matchcard-sidebar {
+    width: 100%;
+    flex: 0 0 auto;
+    max-height: 45vh;
+    border-right: none;
+    border-bottom: 1px solid var(--mc-border);
+  }
+
+  /* 1. UI controls: full width + 15px spacing */
+  .filters-container {
+    padding: 0 16px 14px;
+    margin-bottom: 0;
+  }
+  .matchcard-search {
+    width: 100%;
+    margin-bottom: 15px;
+  }
+  .filter-row {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  .filter-row select {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  .matchcard-roster-list.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    padding: 12px 15px 15px;
+  }
+
+  .matchcard-sidebar .roster-card {
+    flex-direction: column;
+    padding: 10px 12px;
+    min-height: 0;
+    gap: 8px;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .matchcard-sidebar .roster-card img {
+    width: 44px;
+    height: 44px;
+    flex-shrink: 0;
+  }
+
+  .matchcard-sidebar .card-info {
+    min-width: 0;
+    overflow: visible;
+    width: 100%;
+  }
+
+  /* 3. Wrestler names: visible, readable, no cut-off */
+  .matchcard-sidebar .card-name {
+    font-size: clamp(0.7rem, 2.5vw, 0.85rem);
+    text-align: center;
+    line-height: 1.25;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    display: block;
+    white-space: normal;
+  }
+
+  .matchcard-sidebar .card-meta {
+    font-size: clamp(0.55rem, 2vw, 0.65rem);
+    text-align: center;
+  }
+
+  .matchcard-main {
+    flex: 1 1 auto;
+    padding: 15px;
+    overflow-x: hidden;
+  }
+
+  .match-settings-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 15px;
+    padding: 15px;
+  }
+
+  .match-setting {
+    width: 100%;
+    margin-bottom: 0;
+  }
+
+  .match-setting-label {
+    margin-bottom: 4px;
+  }
+
+  .match-setting-select,
+  .match-setting-input {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  .matchcard-events-wrap {
+    width: 100%;
+    max-width: 100%;
+    margin-bottom: 15px;
+  }
+
+  .matchcard-events {
+    gap: 15px;
+  }
+
+  .mc-event-block {
+    padding: 15px;
+    max-width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+
+  .mc-event-header {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 15px;
+    margin-bottom: 15px;
+  }
+
+  .mc-event-header select,
+  .mc-event-header .mc-event-type,
+  .mc-event-header .mc-event-stipulation,
+  .mc-event-header .mc-event-championship {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  .mc-event-header .btn-remove-match {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .matchcard-slots,
+  .mc-event-slots {
+    flex-wrap: wrap;
+    gap: 12px;
+    justify-content: center;
+    max-width: 100%;
+  }
+
+  .mc-slot {
+    min-width: 90px;
+    max-width: 160px;
+    min-height: 120px;
+    padding: 12px;
+    overflow: visible;
+    box-sizing: border-box;
+  }
+
+  .mc-slot img {
+    width: 56px;
+    height: 56px;
+    flex-shrink: 0;
+  }
+
+  /* 3. Slot wrestler names: always visible, readable */
+  .mc-slot span.mc-slot-name {
+    font-size: clamp(0.7rem, 2.2vw, 0.85rem);
+    line-height: 1.2;
+    text-align: center;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    display: block;
+    width: 100%;
+    min-height: 2.4em;
+  }
+
+  .mc-slot-empty .mc-slot-label {
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+  }
+
+  .matchcard-events-footer {
+    padding: 15px 0;
+    margin-top: 12px;
+  }
+
+  .matchcard-events-footer .btn-add-match {
+    width: 100%;
+    min-width: 0;
+    margin-bottom: 0;
+  }
+
+  .matchcard-footer .btn-download {
+    width: 100%;
+    max-width: none;
+  }
+
+  /* 2. Match card preview: scroll wrapper so user can swipe to see full card */
+  .matchcard-preview-scroll-wrap {
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    margin-bottom: 16px;
+    flex: 1;
+    min-height: 0;
+  }
+
+  #matchcard-modal-content {
+    overflow: visible;
+    min-width: min(100%, 320px);
+    padding: 16px;
+  }
+
+  .matchcard-modal-content .matchcard-export-preview {
+    min-width: 280px;
+    width: max-content;
+    max-width: none;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+  /* 3. Export preview wrestler names: visible, scalable */
+  .matchcard-modal-content .matchcard-export-slot span {
+    font-size: clamp(0.65rem, 2vw, 0.8rem);
+    line-height: 1.2;
+    word-break: break-word;
+    overflow-wrap: break-word;
+    overflow: visible;
+    display: block;
+    min-height: 2.2em;
+  }
+
+  .matchcard-modal-content .matchcard-export-preview,
+  .matchcard-modal-content .matchcard-export-match,
+  .matchcard-modal-content .matchcard-export-slots {
+    overflow: visible;
+  }
+
+  .matchcard-modal-actions .btn-modal-cancel,
+  .matchcard-modal-actions .btn-modal-save {
+    width: 100%;
+  }
+
+  .matchcard-modal-actions {
+    flex-wrap: wrap;
+    gap: 15px;
+  }
+
+  /* Tap-to-select highlight (mobile) */
+  .matchcard-sidebar .roster-card.tap-selected {
+    outline: 3px solid #f1c40f;
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.5);
+  }
+
+  .mc-slot.mc-slot-empty.tap-drop-target {
+    border-color: rgba(241, 196, 15, 0.8);
+    background: rgba(241, 196, 15, 0.1);
+  }
 }

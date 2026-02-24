@@ -6,6 +6,61 @@ let brandsConfig = [];
 let draggedData = null;
 let isDrafting = false;
 
+// Mobile tap-to-select state (replaces drag-and-drop on touch devices)
+let selectedSuperstar = null;
+let selectedSource = null;
+let selectedElement = null;
+
+function isMobileTapMode() {
+    return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+}
+
+function getDraftMobileOverlay() {
+    return document.getElementById('draft-mobile-overlay');
+}
+
+function showMobileDraftOverlay(html) {
+    const overlay = getDraftMobileOverlay();
+    if (!overlay) return;
+    overlay.innerHTML = '<div class="draft-mobile-overlay-content">' + html + '</div>';
+    overlay.hidden = false;
+    overlay.classList.remove('fade-out');
+}
+
+function hideMobileDraftOverlay(animateMs) {
+    const overlay = getDraftMobileOverlay();
+    if (!overlay) return;
+    if (animateMs) {
+        overlay.classList.add('fade-out');
+        setTimeout(function () {
+            overlay.hidden = true;
+            overlay.innerHTML = '';
+            overlay.classList.remove('fade-out');
+        }, animateMs);
+    } else {
+        overlay.hidden = true;
+        overlay.innerHTML = '';
+        overlay.classList.remove('fade-out');
+    }
+}
+
+function clearSelection() {
+    if (selectedElement) {
+        selectedElement.classList.remove('tap-selected');
+        selectedElement = null;
+    }
+    selectedSuperstar = null;
+    selectedSource = null;
+}
+
+function setSelection(superstar, source, element) {
+    clearSelection();
+    selectedSuperstar = superstar;
+    selectedSource = source;
+    selectedElement = element;
+    if (element) element.classList.add('tap-selected');
+}
+
 // --- IN-SITE NOTIFICATIONS & MODAL ---
 function showToast(message, type = 'info') {
     const container = document.getElementById('site-notifications');
@@ -99,6 +154,16 @@ async function initDraftPage() {
     }
 
     setupAllDropZones();
+
+    // Single delegated listener for mobile tap-to-drop (avoids duplicate handlers)
+    document.body.addEventListener('click', (e) => {
+        if (!isMobileTapMode() || !selectedSuperstar) return;
+        const zone = e.target.closest('.brand-col, .roster-pool');
+        if (!zone) return;
+        if (e.target.closest('.roster-card') || e.target.closest('.draft-list li')) return;
+        processDrop(zone, { superstar: selectedSuperstar, source: selectedSource });
+        clearSelection();
+    });
 
     const draftPreviewBackdrop = document.getElementById('draft-preview-backdrop');
     const draftPreviewClose = document.getElementById('draft-preview-close');
@@ -250,6 +315,7 @@ function renderSuperstarList() {
     const container = document.getElementById("superstar-list");
     const countSpan = document.getElementById("roster-count");
     if (!container) return;
+    if (isMobileTapMode()) clearSelection();
     container.innerHTML = "";
 
     const tierLabels = { "high": "Main Event", "mid": "Mid Card", "low": "Jobber" };
@@ -292,9 +358,13 @@ function renderSuperstarList() {
         });
         card.addEventListener('dragend', () => { card.style.opacity = "1"; });
 
-        // Click simplu pentru Draft Manual (dacă nu dăm click pe butoane)
+        // On mobile: tap to select; on desktop: click opens draft menu
         card.onclick = (e) => {
-            if(e.target.closest('.card-actions')) return;
+            if (e.target.closest('.card-actions')) return;
+            if (isMobileTapMode()) {
+                setSelection(s, 'roster', card);
+                return;
+            }
             manualDraftMenu(s);
         };
 
@@ -324,24 +394,50 @@ function renderSuperstarList() {
 // --- 6. LOGICA DRAG & DROP (BULLETPROOF) ---
 
 function setupAllDropZones() {
-    // Selectăm toate zonele posibile (Branduri și Roster)
     const zones = document.querySelectorAll('.brand-col, .roster-pool');
 
     zones.forEach(zone => {
-        // DRAG OVER (Esențial pentru Drop)
         zone.ondragover = (e) => {
-            e.preventDefault(); // Permite drop-ul
+            e.preventDefault();
             zone.classList.add('drag-over');
         };
 
-        // DRAG LEAVE
         zone.ondragleave = () => {
             zone.classList.remove('drag-over');
         };
 
-        // DROP
         zone.ondrop = (e) => handleDrop(e, zone);
     });
+}
+
+function processDrop(zoneElement, payload) {
+    if (!payload || !payload.superstar) return;
+    const superstar = payload.superstar;
+    const source = payload.source;
+
+    const targetId = zoneElement.id || 'roster-pool';
+    const isRosterTarget = zoneElement.classList.contains('roster-pool');
+
+    if (isRosterTarget) {
+        if (source === 'roster') return;
+        const exists = superstars.find(s => s.name === superstar.name);
+        if (!exists) {
+            superstars.push(superstar);
+            superstars.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
+            renderSuperstarList();
+            removeFromUI(source, superstar.name);
+        }
+    } else {
+        if (targetId === source) return;
+        addToBrandList(targetId, superstar);
+        if (source === 'roster') {
+            superstars = superstars.filter(s => s.name !== superstar.name);
+            renderSuperstarList();
+        } else {
+            removeFromUI(source, superstar.name);
+        }
+        showDraftedToGraphic(targetId, superstar);
+    }
 }
 
 function handleDrop(e, zoneElement) {
@@ -352,41 +448,7 @@ function handleDrop(e, zoneElement) {
     if (!rawData) return;
 
     const data = JSON.parse(rawData);
-    const superstar = data.superstar;
-    const source = data.source;
-
-    // Identificăm unde am dat drumul
-    const targetId = zoneElement.id || 'roster-pool'; // 'brand-0' sau 'roster-pool'
-    const isRosterTarget = zoneElement.classList.contains('roster-pool');
-
-    // 1. DROP ÎNAPOI ÎN ROSTER (Undraft)
-    if (isRosterTarget) {
-        if (source === 'roster') return; // Nu facem nimic dacă e tot acolo
-
-        // Verificăm să nu existe deja
-        const exists = superstars.find(s => s.name === superstar.name);
-        if (!exists) {
-            superstars.push(superstar);
-            superstars.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
-            renderSuperstarList();
-            removeFromUI(source, superstar.name);
-        }
-    }
-    // 2. DROP ÎNTR-UN BRAND
-    else {
-        if (targetId === source) return; // Drop în același loc
-
-        addToBrandList(targetId, superstar);
-
-        if (source === 'roster') {
-            superstars = superstars.filter(s => s.name !== superstar.name);
-            renderSuperstarList();
-        } else {
-            removeFromUI(source, superstar.name);
-        }
-
-        showDraftedToGraphic(targetId, superstar);
-    }
+    processDrop(zoneElement, data);
 }
 
 function addToBrandList(brandId, superstar) {
@@ -403,6 +465,13 @@ function addToBrandList(brandId, superstar) {
     li.addEventListener('dragstart', (e) => {
         const payload = { superstar: superstar, source: brandId };
         e.dataTransfer.setData("text/plain", JSON.stringify(payload));
+    });
+
+    li.addEventListener('click', (e) => {
+        if (isMobileTapMode()) {
+            e.stopPropagation();
+            setSelection(superstar, brandId, li);
+        }
     });
 
     list.appendChild(li);
@@ -682,12 +751,11 @@ function draftForBrand(brandId) {
     startDraftAnimation(brandId, selected);
 }
 function startDraftAnimation(brandId, selected) {
-    // FIX: Acum țintim direct pătratul mare
     const animationArea = document.getElementById("animation-area");
     if (!animationArea) return;
 
-    // Curățăm complet zona înainte să începem (scoatem logo-ul)
-    animationArea.innerHTML = "";
+    const useMobileOverlay = isMobileTapMode() && getDraftMobileOverlay();
+    if (!useMobileOverlay) animationArea.innerHTML = "";
 
     let count = 0;
     const maxFlash = 15;
@@ -697,14 +765,18 @@ function startDraftAnimation(brandId, selected) {
 
     const interval = setInterval(() => {
         const randomS = tempPool[Math.floor(Math.random() * tempPool.length)];
-
-        // Rulăm starea de loading
-        animationArea.innerHTML = `
+        const frameHtml = `
             <div class="drafting-state">
                 <h3>SELECTING...</h3>
                 <img src="${randomS.img}">
             </div>
         `;
+
+        if (useMobileOverlay) {
+            showMobileDraftOverlay(frameHtml);
+        } else {
+            animationArea.innerHTML = frameHtml;
+        }
 
         count++;
 
@@ -744,15 +816,35 @@ function getDraftedToGraphicHTML(brandId, superstar) {
 function showDraftedToGraphic(brandId, superstar) {
     const animationArea = document.getElementById("animation-area");
     if (!animationArea) return;
-    animationArea.innerHTML = getDraftedToGraphicHTML(brandId, superstar);
+
+    const html = getDraftedToGraphicHTML(brandId, superstar);
+    if (isMobileTapMode() && getDraftMobileOverlay()) {
+        showMobileDraftOverlay(html);
+        setTimeout(function () {
+            hideMobileDraftOverlay(400);
+            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k25');
+        }, 2000);
+    } else {
+        animationArea.innerHTML = html;
+    }
 }
 
 function finalizeDraft(brandId, selected) {
-    const animationArea = document.getElementById("animation-area");
-    if (animationArea) animationArea.innerHTML = getDraftedToGraphicHTML(brandId, selected);
+    const html = getDraftedToGraphicHTML(brandId, selected);
+    const useMobileOverlay = isMobileTapMode() && getDraftMobileOverlay();
+
+    if (useMobileOverlay) {
+        showMobileDraftOverlay(html);
+        setTimeout(function () {
+            hideMobileDraftOverlay(400);
+            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k25');
+        }, 2000);
+    } else {
+        const animationArea = document.getElementById("animation-area");
+        if (animationArea) animationArea.innerHTML = html;
+    }
 
     addToBrandList(brandId, selected);
-
     isDrafting = false;
 }
 // --- CONFIGURARE GRAFICĂ IDLE (AȘTEPTARE) ---
