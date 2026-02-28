@@ -2,5 +2,7 @@
   { "id": "wwe2k25", "name": "WWE 2K25", "file": "data/wwe2k25.json" },
   { "id": "wwe2k24", "name": "WWE 2K24", "file": "data/wwe2k24.json" },
   { "id": "wwe2k23", "name": "WWE 2K23", "file": "data/wwe2k23.json" },
-  { "id": "wwe2k22", "name": "WWE 2K22", "file": "data/wwe2k22.json" }
+  { "id": "wwe2k22", "name": "WWE 2K22", "file": "data/wwe2k22.json" },
+  { "id": "wwe2k20", "name": "WWE 2K20", "file": "data/wwe2k20.json" },
+  { "id": "wwe2k19", "name": "WWE 2K19", "file": "data/wwe2k19.json" }
 ]

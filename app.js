@@ -852,7 +852,9 @@ const gameGraphics = {
     "wwe2k25": "images/draft2k25.png",
     "wwe2k24": "images/draft2k24.png",
     "wwe2k23": "images/draft2k23.jpg",
-    "wwe2k22": "images/draft2k22.jpeg"
+    "wwe2k22": "images/draft2k22.jpeg",
+    "wwe2k20": "images/draft2k20.jpg",
+    "wwe2k19": "images/draft2k20.jpg"
 };
 
 function setDefaultAnimationState(gameId) {

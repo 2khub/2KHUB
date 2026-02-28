@@ -795,7 +795,7 @@
     {
       "name": "Peyton Royce",
       "tier": "low",
-      "sex": "man",
+      "sex": "woman",
       "img": "images/peyton-royce.png"
     },
     {
@@ -856,7 +856,7 @@
       "img": "images/ric-flair.png"
     },
     {
-      "name": "Ricl Boogs",
+      "name": "Rick Boogs",
       "tier": "low",
       "sex": "man",
       "img": "images/rick-boogs.png"
@@ -1005,7 +1005,7 @@
       "name": "Shinsuke Nakamura",
       "tier": "mid",
       "sex": "man",
-      "img": "images/shinsuke-nakamura.png"
+      "img": "images/shinsuke-nakamura-2.png"
     },
     {
       "name": "Shotzi",
@@ -1218,7 +1218,7 @@
     {
       "name": "Xia Li",
       "tier": "low",
-      "sex": "man",
+      "sex": "woman",
       "img": "images/xia-li.png"
     },
     {
