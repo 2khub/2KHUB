@@ -119,11 +119,11 @@ async function initDraftPage() {
     const brandCountSelect = document.getElementById('brand-count-select');
 
     // Roster id: from home (sessionStorage) or from page roster dropdown if present
-    let initialRoster = 'wwe2k25';
+    let initialRoster = 'wwe2k26';
     if (!rosterSelect && typeof sessionStorage !== 'undefined') {
-        initialRoster = sessionStorage.getItem('draftRoster') || 'wwe2k25';
+        initialRoster = sessionStorage.getItem('draftRoster') || 'wwe2k26';
     } else if (rosterSelect) {
-        initialRoster = rosterSelect.value || 'wwe2k25';
+        initialRoster = rosterSelect.value || 'wwe2k26';
     }
 
     await loadGameData(initialRoster);
@@ -148,7 +148,7 @@ async function initDraftPage() {
             showConfirm(
                 { title: 'Change roster?', message: 'Changing game will reset everything. Continue?' },
                 () => loadGameData(e.target.value),
-                () => { e.target.value = localStorage.getItem('lastGame') || 'wwe2k25'; }
+                () => { e.target.value = localStorage.getItem('lastGame') || 'wwe2k26'; }
             );
         });
     }
@@ -681,7 +681,7 @@ function resetDraft() {
                 if (list) list.innerHTML = "";
             });
             const selector = document.getElementById('roster-select');
-            await loadGameData(selector ? selector.value : 'wwe2k25');
+            await loadGameData(selector ? selector.value : 'wwe2k26');
             showToast("Draft reset.", "success");
         }
     );
@@ -822,7 +822,7 @@ function showDraftedToGraphic(brandId, superstar) {
         showMobileDraftOverlay(html);
         setTimeout(function () {
             hideMobileDraftOverlay(400);
-            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k25');
+            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k26');
         }, 2000);
     } else {
         animationArea.innerHTML = html;
@@ -837,7 +837,7 @@ function finalizeDraft(brandId, selected) {
         showMobileDraftOverlay(html);
         setTimeout(function () {
             hideMobileDraftOverlay(400);
-            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k25');
+            setDefaultAnimationState(localStorage.getItem('lastGame') || 'wwe2k26');
         }, 2000);
     } else {
         const animationArea = document.getElementById("animation-area");
@@ -849,6 +849,8 @@ function finalizeDraft(brandId, selected) {
 }
 // --- CONFIGURARE GRAFICĂ IDLE (AȘTEPTARE) ---
 const gameGraphics = {
+    "wwe2k26": "images/draft2k26.png",
+    "aew": "images/aew.png",
     "wwe2k25": "images/draft2k25.png",
     "wwe2k24": "images/draft2k24.png",
     "wwe2k23": "images/draft2k23.jpg",
@@ -873,7 +875,7 @@ function setDefaultAnimationState(gameId) {
 
 // --- DRAFT RESULTS: build HTML (shared by preview and export) ---
 function getDraftResultsHTML() {
-    const gameId = sessionStorage.getItem('draftRoster') || 'wwe2k25';
+    const gameId = sessionStorage.getItem('draftRoster') || 'wwe2k26';
     const logoUrl = typeof gameGraphics !== 'undefined' && gameGraphics[gameId]
         ? gameGraphics[gameId]
         : "https://static.wikia.nocookie.net/logopedia/images/3/3b/Wwe_draft_2016_logo_by_sarthakgarg-da7ggc4.png";

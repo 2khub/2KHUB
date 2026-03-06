@@ -34,6 +34,9 @@
         raw: 'images/raw2025.jpg',
         smackdown: 'images/smackdown2025.jpg',
         nxt: 'images/nxt2025.jpg',
+        dynamite: 'images/dynamite.png',
+        collision: 'images/collision.png',
+        rampage: 'images/rampage.png',
         oldnxt: 'images/oldnxt.png',
         mainevent: 'images/mainevent.png',
         snme: 'images/snme.png',
@@ -80,7 +83,17 @@
     nxt_womens: 'belts_images/nxt_womens.png',
     nxt_na: 'belts_images/nxt_na.png',
     nxt_women_na: 'belts_images/nxt_women_na.png',
-    nxt_tag: 'belts_images/nxt_tag.png'
+    nxt_tag: 'belts_images/nxt_tag.png',
+    aew_world: 'belts_images/aew_world.png',
+    aew_tnt: 'belts_images/aew_tnt.png',
+    aew_int: 'belts_images/aew_int.png',
+    aew_cont: 'belts_images/aew_cont.png',
+    aew_womens_world: 'belts_images/aew_womens_world.png',
+    aew_tbs: 'belts_images/aew_tbs.png',
+    aew_tag: 'belts_images/aew_tag.png',
+    aew_womens_tag: 'belts_images/aew_womens_tag.png',
+    aew_trios: 'belts_images/aew_trios.png',
+    aew_nat: 'belts_images/aew_nat.png'
 };
 
     var MATCH_FORMAT = {
@@ -482,6 +495,17 @@
             '<option value="nxt_na"' + (ev.championship === 'nxt_na' ? ' selected' : '') + '>NXT North American Championship</option>' +
             '<option value="nxt_women_na"' + (ev.championship === 'nxt_women_na' ? ' selected' : '') + '>NXT Women\'s North American Championship</option>' +
             '<option value="nxt_tag"' + (ev.championship === 'nxt_tag' ? ' selected' : '') + '>NXT Tag Team Championship</option>' +
+            '<option value="aew_world"' + (ev.championship === 'aew_world' ? ' selected' : '') + '>AEW World Championship</option>' +
+            '<option value="aew_tnt"' + (ev.championship === 'aew_tnt' ? ' selected' : '') + '>AEW TNT Championship</option>' +
+            '<option value="aew_int"' + (ev.championship === 'aew_int' ? ' selected' : '') + '>AEW International Championship</option>' +
+            '<option value="aew_cont"' + (ev.championship === 'aew_cont' ? ' selected' : '') + '>AEW Continental Championship</option>' +
+            '<option value="aew_womens_world"' + (ev.championship === 'aew_womens_world' ? ' selected' : '') + '>AEW Women\'s World Championship</option>' +
+            '<option value="aew_tbs"' + (ev.championship === 'aew_tbs' ? ' selected' : '') + '>AEW TBS Championship</option>' +
+            '<option value="aew_tag"' + (ev.championship === 'aew_tag' ? ' selected' : '') + '>AEW World Tag Team Championship</option>' +
+            '<option value="aew_trios"' + (ev.championship === 'aew_trios' ? ' selected' : '') + '>AEW World Trios Championship</option>' +
+            '<option value="aew_womens_tag"' + (ev.championship === 'aew_womens_tag' ? ' selected' : '') + '>AEW Women\'s World Tag Team Championship</option>' +
+            '<option value="aew_nat"' + (ev.championship === 'aew_nat' ? ' selected' : '') + '>AEW National Championship</option>' +
+
             '</select>' +
             '<button type="button" class="btn btn-remove-match" data-event-id="' + ev.id + '">Remove match</button>' +
             '</div>' +
@@ -539,7 +563,7 @@
         return (PPV_IMAGES[theme] || '').trim() || null;
     }
 
-    var PPV_TITLE_NAMES = { default: 'Wrestling', raw: 'Raw', smackdown: 'SmackDown', nxt: 'NXT', oldnxt: 'Old NXT', mainevent: 'Main Event', snme: 'Saturday Night Main Event', wm41: 'Wrestlemania', royalrumble: 'Royal Rumble', summerslam: 'Summerslam', ss: 'Survivor Series', mitb: 'Money In The Bank', ec: 'Elimination Chamber', backlash: 'Backlash', hiac: 'Hell In A Cell', bb: 'Bad Blood', catc: 'Clash At The Castle', cj: 'Crown Jewel', bib: 'Bash In Berlin'};
+    var PPV_TITLE_NAMES = { default: 'Wrestling', raw: 'Raw', smackdown: 'SmackDown', nxt: 'NXT', dynamite: 'Dynamite', collision: 'Collision', rampage:'Rampage', oldnxt: 'Old NXT', mainevent: 'Main Event', snme: 'Saturday Night Main Event', wm41: 'Wrestlemania', royalrumble: 'Royal Rumble', summerslam: 'Summerslam', ss: 'Survivor Series', mitb: 'Money In The Bank', ec: 'Elimination Chamber', backlash: 'Backlash', hiac: 'Hell In A Cell', bb: 'Bad Blood', catc: 'Clash At The Castle', cj: 'Crown Jewel', bib: 'Bash In Berlin'};
 
     function getMatchcardExportHTML() {
         var theme = ppvSelect ? ppvSelect.value : 'raw';

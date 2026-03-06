@@ -1,4 +1,6 @@
 [
+  { "id": "wwe2k26", "name": "WWE 2K26", "file": "data/wwe2k26.json" },
+  { "id": "aew", "name": "AEW", "file": "data/aew.json" },
   { "id": "wwe2k25", "name": "WWE 2K25", "file": "data/wwe2k25.json" },
   { "id": "wwe2k24", "name": "WWE 2K24", "file": "data/wwe2k24.json" },
   { "id": "wwe2k23", "name": "WWE 2K23", "file": "data/wwe2k23.json" },

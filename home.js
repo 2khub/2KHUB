@@ -6,12 +6,14 @@
     const tileMatchcard = document.getElementById('hub-tile-matchcard');
 
     const rosterLogos = {
-        "wwe2k25": "https://cdn.prgloo.com/media/e92a667d77034df8b502d8f795b33da4.png?width=1200&height=1800",
-        "wwe2k24": "https://preview.redd.it/wwe2k24-logo-revealed-via-random-google-search-v0-di1hp86n22cc1.png?width=640&crop=smart&auto=webp&s=5d3fc6bec84676f87daa3da0ae168cc0e871f4b4",
-        "wwe2k23": "https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/a9477219-f8e4-4ad7-a85d-3dda9dbc8d0d/dfmley9-031ce72b-5f28-45a2-a417-3bf5758af24e.png/v1/fill/w_1280,h_323/wwe_2k23_logo__transparent__by_dustydirk_dfmley9-fullview.png?token=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1cm46YXBwOjdlMGQxODg5ODIyNjQzNzNhNWYwZDQxNWVhMGQyNmUwIiwiaXNzIjoidXJuOmFwcDo3ZTBkMTg4OTgyMjY0MzczYTVmMGQ0MTVlYTBkMjZlMCIsIm9iaiI6W1t7ImhlaWdodCI6Ijw9MzIzIiwicGF0aCI6Ii9mL2E5NDc3MjE5LWY4ZTQtNGFkNy1hODVkLTNkZGE5ZGJjOGQwZC9kZm1sZXk5LTAzMWNlNzJiLTVmMjgtNDVhMi1hNDE3LTNiZjU3NThhZjI0ZS5wbmciLCJ3aWR0aCI6Ijw9MTI4MCJ9XV0sImF1ZCI6WyJ1cm46c2VydmljZTppbWFnZS5vcGVyYXRpb25zIl19.0-1XK7L4RYwO34gOvHWE6S0195_etuaKj4YU4G8LxRc",
-        "wwe2k22": "https://cdn.prgloo.com/media/db23bca39db9428db1fd9e420ba228fc.png?width=1200&height=1800",
-        "wwe2k20": "https://cdn.prgloo.com/media/ca3ef6d4384d4d3482d4e8fd42bd1ca0.png?width=1200&height=1800",
-        "wwe2k19": "https://cdn.prgloo.com/media/fedec14cf49746aca1b2326a07ddebd7.png?width=1200&height=1800"
+        "wwe2k26": "images/2k26.png",
+        "aew": "images/aew-home.png",
+        "wwe2k25": "images/2k25.png",
+        "wwe2k24": "images/2k24.png",
+        "wwe2k23": "images/2k23.png",
+        "wwe2k22": "images/2k22.png",
+        "wwe2k20": "images/2k20.png",
+        "wwe2k19": "images/2k19.png",
     };
 
     function loadRosters() {
@@ -22,11 +24,11 @@
                 selectItems.innerHTML = '';
 
                 if (!list || list.length === 0) {
-                    list = [{ id: "wwe2k25", name: "WWE 2K25 (default)" }];
+                    list = [{ id: "wwe2k26", name: "WWE 2K26 (default)" }];
                 }
 
                 list.forEach(function (item) {
-                    const logoUrl = rosterLogos[item.id] || rosterLogos["wwe2k25"];
+                    const logoUrl = rosterLogos[item.id] || rosterLogos["wwe2k26"];
                     const optionDiv = document.createElement('div');
                     optionDiv.className = 'select-item';
                     optionDiv.innerHTML = `<img src="${logoUrl}" class="roster-select-logo" alt=""> <span class="roster-select-name">${item.name}</span>`;
@@ -40,7 +42,7 @@
 
                 if (list.length > 0) {
                     const first = list[0];
-                    const firstLogo = rosterLogos[first.id] || rosterLogos["wwe2k25"];
+                    const firstLogo = rosterLogos[first.id] || rosterLogos["wwe2k26"];
                     rosterInput.value = first.id;
                     selectSelected.innerHTML = `<img src="${firstLogo}" class="roster-select-logo" alt=""> <span class="roster-select-name">${first.name}</span>`;
                 }
@@ -65,7 +67,7 @@
     });
 
     function getSelectedRosterId() {
-        return rosterInput ? rosterInput.value || 'wwe2k25' : 'wwe2k25';
+        return rosterInput ? rosterInput.value || 'wwe2k26' : 'wwe2k26';
     }
 
     if (tileDraft) {
