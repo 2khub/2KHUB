@@ -279,24 +279,53 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: center;
   gap: 16px;
 }
 .hub-footer-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 16px;
   font-size: 0.85rem;
-  font-weight: 600;
-  color: rgba(255, 255, 255, 0.7);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: rgba(255, 255, 255, 0.78);
   text-decoration: none;
-  transition: color 0.2s;
+  background: rgba(255, 255, 255, 0.02);
+  border: 2px solid rgba(255, 255, 255, 0.16);
+  border-radius: 999px;
+  transition: 0.2s color, 0.2s border-color, 0.2s background, 0.2s transform, 0.2s filter;
 }
 .hub-footer-link:hover {
   color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
 }
 .hub-footer-link-button {
-  background: none;
-  border: none;
-  padding: 0;
+  appearance: none;
+  -webkit-appearance: none;
+  background: transparent;
   font: inherit;
   cursor: pointer;
+}
+
+/* Support CTA in hub footer: brighter, community-friendly */
+.hub-footer-link.hub-support-cta {
+  background: linear-gradient(180deg, #FFDD00 0%, #FFCE00 100%);
+  border-color: rgba(255, 221, 0, 0.9);
+  color: #0a0a0a;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 221, 0, 0.12);
+}
+.hub-footer-link.hub-support-cta:hover,
+.hub-footer-link.hub-support-cta:focus {
+  filter: brightness(1.05);
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 14px 34px rgba(0, 0, 0, 0.65), 0 0 22px rgba(255, 221, 0, 0.18);
 }
 
 /* --- Bug Report / Contact modal (glassmorphism) --- */

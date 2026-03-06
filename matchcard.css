@@ -92,6 +92,37 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   text-transform: uppercase;
 }
 
+/* Support 2KHUB button (header / global) */
+.support-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 999px;
+  background: #FFDD00;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.8rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.support-cta:hover,
+.support-cta:focus {
+  filter: brightness(1.05);
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+  outline: none;
+}
+.header-support-link {
+  margin-left: auto;
+}
+
 /* --- Layout: sidebar + main --- */
 .matchcard-layout {
   flex: 1;
@@ -221,6 +252,13 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   font-weight: 600;
   letter-spacing: 0.04em;
   text-transform: uppercase;
+}
+
+/* Highlight for the slot currently being filled (mobile roster picker) */
+.mc-slot.mc-slot-selecting {
+  border-color: rgba(241, 196, 15, 0.9);
+  box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.5);
+  background: rgba(241, 196, 15, 0.08);
 }
 
 /* --- Main: settings + preview --- */
@@ -550,6 +588,89 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   outline: none;
 }
 .btn-download:active { opacity: 0.9; }
+
+/* --- Mobile roster picker overlay (full-screen) --- */
+.matchcard-roster-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.92);
+  padding: 16px;
+  box-sizing: border-box;
+}
+.matchcard-roster-overlay[hidden] {
+  display: none !important;
+}
+.matchcard-roster-overlay-inner {
+  flex: 1;
+  max-width: 640px;
+  background: rgba(12, 12, 12, 0.96);
+  border: 1px solid var(--mc-border-strong);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.9);
+  display: flex;
+  flex-direction: column;
+}
+.matchcard-roster-overlay-header {
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--mc-border);
+}
+.matchcard-roster-overlay-title {
+  margin: 0;
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.9);
+}
+.matchcard-roster-overlay-close {
+  border: 2px solid var(--mc-border-strong);
+  background: transparent;
+  color: rgba(255, 255, 255, 0.85);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 1.1rem;
+  line-height: 1;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: 0.2s background, 0.2s border-color, 0.2s color;
+}
+.matchcard-roster-overlay-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.25);
+  color: #fff;
+}
+.matchcard-roster-overlay-body {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px 14px 16px;
+}
+.matchcard-roster-overlay-body .matchcard-roster-list.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0;
+}
+.matchcard-roster-overlay-body .matchcard-sidebar .roster-card,
+.matchcard-roster-overlay-body .roster-card {
+  flex-direction: row;
+  min-height: 78px;
+}
+.matchcard-roster-overlay-body .roster-card img {
+  width: 56px;
+  height: 56px;
+}
+.matchcard-roster-overlay-body .card-name {
+  font-size: 0.85rem;
+}
 
 /* --- Export board (hidden, for html2canvas) --- */
 .matchcard-export-board {
@@ -906,8 +1027,15 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
 /* --- Match Card Generator: Mobile (max-width 768px) --- */
 @media (max-width: 768px) {
   .matchcard-page {
-    overflow-x: hidden;
+    /* Nuke desktop constraints and allow full scroll */
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh;
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
     max-width: 100vw;
+    position: relative !important;
   }
   html, body {
     overflow-x: hidden;
@@ -916,16 +1044,27 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   }
 
   .matchcard-layout {
-    flex-direction: column;
-    overflow: visible;
-    overflow-x: hidden;
+    /* Main app wrapper: stack panels vertically */
+    display: flex !important;
+    flex-direction: column !important;
+    height: auto !important;
+    min-height: 100vh;
+    overflow: visible !important;
+    overflow-x: hidden !important;
+    position: relative !important;
+  }
+
+  .matchcard-sidebar,
+  .matchcard-main {
+    position: relative !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    flex: 0 0 auto !important;
+    border-right: none !important;
   }
 
   .matchcard-sidebar {
-    width: 100%;
-    flex: 0 0 auto;
-    max-height: 45vh;
-    border-right: none;
     border-bottom: 1px solid var(--mc-border);
   }
 
@@ -951,9 +1090,19 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
 
   .matchcard-roster-list.cards-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(2, 1fr);
     gap: 12px;
     padding: 12px 15px 15px;
+  }
+
+  /* Roster grid container: scrollable box, no overlap with settings */
+  #matchcard-roster-list,
+  .matchcard-roster-list {
+    position: relative !important;
+    max-height: 350px !important;
+    overflow-y: auto !important;
+    margin-bottom: 20px !important;
+    border-bottom: 2px solid #333 !important;
   }
 
   .matchcard-sidebar .roster-card {
@@ -995,9 +1144,11 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   }
 
   .matchcard-main {
-    flex: 1 1 auto;
+    flex: 0 0 auto !important;
     padding: 15px;
-    overflow-x: hidden;
+    overflow-x: hidden !important;
+    margin-top: 20px !important;
+    padding-bottom: 100px !important;
   }
 
   .match-settings-bar {
@@ -1025,9 +1176,10 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
   }
 
   .matchcard-events-wrap {
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 15px;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-top: 20px !important;
+    margin-bottom: 15px !important;
   }
 
   .matchcard-events {
@@ -1170,15 +1322,15 @@ body { margin: 0; font-family: var(--font-main); background: var(--wwe-black); c
     gap: 15px;
   }
 
-  /* Tap-to-select highlight (mobile) */
-  .matchcard-sidebar .roster-card.tap-selected {
-    outline: 3px solid #f1c40f;
-    outline-offset: 2px;
-    box-shadow: 0 0 0 2px rgba(241, 196, 15, 0.5);
-  }
-
-  .mc-slot.mc-slot-empty.tap-drop-target {
-    border-color: rgba(241, 196, 15, 0.8);
-    background: rgba(241, 196, 15, 0.1);
+  /* Support 2KHUB button becomes strict floating FAB on mobile */
+  .header-support-link.support-cta {
+    position: fixed !important;
+    bottom: 20px !important;
+    right: 20px !important;
+    width: auto !important;
+    z-index: 99999 !important;
+    padding: 10px 15px !important;
+    border-radius: 50px !important;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85) !important;
   }
 }

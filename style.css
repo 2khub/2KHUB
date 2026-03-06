@@ -95,6 +95,37 @@ header::after {
 }
 .site-logo { height: 52px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
 
+/* Support 2KHUB button (header / global) */
+.support-cta {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 20px;
+    border-radius: 999px;
+    background: #FFDD00;
+    color: #000;
+    font-weight: 800;
+    font-size: 0.8rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.6);
+    transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+    cursor: pointer;
+    white-space: nowrap;
+}
+.support-cta:hover,
+.support-cta:focus {
+    filter: brightness(1.05);
+    transform: translateY(-1px) scale(1.03);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.7);
+    outline: none;
+}
+.header-support-link {
+    margin-left: 20px;
+}
+
 header select {
     background: var(--wwe-panel); color: #eee; border: 1px solid var(--wwe-border);
     padding: 8px 14px; font-family: var(--font-main); font-size: 0.9rem;
@@ -1019,4 +1050,15 @@ input::placeholder { color: var(--text-muted); }
     .draft-mobile-overlay .drafting-state img {
         max-height: 120px;
     }
+
+  /* Support 2KHUB button becomes floating action button on mobile */
+  .header-support-link.support-cta {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      z-index: 9999;
+      padding: 12px 22px;
+      font-size: 0.78rem;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.85);
+  }
 }

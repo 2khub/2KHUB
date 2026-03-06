@@ -40,7 +40,7 @@
 <body class="matchcard-page">
 
   <video autoplay muted loop id="bg-video" aria-hidden="true">
-    <source src="video.mp4" type="video/mp4">
+  <source src="video.mp4" type="video/mp4">
   </video>
   <div class="overlay" aria-hidden="true"></div>
 
@@ -48,6 +48,7 @@
     <a href="index.html" class="header-logo-link" title="Back to 2KHUB Home" aria-label="Back to 2KHUB Home">
       <img src="logo.png" alt="2KHUB – WWE 2K25 Match Card Generator logo" class="header-logo-img">
     </a>
+    <a href="PUNE_LINKUL_AICI" target="_blank" class="support-cta header-support-link">Support 2KHUB</a>
     <h1 class="sr-only">Match Card Generator</h1>
   </header>
 
@@ -75,6 +76,19 @@
       </div>
       <div id="matchcard-roster-list" class="matchcard-roster-list cards-grid"></div>
     </aside>
+
+    <!-- Mobile roster picker overlay (used when tapping an empty VS slot) -->
+    <div id="matchcard-roster-overlay" class="matchcard-roster-overlay" hidden aria-hidden="true">
+      <div class="matchcard-roster-overlay-inner">
+        <div class="matchcard-roster-overlay-header">
+          <h2 class="matchcard-roster-overlay-title">Tap a superstar to fill the slot</h2>
+          <button type="button" id="matchcard-roster-overlay-close" class="matchcard-roster-overlay-close" aria-label="Close roster picker">×</button>
+        </div>
+        <div class="matchcard-roster-overlay-body">
+          <!-- The existing #matchcard-roster-list is moved here on mobile while picking -->
+        </div>
+      </div>
+    </div>
 
     <div class="matchcard-main">
       <div class="match-settings-bar">

@@ -16,6 +16,10 @@
     const modalSave = document.getElementById('matchcard-modal-save');
     const modalBackdrop = document.getElementById('matchcard-modal-backdrop');
     const notificationsEl = document.getElementById('matchcard-notifications');
+    const rosterOverlayEl = document.getElementById('matchcard-roster-overlay');
+    const rosterOverlayBodyEl = rosterOverlayEl && rosterOverlayEl.querySelector('.matchcard-roster-overlay-body');
+    const rosterOverlayCloseBtn = document.getElementById('matchcard-roster-overlay-close');
+    const rosterSidebarContainerEl = rosterListEl ? rosterListEl.parentElement : null;
 
     function showNotification(message) {
         if (!notificationsEl) return;
@@ -167,6 +171,7 @@
 
     var selectedSuperstar = null;
     var selectedElement = null;
+    var activeSlotForOverlay = null;
 
     function isMobileTapMode() {
         return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
@@ -191,6 +196,56 @@
                 el.classList.add('tap-drop-target');
             });
         }
+    }
+
+    function openRosterOverlayForSlot(slotEl) {
+        if (!isMobileTapMode()) return;
+        if (!rosterListEl || !rosterOverlayEl || !rosterOverlayBodyEl || !rosterSidebarContainerEl) return;
+
+        // Clear any previous highlight
+        document.querySelectorAll('.mc-slot-selecting').forEach(function (el) {
+            el.classList.remove('mc-slot-selecting');
+        });
+
+        activeSlotForOverlay = slotEl || null;
+        if (activeSlotForOverlay) {
+            activeSlotForOverlay.classList.add('mc-slot-selecting');
+        }
+
+        // Move roster list into the overlay body
+        if (rosterListEl.parentElement !== rosterOverlayBodyEl) {
+            rosterOverlayBodyEl.appendChild(rosterListEl);
+        }
+
+        rosterOverlayEl.hidden = false;
+        rosterOverlayEl.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+    }
+
+    function closeRosterOverlay() {
+        if (!rosterListEl || !rosterOverlayEl || !rosterOverlayBodyEl || !rosterSidebarContainerEl) return;
+
+        if (rosterListEl.parentElement === rosterOverlayBodyEl) {
+            rosterSidebarContainerEl.appendChild(rosterListEl);
+        }
+
+        rosterOverlayEl.hidden = true;
+        rosterOverlayEl.setAttribute('aria-hidden', 'true');
+        document.body.style.overflow = '';
+
+        if (activeSlotForOverlay) {
+            activeSlotForOverlay.classList.remove('mc-slot-selecting');
+        }
+        activeSlotForOverlay = null;
+    }
+
+    function assignSuperstarFromOverlay(superstar) {
+        if (!activeSlotForOverlay || !superstar) return;
+        var eid = parseInt(activeSlotForOverlay.dataset.eventId, 10);
+        var idx = parseInt(activeSlotForOverlay.dataset.slotIndex, 10);
+        if (isNaN(eid) || isNaN(idx)) return;
+        setSlot(eid, idx, superstar);
+        closeRosterOverlay();
     }
 
     function getRosterId() {
@@ -244,7 +299,7 @@
             card.style.animationDelay = (index * 0.03) + 's';
             var tier = s.tier || 'mid';
             card.style.borderLeftColor = tierColors[tier] || tierColors.mid;
-            card.draggable = true;
+            card.draggable = !isMobileTapMode();
 
             var sexDisplay = (s.sex || 'man').charAt(0).toUpperCase() + (s.sex || 'man').slice(1);
             var tierDisplay = TIER_LABELS[tier] || tier;
@@ -266,7 +321,10 @@
             card.addEventListener('click', function (e) {
                 if (isMobileTapMode()) {
                     e.preventDefault();
-                    setSelection(s, card);
+                    e.stopPropagation();
+                    if (activeSlotForOverlay) {
+                        assignSuperstarFromOverlay(s);
+                    }
                 }
             });
             rosterListEl.appendChild(card);
@@ -367,13 +425,17 @@
         } else {
             slot.innerHTML = '<span class="mc-slot-label">Drop superstar</span>';
             slot.addEventListener('dragover', function (e) {
+                if (isMobileTapMode()) return;
                 e.preventDefault();
                 e.stopPropagation();
                 e.dataTransfer.dropEffect = 'copy';
                 this.classList.add('drag-over');
             });
-            slot.addEventListener('dragleave', function () { this.classList.remove('drag-over'); });
+            slot.addEventListener('dragleave', function () {
+                this.classList.remove('drag-over');
+            });
             slot.addEventListener('drop', function (e) {
+                if (isMobileTapMode()) return;
                 e.preventDefault();
                 e.stopPropagation();
                 this.classList.remove('drag-over');
@@ -385,13 +447,10 @@
                 } catch (err) {}
             });
             slot.addEventListener('click', function (e) {
-                if (isMobileTapMode() && selectedSuperstar) {
+                if (isMobileTapMode()) {
                     e.preventDefault();
                     e.stopPropagation();
-                    var eid = parseInt(this.dataset.eventId, 10);
-                    var idx = parseInt(this.dataset.slotIndex, 10);
-                    setSlot(eid, idx, selectedSuperstar);
-                    clearSelection();
+                    openRosterOverlayForSlot(this);
                 }
             });
         }
@@ -684,6 +743,26 @@
     if (modalBackdrop) modalBackdrop.addEventListener('click', closeMatchcardPreview);
     if (modalClose) modalClose.addEventListener('click', closeMatchcardPreview);
     if (modalSave) modalSave.addEventListener('click', saveMatchcardFromPreview);
+
+    // Roster overlay close handlers (tap outside / X button / ESC)
+    if (rosterOverlayCloseBtn) {
+        rosterOverlayCloseBtn.addEventListener('click', function () {
+            closeRosterOverlay();
+        });
+    }
+    if (rosterOverlayEl) {
+        rosterOverlayEl.addEventListener('click', function (e) {
+            if (e.target === rosterOverlayEl) {
+                // Click on backdrop
+                closeRosterOverlay();
+            }
+        });
+    }
+    document.addEventListener('keydown', function (e) {
+        if (e.key === 'Escape' && rosterOverlayEl && !rosterOverlayEl.hidden) {
+            closeRosterOverlay();
+        }
+    });
 
     if (downloadBtn) {
         downloadBtn.addEventListener('click', function () {
