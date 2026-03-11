@@ -14,6 +14,7 @@
         "wwe2k22": "images/2k22.png",
         "wwe2k20": "images/2k20.png",
         "wwe2k19": "images/2k19.png",
+        "wwe2k18": "images/2k18.png",
     };
 
     function loadRosters() {
