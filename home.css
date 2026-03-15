@@ -457,3 +457,47 @@
   filter: brightness(1.15);
   box-shadow: 0 4px 16px rgba(241, 196, 15, 0.35);
 }
+
+/* --- Mobile Layout Fixes --- */
+@media (max-width: 768px) {
+  /* 1. Stack the Columns */
+  .home-page {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    height: auto !important;
+    padding-top: 40px !important;
+    padding-bottom: 40px !important;
+  }
+
+  /* 2. Full Width for Panels */
+  .home-main,
+  .hub-footer {
+    width: 100% !important;
+    max-width: 500px !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    margin-bottom: 30px !important;
+  }
+
+  /* 3. Fix the Right Panel (Community/Support) */
+  .hub-footer {
+    background: rgba(22, 22, 22, 0.95) !important;
+    padding: 24px 20px !important;
+    border-radius: 12px !important;
+    margin-top: 0 !important;
+  }
+
+  /* Center buttons and spacing */
+  .hub-footer-links {
+    flex-direction: column !important;
+    width: 100% !important;
+    gap: 16px !important;
+  }
+
+  .hub-footer-link {
+    width: 100% !important;
+    margin: 0 !important;
+    justify-content: center !important;
+  }
+}

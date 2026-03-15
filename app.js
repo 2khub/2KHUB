@@ -852,6 +852,7 @@ const gameGraphics = {
     "wwe2k26": "images/draft2k26.png",
     "aew": "images/aew.png",
     "wwe2k25": "images/draft2k25.png",
+    "all_time_roster": "logo.png",
     "wwe2k24": "images/draft2k24.png",
     "wwe2k23": "images/draft2k23.jpg",
     "wwe2k22": "images/draft2k22.jpeg",
