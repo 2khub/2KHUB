@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy - 2KHUB</title>
+  <meta name="robots" content="noindex">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="icon" type="image/png" href="icon.png">
+  <style>
+    .page-container {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 30px;
+      background: var(--wwe-panel, rgba(12, 12, 12, 0.96));
+      border: 1px solid var(--wwe-border, rgba(255,255,255,0.08));
+      border-radius: 8px;
+      color: #ddd;
+    }
+    .page-title {
+      color: #fff;
+      margin-bottom: 20px;
+      border-bottom: 2px solid var(--wwe-border-strong);
+      padding-bottom: 10px;
+    }
+    h2 { color: #fff; margin-top: 25px; margin-bottom: 10px; font-size: 1.2rem; }
+    p { line-height: 1.6; margin-bottom: 15px; }
+    ul { margin-bottom: 15px; padding-left: 20px; }
+    li { margin-bottom: 8px; }
+
+    /* Animation Staggering */
+    .back-link, .page-title, .page-container > * {
+      opacity: 0;
+      animation: fadeInUp 0.6s ease-out forwards;
+    }
+
+    .back-link { animation-delay: 0.1s; }
+    .page-title { animation-delay: 0.2s; }
+    .page-container > *:nth-child(3) { animation-delay: 0.3s; } /* Date */
+    .page-container > *:nth-child(4) { animation-delay: 0.35s; } /* Intro H2 */
+    .page-container > *:nth-child(5) { animation-delay: 0.4s; } /* Intro P */
+    .page-container > *:nth-child(n+6) { animation-delay: 0.45s; } /* Rest of content */
+  </style>
+</head>
+<body class="home-page" style="display: block; overflow-y: auto;">
+  <video autoplay muted loop id="bg-video" class="home-bg-video" aria-hidden="true" style="position: fixed;">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="overlay" aria-hidden="true" style="position: fixed;"></div>
+
+  <div class="page-container">
+    <a href="index.html" class="back-link hub-footer-link" style="margin-bottom: 20px; width: fit-content;">&larr; Back to Home</a>
+    <h1 class="page-title">Privacy Policy</h1>
+    <p>Last updated: March 17, 2026</p>
+
+    <h2>1. Introduction</h2>
+    <p>Welcome to 2KHUB ("we," "our," or "us"). We respect your privacy and are committed to protecting it through our compliance with this policy. This Privacy Policy describes the types of information we may collect from you or that you may provide when you visit the website 2khub.info (our "Website").</p>
+
+    <h2>2. Information We Collect</h2>
+    <p>We collect very little personal information. The tools on this site (Universe Draft, Match Card Generator) primarily function client-side using your browser's Local Storage. We do not store your roster data or match cards on our servers.</p>
+
+    <h3>a. Cookies and Tracking Technologies</h3>
+    <p>We use cookies and similar tracking technologies to track the activity on our Service and hold certain information. Cookies are files with small amount of data which may include an anonymous unique identifier.</p>
+    <p>We use Google AdSense to display advertisements. Google may use cookies to serve ads based on your prior visits to our website or other websites. Google's use of advertising cookies enables it and its partners to serve ads to you based on your visit to our sites and/or other sites on the Internet.</p>
+    <p>You may opt out of personalized advertising by visiting <a href="https://www.google.com/settings/ads" target="_blank" style="color: #f1c40f;">Google Ads Settings</a>.</p>
+
+    <h2>3. How We Use Your Information</h2>
+    <p>We use the information we collect to:</p>
+    <ul>
+      <li>Provide and maintain our Service</li>
+      <li>Monitor the usage of our Service</li>
+      <li>Detect, prevent, and address technical issues</li>
+      <li>Serve relevant advertisements via Google AdSense</li>
+    </ul>
+
+    <h2>4. Third-Party Services</h2>
+    <p>We may employ third-party companies and individuals to facilitate our Service ("Service Providers"), to provide the Service on our behalf, or to assist us in analyzing how our Service is used.</p>
+    <ul>
+      <li><strong>Google Analytics:</strong> We may use Google Analytics to monitor and analyze the use of our Service.</li>
+      <li><strong>Google AdSense:</strong> We use Google AdSense to monetize our traffic.</li>
+    </ul>
+
+    <h2>5. Data Security</h2>
+    <p>The security of your data is important to us, but remember that no method of transmission over the Internet, or method of electronic storage is 100% secure. While we strive to use commercially acceptable means to protect your Personal Data, we cannot guarantee its absolute security.</p>
+
+    <h2>6. Changes to This Privacy Policy</h2>
+    <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.</p>
+
+    <h2>7. Contact Us</h2>
+    <p>If you have any questions about this Privacy Policy, please contact us via the contact page.</p>
+  </div>
+</body>
+</html>

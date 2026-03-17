@@ -192,7 +192,6 @@ header label { font-size: 0.8rem; color: var(--text-muted); font-weight: 500; ma
 }
 #animation-area img {
     -webkit-user-drag: none;
-    user-drag: none;
 }
 #animation-area::before {
     content: ""; position: absolute; top: 0; left: 0; right: 0; height: 5px;
@@ -473,6 +472,15 @@ input::placeholder { color: var(--text-muted); }
 }
 .btn-export:hover, .btn-export:focus { border-color: var(--sd-color); background: rgba(0,107,182,0.15); outline: none; }
 .btn-reset:hover, .btn-reset:focus { border-color: rgb(171, 0, 1); background: rgba(188, 0, 0, 0.2); outline: none; }
+.btn-auto-draft {
+    border-color: #ffd700 !important;
+    color: #ffd700 !important;
+}
+.btn-auto-draft:hover, .btn-auto-draft:focus {
+    background: rgba(255, 215, 0, 0.15) !important;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    outline: none;
+}
 .actions-footer .btn:active { opacity: 0.9; }
 
 .btn-close-brand {
