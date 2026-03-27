@@ -5,150 +5,472 @@
           crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools</title>
-  <meta name="description" content="Free WWE 2K26 & AEW Universe Mode tracker with draft tools, AEW rosters, match card maker, and booking utilities. Track your WWE 2K26 and AEW Universe for free.">
+  <title>2KHUB - WWE 2K Universe Mode & MyGM Companion</title>
+  <meta name="description" content="The ultimate companion app for WWE 2K Universe Mode and MyGM. Draft rosters, create match cards, and manage your wrestling universe with professional tools.">
   <meta name="theme-color" content="#f1c40f">
-  <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
+  <meta name="keywords" content="WWE 2K26, Universe Mode, MyGM, Draft tool, wrestling booking, WWE 2K tracker, 2KHUB">
   <link rel="canonical" href="https://2khub.info/">
-  <meta property="og:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
-  <meta property="og:description" content="Track WWE 2K26 and AEW Universe saves, draft rosters, and build match cards with free tools built for wrestling booking fans.">
+  <meta property="og:title" content="2KHUB - WWE 2K Universe Mode & MyGM Companion">
+  <meta property="og:description" content="Professional tools for WWE 2K Universe Mode and MyGM. Draft rosters, manage brands, and elevate your wrestling universe.">
   <meta property="og:image" content="https://2khub.info/logo.png">
   <meta property="og:url" content="https://2khub.info/">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="2KHUB">
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
-  <meta name="twitter:description" content="Free WWE 2K26 & AEW Universe Mode tracker, draft roster tools, and match card maker for wrestling booking fans.">
-  <meta name="twitter:image" content="https://2khub.info/logo.png">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
+  <link rel="stylesheet" href="shared.css">
   <link rel="icon" type="image/png" href="icon.png">
-  <link rel="apple-touch-icon" href="icon.png">
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "WebApplication",
-    "name": "2KHUB",
-    "applicationCategory": "GameApplication",
-    "operatingSystem": "Web Browser",
-    "description": "Free WWE 2K26 & AEW Universe Mode tracker with draft tools, match card generator, fantasy booking, and PPV card builder for modern wrestling rosters.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
-    "url": "https://2khub.info/"
-  }
-  </script>
-</head>
-<body class="home-page">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    body { margin: 0; padding: 0; overflow-x: hidden; overflow-y: auto !important; background: #0a0a0c; font-family: 'Inter', sans-serif; }
 
-  <video autoplay muted loop id="bg-video" class="home-bg-video" aria-hidden="true">
+    /* ── NAV ── */
+    .landing-nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(8, 8, 10, 0.92); backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255,255,255,0.07);
+      padding: 18px 48px; display: flex; align-items: center; justify-content: space-between;
+    }
+    .landing-nav::after {
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+    }
+    .nav-logo { height: 40px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.12)); }
+    .nav-links { display: flex; gap: 36px; align-items: center; }
+    .nav-link {
+      color: rgba(255,255,255,0.75); text-decoration: none; font-weight: 600;
+      font-size: 0.85rem; text-transform: uppercase; letter-spacing: 0.1em;
+      transition: color 0.2s; position: relative; padding-bottom: 2px;
+    }
+    .nav-link::after {
+      content: ""; position: absolute; bottom: -2px; left: 0; right: 0; height: 2px;
+      background: #ffd700; transform: scaleX(0); transition: transform 0.2s;
+    }
+    .nav-link:hover { color: #fff; }
+    .nav-link:hover::after { transform: scaleX(1); }
+    .nav-cta {
+      padding: 9px 22px; background: rgba(225,6,0,0.12); border: 1px solid rgba(225,6,0,0.5);
+      border-radius: 4px; color: #ff4040 !important; transition: all 0.2s !important;
+    }
+    .nav-cta:hover { background: rgba(225,6,0,0.25) !important; border-color: #e10600 !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* ── HERO ── */
+    .hero-section {
+      min-height: 100vh; display: flex; flex-direction: column;
+      align-items: center; justify-content: center;
+      padding: 140px 24px 80px; position: relative; overflow: hidden;
+    }
+    .hero-eyebrow {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase;
+      color: #ffd700; margin-bottom: 18px; opacity: 0.85;
+    }
+    .hero-title {
+      font-size: clamp(2.6rem, 6vw, 5rem); font-weight: 800; color: #fff;
+      margin: 0 0 18px; line-height: 1.05; text-align: center; letter-spacing: -0.01em;
+      text-shadow: 0 4px 40px rgba(0,0,0,0.9);
+    }
+    .hero-title-accent { color: #ffd700; }
+    .hero-sub {
+      font-size: 1.05rem; color: rgba(255,255,255,0.5); margin: 0 0 60px;
+      text-align: center; max-width: 540px; line-height: 1.6;
+    }
+
+    /* ── GAME MODE CARDS ── */
+    .mode-cards {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 24px;
+      width: 100%; max-width: 900px;
+    }
+    .mode-card {
+      position: relative; border-radius: 8px; overflow: hidden;
+      text-decoration: none; display: flex; flex-direction: column;
+      align-items: flex-start; justify-content: flex-end;
+      padding: 40px 36px; min-height: 360px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: transform 0.35s cubic-bezier(0.2,0,0,1), box-shadow 0.35s ease, border-color 0.35s ease;
+      background: rgba(12,12,12,0.96);
+    }
+    .mode-card-single { --glow: rgba(225, 6, 0, 0.7); --glow-soft: rgba(225, 6, 0, 0.15); --accent: #ff4040; }
+    .mode-card-multi  { --glow: rgba(0, 107, 182, 0.7); --glow-soft: rgba(0, 107, 182, 0.15); --accent: #3399ff; }
+    .mode-card::before {
+      content: ""; position: absolute; inset: 0;
+      background: linear-gradient(160deg, var(--glow-soft) 0%, transparent 60%);
+      transition: opacity 0.35s ease; opacity: 0.6;
+    }
+    .mode-card::after {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: var(--accent); transition: box-shadow 0.35s ease;
+    }
+    .mode-card:hover {
+      transform: translateY(-8px) scale(1.01);
+      border-color: var(--accent);
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7), 0 0 0 1px var(--accent), 0 0 40px var(--glow-soft);
+    }
+    .mode-card:hover::before { opacity: 1; }
+    .mode-card:hover::after { box-shadow: 0 0 24px var(--glow); }
+    .mode-card-badge {
+      position: absolute; top: 24px; right: 24px;
+      font-size: 0.65rem; font-weight: 800; letter-spacing: 0.14em; text-transform: uppercase;
+      padding: 5px 12px; border-radius: 3px;
+      background: rgba(255,215,0,0.18); border: 1px solid rgba(255,215,0,0.45); color: #ffd700;
+    }
+    .mode-card-badge-beta { background: rgba(0,107,182,0.2); border-color: rgba(0,107,182,0.5); color: #3399ff; }
+    .mode-card-number {
+      font-size: 5rem; font-weight: 800; color: rgba(255,255,255,0.04);
+      position: absolute; top: 20px; left: 28px; line-height: 1; letter-spacing: -0.04em;
+      transition: color 0.35s;
+    }
+    .mode-card:hover .mode-card-number { color: rgba(255,255,255,0.07); }
+    .mode-card-label {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--accent); margin-bottom: 10px; position: relative; z-index: 1;
+    }
+    .mode-card-title {
+      font-size: 2.4rem; font-weight: 800; color: #fff; margin: 0 0 14px;
+      line-height: 1; letter-spacing: -0.01em; text-transform: uppercase; position: relative; z-index: 1;
+    }
+    .mode-card-desc {
+      font-size: 0.9rem; color: rgba(255,255,255,0.5); line-height: 1.5;
+      margin: 0 0 28px; max-width: 280px; position: relative; z-index: 1;
+    }
+    .mode-card-cta {
+      display: inline-flex; align-items: center; gap: 8px;
+      padding: 13px 28px; border-radius: 4px; font-size: 0.82rem; font-weight: 700;
+      letter-spacing: 0.1em; text-transform: uppercase; position: relative; z-index: 1;
+      background: var(--accent); color: #fff;
+      transition: filter 0.2s, transform 0.2s;
+    }
+    .mode-card:hover .mode-card-cta { filter: brightness(1.15); transform: translateX(4px); }
+
+    /* ── STATS BAR ── */
+    .stats-bar {
+      width: 100%; max-width: 900px; margin-top: 28px;
+      display: grid; grid-template-columns: repeat(3, 1fr);
+      border: 1px solid rgba(255,255,255,0.07); border-radius: 8px;
+      overflow: hidden; background: rgba(255,255,255,0.02);
+    }
+    .stat-item {
+      padding: 18px 24px; text-align: center;
+      border-right: 1px solid rgba(255,255,255,0.07);
+    }
+    .stat-item:last-child { border-right: none; }
+    .stat-value { font-size: 1.6rem; font-weight: 800; color: #ffd700; line-height: 1; }
+    .stat-label { font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.1em; text-transform: uppercase; margin-top: 4px; }
+
+    /* ── NEWS HUB ── */
+    .news-hub {
+      padding: 100px 24px; background: #0a0a0c;
+      border-top: none; position: relative;
+    }
+    .news-hub::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+    }
+    .section-container { max-width: 1100px; margin: 0 auto; }
+    .section-eyebrow {
+      font-size: 0.7rem; font-weight: 700; letter-spacing: 0.25em; text-transform: uppercase;
+      color: #ffd700; margin-bottom: 10px;
+    }
+    .section-title {
+      font-size: 2rem; font-weight: 800; color: #fff; margin: 0 0 48px;
+      letter-spacing: -0.01em; position: relative; display: inline-block; padding-bottom: 14px;
+    }
+    .section-title::after {
+      content: ""; position: absolute; bottom: 0; left: 0; width: 56px; height: 3px;
+      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+    }
+    .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .news-card {
+      background: rgba(12,12,12,0.96); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 8px; overflow: hidden; text-decoration: none; display: block;
+      transition: border-color 0.3s, transform 0.3s, box-shadow 0.3s;
+    }
+    .news-card:hover {
+      transform: translateY(-4px); border-color: rgba(255,215,0,0.3);
+      box-shadow: 0 16px 40px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,215,0,0.15);
+    }
+    .news-thumb {
+      width: 100%; height: 150px; position: relative; overflow: hidden;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 2.8rem;
+    }
+    .news-thumb-single  { background: linear-gradient(135deg, rgba(225,6,0,0.35) 0%, rgba(10,10,12,0.8) 100%); }
+    .news-thumb-multi   { background: linear-gradient(135deg, rgba(0,107,182,0.35) 0%, rgba(10,10,12,0.8) 100%); }
+    .news-thumb-strat   { background: linear-gradient(135deg, rgba(255,215,0,0.25) 0%, rgba(10,10,12,0.8) 100%); }
+    .news-thumb-img {
+      position: absolute; inset: 0; width: 100%; height: 100%;
+      object-fit: cover; object-position: center;
+      transition: transform 0.4s ease;
+    }
+    .news-card:hover .news-thumb-img { transform: scale(1.05); }
+    .news-body { padding: 20px; }
+    .news-title {
+      font-size: 1rem; font-weight: 700; color: #fff; margin: 0 0 10px;
+      line-height: 1.35;
+    }
+    .news-excerpt { font-size: 0.83rem; color: rgba(255,255,255,0.45); line-height: 1.5; margin: 0 0 16px; }
+    .news-read {
+      font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      color: #ffd700; display: inline-flex; align-items: center; gap: 6px;
+      transition: gap 0.2s;
+    }
+    .news-card:hover .news-read { gap: 10px; }
+
+    /* ── VIEW ALL ── */
+    .view-all-wrap { text-align: center; margin-top: 40px; }
+    .view-all-btn {
+      display: inline-flex; align-items: center; gap: 10px;
+      padding: 14px 36px; border: 1px solid rgba(255,255,255,0.15); border-radius: 4px;
+      color: rgba(255,255,255,0.7); text-decoration: none; font-size: 0.82rem;
+      font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase;
+      transition: all 0.2s; background: rgba(255,255,255,0.03);
+    }
+    .view-all-btn:hover { border-color: #ffd700; color: #ffd700; background: rgba(255,215,0,0.05); }
+
+    /* ── FAQ ── */
+    .faq-section { padding: 100px 24px; background: rgba(8,8,10,0.8); border-top: none; position: relative; }
+    .faq-section::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+    }
+    .faq-content { max-width: 860px; margin: 0 auto; }
+    .faq-intro { font-size: 1rem; color: rgba(255,255,255,0.5); line-height: 1.8; margin: 0 0 40px; }
+    .faq-section-title { font-size: 1.4rem; font-weight: 700; color: #fff; margin: 0 0 20px; }
+    .faq-item {
+      background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.07);
+      border-radius: 6px; margin-bottom: 10px; transition: all 0.25s;
+    }
+    .faq-item:hover { border-color: rgba(255,255,255,0.14); background: rgba(255,255,255,0.04); }
+    .faq-item[open] { background: rgba(255,255,255,0.04); border-color: rgba(255,215,0,0.25); }
+    .faq-question {
+      font-size: 0.98rem; font-weight: 600; color: #fff; padding: 17px 20px;
+      cursor: pointer; list-style: none; display: flex; align-items: center; gap: 12px;
+    }
+    .faq-question::-webkit-details-marker { display: none; }
+    .faq-question::before {
+      content: '▶'; font-size: 0.65rem; color: #ffd700; flex-shrink: 0;
+      transition: transform 0.25s;
+    }
+    .faq-item[open] .faq-question::before { transform: rotate(90deg); }
+    .faq-answer { padding: 0 20px 18px 20px; }
+    .faq-answer p { font-size: 0.92rem; color: rgba(255,255,255,0.55); line-height: 1.75; margin: 0; }
+
+    /* ── FOOTER ── */
+    .universal-footer {
+      background: rgba(8,8,10,0.97); border-top: 1px solid rgba(255,255,255,0.07);
+      padding: 60px 24px 30px; position: relative;
+    }
+    .universal-footer::before {
+      content: ""; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #e10600, #ffd700, #006bb6);
+    }
+    .footer-container { max-width: 1100px; margin: 0 auto; }
+    .footer-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 40px; }
+    .footer-column { display: flex; flex-direction: column; }
+    .footer-logo { height: 44px; width: auto; margin-bottom: 14px; filter: drop-shadow(0 0 10px rgba(255,255,255,0.1)); }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.35); line-height: 1.6; margin: 0; }
+    .footer-heading { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; color: #fff; margin: 0 0 14px; }
+    .footer-links { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+    .footer-link { color: rgba(255,255,255,0.4); text-decoration: none; font-size: 0.87rem; transition: color 0.2s; }
+    .footer-link:hover { color: #ffd700; }
+    .footer-bottom { padding-top: 28px; border-top: 1px solid rgba(255,255,255,0.06); text-align: center; }
+    .footer-copyright { font-size: 0.82rem; color: rgba(255,255,255,0.25); margin: 0 0 6px; }
+    .footer-disclaimer { font-size: 0.77rem; color: rgba(255,255,255,0.18); margin: 0; line-height: 1.5; }
+
+    /* ── OVERLAY (matches tools.html) ── */
+    .overlay {
+      position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(135deg, rgba(225,6,0,0.1) 0%, rgba(10,10,10,0.85) 40%, rgba(10,10,10,0.85) 60%, rgba(0,107,182,0.1) 100%);
+      z-index: -9; pointer-events: none;
+    }
+
+    /* ── ENTRANCE ANIMATIONS ── */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .hero-eyebrow  { animation: fadeInUp 0.55s ease-out both 0.1s; }
+    .hero-title    { animation: fadeInUp 0.6s  ease-out both 0.22s; }
+    .hero-sub      { animation: fadeInUp 0.6s  ease-out both 0.36s; }
+    .mode-cards    { animation: fadeInUp 0.6s  ease-out both 0.5s; }
+    .stats-bar     { animation: fadeInUp 0.5s  ease-out both 0.65s; }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 880px) {
+      .mode-cards { grid-template-columns: 1fr; max-width: 480px; }
+      .mode-card { min-height: 280px; }
+      .stats-bar { grid-template-columns: repeat(3,1fr); max-width: 480px; }
+      .news-grid { grid-template-columns: 1fr; }
+      .footer-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (max-width: 600px) {
+      .landing-nav { padding: 16px 20px; }
+      .nav-links { gap: 18px; }
+      .nav-link { font-size: 0.78rem; }
+      .hero-title { font-size: 2.2rem; }
+      .stats-bar { grid-template-columns: 1fr; }
+      .stat-item { border-right: none; border-bottom: 1px solid rgba(255,255,255,0.07); }
+      .stat-item:last-child { border-bottom: none; }
+      .footer-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <video autoplay muted loop id="bg-video" style="position:fixed;top:0;left:0;width:100vw;height:100vh;object-fit:cover;z-index:-10;opacity:0.45;" aria-hidden="true">
     <source src="video.mp4" type="video/mp4">
   </video>
   <div class="overlay" aria-hidden="true"></div>
 
-  <div class="main-content-row">
-    <main class="home-main hub-main">
-      <div class="hub-card">
-        <div class="home-logo">
-          <img src="logo.png" alt="2KHUB – WWE 2K26 Universe Mode Tracker, Draft Tool and Match Card Generator logo" class="home-logo-img">
-        </div>
-        <p class="hub-subtitle">Pick a roster, then choose a tool.</p>
+  <nav class="landing-nav">
+    <a href="index.html"><img src="logo.png" alt="2KHUB Logo" class="nav-logo nav-logo-img"></a>
+    <div class="nav-links">
+      <a href="index.html" class="nav-link">Home</a>
+      <a href="tools.html" class="nav-link nav-cta">Launch Tool</a>
+      <a href="guides.html" class="nav-link">Guides</a>
+    </div>
+    <a href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener" class="support-cta">Support 2KHUB</a>
+  </nav>
 
-        <div class="hub-section hub-roster-section">
-          <label class="home-label" for="roster-custom-select">Choose roster</label>
-          <div class="custom-select hub-roster-select" id="roster-custom-select" aria-label="Select WWE 2K roster">
-            <div class="select-selected" id="select-selected-roster">Loading...</div>
-            <div class="select-items select-hide" id="select-items-roster"></div>
+  <!-- ═══ HERO: TOOL FIRST ═══ -->
+  <section class="hero-section">
+    <p class="hero-eyebrow">2KHUB · The Ultimate WWE 2K PLATFORM</p>
+    <h1 class="hero-title">The Ultimate<br><span class="hero-title-accent">WWE 2K Draft</span><br>Experience</h1>
+    <p class="hero-sub">Draft superstars, build brands, dominate Universe Mode and MyGM — solo or with friends.</p>
+
+    <div class="mode-cards">
+      <!-- Single Draft -->
+      <a href="tools.html" class="mode-card mode-card-single">
+        <span class="mode-card-number">01</span>
+        <span class="mode-card-badge">FREE</span>
+        <div class="mode-card-label">Solo Mode</div>
+        <h2 class="mode-card-title">Single<br>Draft</h2>
+        <p class="mode-card-desc">Full roster control. Build your brand split with WWE 2K26, 2K25, AEW, and more. Export results as image or Excel.</p>
+        <div class="mode-card-cta">Play Now →</div>
+      </a>
+      <!-- Multiplayer Draft -->
+      <a href="multiplayer.html" class="mode-card mode-card-multi">
+        <span class="mode-card-number">02</span>
+        <span class="mode-card-badge mode-card-badge-beta">BETA</span>
+        <div class="mode-card-label">Multiplayer Mode</div>
+        <h2 class="mode-card-title">Multiplayer<br>Draft</h2>
+        <p class="mode-card-desc">Draft live with up to 4 friends. Real-time picks, turn order, and full export when the draft is done.</p>
+        <div class="mode-card-cta">Play Now →</div>
+      </a>
+    </div>
+
+    <div class="stats-bar">
+      <div class="stat-item"><div class="stat-value">10</div><div class="stat-label">Rosters Available</div></div>
+      <div class="stat-item"><div class="stat-value">4</div><div class="stat-label">Players per Room</div></div>
+      <div class="stat-item"><div class="stat-value">Free</div><div class="stat-label">Always & Forever</div></div>
+    </div>
+  </section>
+
+  <!-- ═══ NEWS HUB ═══ -->
+  <section class="news-hub">
+    <div class="section-container">
+      <p class="section-eyebrow">Community & Guides</p>
+      <h2 class="section-title">Latest Intel &amp; Universe Ideas</h2>
+      <div class="news-grid">
+<!-- INDEX_NEWS_START -->
+        <a href="articles/wwe-2k26-universe-mode-tips.html" class="news-card">
+          <div class="news-thumb">
+            <img src="images/articles/WWE-2K26-Universe-Draft.png" alt="WWE 2K26 Universe Mode Guide" class="news-thumb-img">
           </div>
-          <input type="hidden" id="wwe-roster-select" value="wwe2k25">
+          <div class="news-body">
+            <h3 class="news-title">WWE 2K26 Universe Mode Guide: How to keep your Universe Mode entertaining</h3>
+            <p class="news-excerpt">Hitting a wall after your first WrestleMania? From 'Loser Leaves Town' matches to custom drafts, here are 5 proven booking strategies.</p>
+            <span class="news-read">Read Article →</span>
+          </div>
+        </a>
+        <a href="articles/mygm-whats-new-guide.html" class="news-card">
+          <div class="news-thumb">
+            <img src="images/articles/24.avif" alt="WWE 2K26 MyGM Guide" class="news-thumb-img">
+          </div>
+          <div class="news-body">
+            <h3 class="news-title">WWE 2K26 MyGM Guide</h3>
+            <p class="news-excerpt">Round-by-round draft strategy, budget allocation breakdowns, sleeper picks, and the Year 1 winning checklist.</p>
+            <span class="news-read">Read Article →</span>
+          </div>
+        </a>
+        <a href="articles/wwe-2k26-1-06-patch.html" class="news-card">
+          <div class="news-thumb">
+            <img src="images/articles/ca0e2b17b3f2b965c3c12cc6bae4d36603ae578f.jpg" alt="WWE 2K26 Update 1.06" class="news-thumb-img">
+          </div>
+          <div class="news-body">
+            <h3 class="news-title">WWE 2K26 Update 1.06 is Live: Small Fixes Now, Huge Changes Coming Next</h3>
+            <p class="news-excerpt">Patch 1.06 is live but light — just stability fixes. Here's what's still broken in Universe Mode, and why the real news is the 1.07 update.</p>
+            <span class="news-read">Read Article →</span>
+          </div>
+        </a>
+<!-- INDEX_NEWS_END -->
+      </div>
+      <div class="view-all-wrap">
+        <a href="guides.html" class="view-all-btn">View All Guides →</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FAQ ═══ -->
+  <section class="faq-section">
+    <div class="section-container">
+      <p class="section-eyebrow">Help</p>
+      <h2 class="section-title" style="margin-bottom:12px;">About 2KHUB</h2>
+      <div class="faq-content">
+        <p class="faq-intro">2KHUB is a free, fan-built toolset for <strong>WWE 2K Universe Mode</strong> and <strong>MyGM</strong> players. No paywalls, no sign-ups — just the tools you need.</p>
+        <h3 class="faq-section-title">Frequently Asked Questions</h3>
+        <details class="faq-item">
+          <summary class="faq-question">How does the WWE 2K Universe Draft Tool work?</summary>
+          <div class="faq-answer"><p>Select any WWE 2K roster (2K26, 2K25, 2K24, AEW and more), create multiple brands with custom colors and names, then draft superstars with one click. The tool tracks all picks in real-time and lets you export the results as an image or Excel file.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Can I use this for MyGM mode?</summary>
+          <div class="faq-answer"><p>Absolutely. Plan your entire brand roster before starting a new MyGM save. Simulate the draft, balance tiers (Main Event, Mid Card, Jobber), and ensure the right mix of superstars for your brand's identity.</p></div>
+        </details>
+        <details class="faq-item">
+          <summary class="faq-question">Is 2KHUB free to use?</summary>
+          <div class="faq-answer"><p>Yes — 2KHUB is completely free and always will be. It's a passion project built by wrestling fans for the community. No paywalls, no subscriptions, no hidden fees.</p></div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══ FOOTER ═══ -->
+  <footer class="universal-footer">
+    <div class="footer-container">
+      <div class="footer-grid">
+        <div class="footer-column">
+          <img src="logo.png" alt="2KHUB Logo" class="footer-logo">
+          <p class="footer-tagline">The ultimate companion for WWE 2K Universe Mode &amp; MyGM.</p>
         </div>
-
-        <nav class="hub-tiles" id="hub-tiles" aria-label="2KHUB tools">
-          <a href="#" id="hub-tile-draft" class="hub-tile hub-tile-bg-draft" data-action="draft" aria-label="Open WWE Universe Draft Tool">
-            <span class="hub-tile-title">Universe Draft</span>
-            <span class="hub-tile-desc">Start your wrestling universe with the best custom draft experience</span>
-          </a>
-          <a href="#" id="hub-tile-matchcard" class="hub-tile hub-tile-bg-matchcard" data-action="matchcard" aria-label="Open Match Card Generator">
-            <span class="hub-tile-title">Match Card Generator</span>
-            <span class="hub-tile-desc">Build your perfect match card for the next show</span>
-          </a>
-        </nav>
+        <div class="footer-column">
+          <h3 class="footer-heading">Navigate</h3>
+          <ul class="footer-links">
+            <li><a href="index.html" class="footer-link">Home</a></li>
+            <li><a href="tools.html" class="footer-link">Draft Tool</a></li>
+            <li><a href="multiplayer.html" class="footer-link">Multiplayer</a></li>
+            <li><a href="guides.html" class="footer-link">Guides</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">Community</h3>
+          <ul class="footer-links">
+            <li><a href="https://www.reddit.com/user/2khub/" target="_blank" class="footer-link">Reddit</a></li>
+            <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" class="footer-link">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" class="footer-link">TikTok</a></li>
+          </ul>
+        </div>
+        <div class="footer-column">
+          <h3 class="footer-heading">Legal</h3>
+          <ul class="footer-links">
+            <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+            <li><a href="terms.html" class="footer-link">Terms &amp; Conditions</a></li>
+          </ul>
+        </div>
       </div>
-    </main>
-
-    <footer class="hub-footer" role="contentinfo">
-      <div class="hub-footer-inner">
-        <span class="hub-footer-version">v2.0</span>
-        <p class="hub-footer-disclaimer">2KHUB is an unofficial fan project and is not affiliated with, endorsed, or sponsored by WWE, 2K Games, or Take-Two Interactive. All WWE programming, talent names, images, likenesses, trademarks, logos, and copyrights are the exclusive property of WWE and its subsidiaries.</p>
-        <div class="hub-footer-socials">
-          <span class="hub-footer-socials-label">Community / Socials</span>
-          <a href="https://www.reddit.com/user/2khub/" class="hub-footer-social-link" aria-label="Reddit">
-            <svg class="hub-footer-social-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" fill="currentColor" width="24" height="24" aria-hidden="true">
-              <path d="M201.5 305.5c-13.8 0-24.9-11.1-24.9-24.6 0-13.8 11.1-24.9 24.9-24.9 13.6 0 24.6 11.1 24.6 24.9 0 13.6-11.1 24.6-24.6 24.6zM504 256c0 137-111 248-248 248S8 393 8 256 119 8 256 8s248 111 248 248zm-132.3-41.2c-9.4 0-17.7 3.9-23.8 10-22.4-15.5-52.6-25.5-86.1-26.6l17.4-78.3 55.4 12.5c0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.3 24.9-24.9s-11.1-24.9-24.9-24.9c-9.7 0-18 5.8-22.1 13.8l-61.2-13.6c-3-.8-6.1 1.4-6.9 4.4l-19.1 86.4c-33.2 1.4-63.1 11.3-85.5 26.8-6.1-6.4-14.7-10.2-24.1-10.2-34.9 0-46.3 46.9-14.4 62.8-1.1 5-1.7 10.2-1.7 15.5 0 52.6 59.2 95.2 132 95.2 73.1 0 132.3-42.6 132.3-95.2 0-5.3-.6-10.8-1.9-15.8 31.3-16 19.8-62.5-14.9-62.5zM302.8 331c-18.2 18.2-76.1 17.9-93.6 0-2.2-2.2-6.1-2.2-8.3 0-2.5 2.5-2.5 6.4 0 8.6 22.8 22.8 87.3 22.8 110.2 0 2.5-2.2 2.5-6.1 0-8.6-2.2-2.2-6.1-2.2-8.3 0zm7.7-75c-13.6 0-24.6 11.1-24.6 24.9 0 13.6 11.1 24.6 24.6 24.6 13.8 0 24.9-11.1 24.9-24.6 0-13.8-11-24.9-24.9-24.9z"/>
-          </svg>
-        </a>
-          <a href="https://www.instagram.com/2khub.draft/" class="hub-footer-social-link" aria-label="Instagram">
-            <svg class="hub-footer-social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512" fill="currentColor" aria-hidden="true">
-              <path d="M224.1 141c-63.6 0-114.9 51.3-114.9 114.9s51.3 114.9 114.9 114.9S339 319.5 339 255.9 287.7 141 224.1 141zm0 189.6c-41.1 0-74.7-33.5-74.7-74.7s33.5-74.7 74.7-74.7 74.7 33.5 74.7 74.7-33.6 74.7-74.7 74.7zm146.4-194.3c0 14.9-12 26.8-26.8 26.8-14.9 0-26.8-12-26.8-26.8s12-26.8 26.8-26.8 26.8 12 26.8 26.8zm76.1 27.2c-1.7-35.9-9.9-67.7-36.2-93.9-26.2-26.2-58-34.4-93.9-36.2-37-2.1-147.9-2.1-184.9 0-35.8 1.7-67.6 9.9-93.9 36.1s-34.4 58-36.2 93.9c-2.1 37-2.1 147.9 0 184.9 1.7 35.9 9.9 67.7 36.2 93.9s58 34.4 93.9 36.2c37 2.1 147.9 2.1 184.9 0 35.9-1.7 67.7-9.9 93.9-36.2 26.2-26.2 34.4-58 36.2-93.9 2.1-37 2.1-147.8 0-184.8zM398.8 388c-7.8 19.6-22.9 34.7-42.6 42.6-29.5 11.7-99.5 9-132.1 9s-102.7 2.6-132.1-9c-19.6-7.8-34.7-22.9-42.6-42.6-11.7-29.5-9-99.5-9-132.1s-2.6-102.7 9-132.1c7.8-19.6 22.9-34.7 42.6-42.6 29.5-11.7 99.5-9 132.1-9s102.7-2.6 132.1 9c19.6 7.8 34.7 22.9 42.6 42.6 11.7 29.5 9 99.5 9 132.1s2.7 102.7-9 132.1z"/>
-            </svg>
-          </a>
-        <a href="https://www.tiktok.com/@2khub.universe" class="hub-footer-social-link" aria-label="TikTok">
-          <svg class="hub-footer-social-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-            <path d="M12.525.02c1.31-.02 2.61-.01 3.91-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93v6.16c0 2.52-1.12 4.84-2.9 6.48-1.48 1.37-3.52 2.15-5.63 2.01-4.05-.28-7.25-3.52-7.24-7.58.01-4.17 3.4-7.52 7.57-7.46.12 0 .23 0 .35.01v4.06c-.13-.01-.26-.01-.39-.01-1.85 0-3.34 1.5-3.34 3.35 0 1.85 1.5 3.35 3.35 3.35 1.85 0 3.35-1.5 3.35-3.35V.02z"/>
-          </svg>
-        </a>
-      </div>
-      <div class="hub-footer-links">
-        <a href="https://buymeacoffee.com/2khub" target="_blank" class="hub-footer-link support-cta hub-support-cta">Support 2KHUB</a>
-        <a href="#" id="hub-footer-credits" class="hub-footer-link">Credits</a>
-        <button type="button" id="open-bug-modal" class="hub-footer-link hub-footer-link-button">Report a Bug / Contact</button>
-      </div>
-      
-      <div class="hub-footer-legal">
-        <a href="privacy.html" class="hub-footer-legal-link">Privacy Policy</a>
+      <div class="footer-bottom">
+        <p class="footer-copyright">&copy; 2025-2026 2KHUB. All rights reserved.</p>
+        <p class="footer-disclaimer">2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
       </div>
     </div>
   </footer>
-  </div>
-
-  <!-- SEO Text Container for AdSense -->
-  <div class="home-text-container">
-    <h2>The Ultimate WWE 2K Universe Mode Companion</h2>
-    <p>Welcome to <strong>2KHUB</strong>, the premier free toolset designed specifically for <strong>WWE 2K Universe</strong> players.</p>
-
-    <p><strong>Custom Universe Draft:</strong> Start your brand split right. Use our interactive Draft Tool to seamlessly organize your superstars. Whether you are doing a randomized lottery or manually picking your top stars for Raw, SmackDown, AEW, or custom shows, our tool provides an up-to-date, visual roster experience. It automatically keeps track of every pick, ensuring no superstar is selected twice.</p>
-
-    <p><strong>Match Card Generator:</strong> Bring your PPVs to life. Our Match Card Generator allows you to create stunning graphics for your main events and title matches in seconds. Choose your theme, select your superstars, and generate immersive graphics that make your Universe Mode feel like a real-life broadcast. It is the perfect way to share your booking on Reddit (r/WWEGames), Discord, or social media.</p>
-
-    <p><strong>Built for the Community:</strong> 2KHUB is a passion project built by wrestling fans, for wrestling fans. We are dedicated to constantly updating our rosters and adding new assets so your Universe Mode always feels fresh and official. Start your journey today: pick a tool, build your roster, and become the ultimate booker!</p>
-  </div>
-
-  <!-- Bug Report / Contact modal (Netlify Forms) -->
-  <div id="bug-report-modal" class="bug-report-modal" role="dialog" aria-modal="true" aria-labelledby="bug-report-modal-title" hidden>
-    <div class="bug-report-modal-backdrop" id="bug-report-modal-backdrop"></div>
-    <div class="bug-report-modal-box">
-      <h2 id="bug-report-modal-title" class="bug-report-modal-title">Report a Bug / Contact</h2>
-      <form action="https://formspree.io/f/xdalpbgo" method="POST">
-
-        <div class="bug-report-field">
-          <label for="bug-report-email" class="bug-report-label">Email <span class="bug-report-optional">(optional)</span></label>
-          <input type="email" id="bug-report-email" name="email" class="bug-report-input" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="bug-report-field">
-          <label for="bug-report-description" class="bug-report-label">Bug description / message <span class="bug-report-required">(required)</span></label>
-          <textarea id="bug-report-description" name="description" class="bug-report-textarea" placeholder="Describe the issue or your message..." rows="5" required></textarea>
-        </div>
-        <div class="bug-report-actions">
-          <button type="button" class="bug-report-btn bug-report-btn-close" id="bug-report-modal-close">Close</button>
-          <button type="submit" class="bug-report-btn bug-report-btn-submit">Submit</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="home.js"></script>
 </body>
 </html>

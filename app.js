@@ -938,10 +938,6 @@ function getDraftResultsHTML() {
 
 // --- Finalize Draft: show preview modal, then Save draft results to download image ---
 function openDraftPreview() {
-    if (typeof html2canvas === 'undefined') {
-        showToast("Image library is loading, please try again!", "error");
-        return;
-    }
     if (isDraftEmpty()) {
         showToast("Cannot finalize an empty draft. Draft at least one superstar to a brand.", "warning");
         return;
@@ -951,8 +947,32 @@ function openDraftPreview() {
     const previewContent = document.getElementById('draft-preview-content');
     if (!previewModal || !previewContent) return;
 
-    const { html, gameId } = getDraftResultsHTML();
-    previewContent.innerHTML = html;
+    previewContent.innerHTML = '';
+
+    // Export buttons above the preview (same layout as multiplayer end screen)
+    const actionsDiv = document.createElement('div');
+    actionsDiv.style.cssText = 'display:flex; gap:14px; justify-content:center; margin-top:16px; margin-bottom:24px;';
+
+    const btnImg = document.createElement('button');
+    btnImg.className = 'export-action-btn eab-download';
+    btnImg.textContent = 'DOWNLOAD IMAGE';
+    btnImg.onclick = saveDraftResultsFromPreview;
+
+    const btnXls = document.createElement('button');
+    btnXls.className = 'export-action-btn eab-excel';
+    btnXls.textContent = 'EXPORT EXCEL';
+    btnXls.onclick = exportToExcel;
+
+    actionsDiv.appendChild(btnImg);
+    actionsDiv.appendChild(btnXls);
+    previewContent.appendChild(actionsDiv);
+
+    // Styled photo preview below the buttons
+    const { html } = getDraftResultsHTML();
+    const previewDiv = document.createElement('div');
+    previewDiv.innerHTML = html;
+    previewContent.appendChild(previewDiv);
+
     previewModal.hidden = false;
 }
 

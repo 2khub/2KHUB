@@ -95,6 +95,31 @@ header::after {
 }
 .site-logo { height: 52px; filter: drop-shadow(0 0 12px rgba(255,255,255,0.15)); }
 
+/* Header Navigation */
+.header-nav {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.header-nav-link {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    padding: 8px 16px;
+    border: 2px solid var(--wwe-border-strong);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s ease;
+}
+
+.header-nav-link:hover {
+    color: #ffd700;
+    border-color: rgba(255, 215, 0, 0.4);
+    background: rgba(255, 215, 0, 0.05);
+}
+
 /* Support 2KHUB button (header / global) */
 .support-cta {
     display: inline-flex;
@@ -723,6 +748,30 @@ input::placeholder { color: var(--text-muted); }
     background: rgba(241, 196, 15, 0.15) !important;
     box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
 }
+
+/* --- STANDALONE EXPORT ACTION BUTTONS (end screen / modal) --- */
+.export-action-btn {
+    font-family: var(--font-main); font-size: 0.85rem; font-weight: 700;
+    color: #fff; background: transparent;
+    border: 2px solid var(--wwe-border-strong);
+    padding: 12px 24px; cursor: pointer;
+    letter-spacing: 0.08em; text-transform: uppercase;
+    transition: 0.2s border-color, 0.2s background, 0.2s color;
+}
+.export-action-btn.eab-download {
+    border-color: #f1c40f !important;
+    color: #f1c40f !important;
+}
+.export-action-btn.eab-download:hover {
+    background: rgba(241, 196, 15, 0.15) !important;
+    box-shadow: 0 0 15px rgba(241, 196, 15, 0.3);
+}
+.export-action-btn.eab-excel:hover {
+    border-color: var(--sd-color);
+    background: rgba(0, 107, 182, 0.15);
+    outline: none;
+}
+.export-action-btn:active { opacity: 0.9; }
 
 /* --- DESIGN PENTRU IMAGINEA GENERATĂ --- */
 #draft-export-board {

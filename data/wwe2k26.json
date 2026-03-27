@@ -400,7 +400,7 @@
 
     {
       "name": "Dexter Lumis",
-      "tier": "low",
+      "tier": "mid",
       "sex": "man",
       "img": "images/dexter-lumis.png"
     },
@@ -549,7 +549,7 @@
 
     {
       "name": "Giulia",
-      "tier": "mid",
+      "tier": "high",
       "sex": "woman",
       "img": "images/giulia.png"
     },

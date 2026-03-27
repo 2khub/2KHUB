@@ -11,7 +11,82 @@
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="home.css">
   <link rel="icon" type="image/png" href="icon.png">
+  <link rel="stylesheet" href="shared.css">
   <style>
+    body.home-page {
+      padding-top: 72px;
+    }
+    .site-nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      background: rgba(8, 8, 10, 0.94);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+      padding: 16px 48px;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .site-nav::after {
+      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+    }
+    .site-nav-logo {
+      height: 40px;
+    }
+    .site-nav-links {
+      display: flex;
+      gap: 32px;
+      align-items: center;
+    }
+    .site-nav-link {
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.95rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      transition: color 0.3s ease;
+    }
+    .site-nav-link:hover {
+      color: #ffd700;
+    }
+    .legal-footer {
+      max-width: 800px;
+      margin: 40px auto 20px;
+      padding: 20px 30px;
+      text-align: center;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    .legal-footer-links {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .legal-footer-link {
+      color: #a0a0a0;
+      text-decoration: none;
+      font-size: 0.9rem;
+      transition: color 0.3s ease;
+    }
+    .legal-footer-link:hover {
+      color: #ffd700;
+    }
+    .legal-footer-separator {
+      color: #555;
+      margin: 0 4px;
+    }
+    .legal-footer-copyright {
+      color: #666;
+      font-size: 0.85rem;
+      margin-top: 12px;
+    }
     .page-container {
       max-width: 800px;
       margin: 40px auto;
@@ -52,8 +127,19 @@
   </video>
   <div class="overlay" aria-hidden="true" style="position: fixed;"></div>
 
+  <nav class="site-nav">
+    <a href="index.html">
+      <img src="logo.png" alt="2KHUB Logo" class="site-nav-logo nav-logo-img">
+    </a>
+    <div class="site-nav-links">
+      <a href="index.html" class="site-nav-link">Home</a>
+      <a href="tools.html" class="site-nav-link">Tools</a>
+      <a href="guides.html" class="site-nav-link">Guides</a>
+    </div>
+    <a href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener" class="support-cta">Support 2KHUB</a>
+  </nav>
+
   <div class="page-container">
-    <a href="index.html" class="back-link hub-footer-link" style="margin-bottom: 20px; width: fit-content;">&larr; Back to Home</a>
     <h1 class="page-title">Privacy Policy</h1>
     <p>Last updated: March 17, 2026</p>
 
@@ -93,5 +179,20 @@
     <h2>7. Contact Us</h2>
     <p>If you have any questions about this Privacy Policy, please contact us via the contact page.</p>
   </div>
+
+  <footer class="legal-footer">
+    <div class="legal-footer-links">
+      <a href="guides.html" class="legal-footer-link">Guides</a>
+      <span class="legal-footer-separator">•</span>
+      <a href="index.html" class="legal-footer-link">Home</a>
+      <span class="legal-footer-separator">•</span>
+      <a href="privacy.html" class="legal-footer-link">Privacy Policy</a>
+      <span class="legal-footer-separator">•</span>
+      <a href="terms.html" class="legal-footer-link">Terms & Conditions</a>
+    </div>
+    <div class="legal-footer-copyright">
+      <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
+    </div>
+  </footer>
 </body>
 </html>

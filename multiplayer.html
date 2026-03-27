@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
+          crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Multiplayer Draft - 2KHUB</title>
+  <meta name="description" content="Multiplayer WWE 2K26 & AEW draft simulator. Draft with friends in real-time.">
+  <meta name="theme-color" content="#f1c40f">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="multiplayer.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body class="animate-page">
+
+  <video autoplay muted loop id="bg-video" aria-hidden="true">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <header role="banner">
+    <div class="logo-area">
+      <a href="index.html" class="header-logo-link" title="Back to 2KHUB Home" aria-label="Back to 2KHUB Home">
+        <img src="logo.png" alt="2KHUB – WWE 2K26 & AEW Universe Mode Draft Tool logo" class="site-logo">
+      </a>
+    </div>
+    <a href="https://buymeacoffee.com/2khub" target="_blank" class="support-cta header-support-link">Support 2KHUB</a>
+    <h1 class="sr-only">Multiplayer Draft Tool</h1>
+  </header>
+  <div class="mp-container">
+        
+    <!-- STATE 1: START SCREEN -->
+    <div class="screen-state active" id="state-start">
+      <div class="mp-start-content">
+        <h1 class="mp-main-title">MULTIPLAYER DRAFT</h1>
+        <p class="mp-subtitle">Draft with friends in real-time</p>
+        <div class="mp-start-buttons">
+          <button class="mp-btn mp-btn-primary" id="btn-host">HOST A DRAFT</button>
+          <div class="mp-join-section">
+            <input type="text" id="join-code-input" class="mp-code-input" placeholder="ENTER CODE" maxlength="5">
+            <button class="mp-btn mp-btn-secondary" id="btn-join">JOIN DRAFT</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATE 1.5: BRAND SETUP (Pre-Lobby) -->
+    <div class="screen-state" id="state-brand-setup">
+      <div class="mp-setup-content">
+        <h1 class="mp-setup-title">Set Up Your Brand</h1>
+        <p class="mp-setup-subtitle">Choose your brand identity before entering the lobby</p>
+        
+        <div class="mp-setup-form">
+          <div class="mp-setup-field">
+            <label for="setup-brand-name" class="mp-setup-label">Brand Name</label>
+            <input 
+              type="text" 
+              id="setup-brand-name" 
+              class="mp-setup-input" 
+              placeholder="e.g., RAW, SmackDown, ECW"
+              maxlength="20"
+            >
+          </div>
+
+          <div class="mp-setup-field" id="host-roster-select-container" style="display: none;">
+            <label class="mp-setup-label">Select Roster</label>
+            <div class="custom-select" id="mp-roster-custom-select" aria-label="Select roster">
+              <div class="select-selected" id="mp-select-selected-roster">Loading...</div>
+              <div class="select-items select-hide" id="mp-select-items-roster"></div>
+            </div>
+            <input type="hidden" id="mp-roster-select" value="wwe2k26">
+          </div>
+
+          <div class="mp-setup-field">
+            <label for="setup-brand-color" class="mp-setup-label">Brand Color</label>
+            <div class="mp-color-picker-wrapper">
+              <input 
+                type="color" 
+                id="setup-brand-color" 
+                class="mp-setup-color" 
+                value="#e10600"
+              >
+              <span class="mp-color-preview" id="color-preview-text">#e10600</span>
+            </div>
+          </div>
+
+          <button class="mp-btn mp-btn-primary mp-btn-large" id="btn-enter-lobby">ENTER LOBBY</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATE 2: LOBBY -->
+    <div class="screen-state" id="state-lobby">
+      <div class="mp-lobby-wrapper">
+        <div class="mp-room-code">
+          <span class="mp-code-label">Room Code:</span>
+          <span class="mp-code-value" id="room-code">X7B9Q</span>
+        </div>
+        
+        <div class="mp-lobby-grid">
+          <div class="mp-lobby-panel">
+            <h2 class="mp-panel-title">Connected Players</h2>
+            <ul class="mp-player-list" id="player-list">
+              <li class="mp-player-item mp-host">Player 1 (Host)</li>
+            </ul>
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 16px; justify-content: center; align-items: center;">
+          <button class="mp-btn mp-btn-start" id="btn-start-draft">START DRAFT</button>
+          <button class="mp-btn mp-btn-secondary" id="btn-leave-room">LEAVE ROOM</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- STATE 3: DRAFT BOARD -->
+    <div class="screen-state" id="state-draft">
+      <!-- Turn banner absolute on top of grid -->
+      <div class="mp-turn-banner" id="turn-banner" style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); z-index: 1000; padding: 10px 30px; background: rgba(15,15,20,0.95); border-radius: 0 0 12px 12px; border: 1px solid rgba(255,255,255,0.1); border-top: none;">
+        Waiting for game to start...
+      </div>
+
+      <main class="grid-container" style="height: calc(100vh - 120px); padding-top: 60px;">
+        <!-- LEFT COLUMN: BRANDS -->
+        <div class="brands-wrapper">
+          <section class="brands-container" id="mp-brands-area">
+            <!-- Brands will be added dynamically -->
+          </section>
+        </div>
+
+        <!-- RIGHT COLUMN: ROSTER & ANIMATION -->
+        <section class="roster-pool" style="flex: 0 0 380px;"> <!-- Resized slightly from 320px to fit animation well -->
+          <!-- Animation Area (Top of Roster) -->
+          <div id="animation-area" style="display: none; border-radius: 4px;"></div>
+
+          <!-- Pool Header -->
+          <div class="pool-header" style="padding-right: 0;">
+            <div class="pool-title-banner">
+              <span class="pool-title-text">Available Roster</span>
+              <span id="roster-count" class="pool-count">0</span>
+            </div>
+            <div class="filters-container" style="padding: 0;">
+               <input type="text" id="search-input" placeholder="Search name...">
+            </div>
+          </div>
+          
+          <div id="superstar-list" class="cards-grid">
+            <!-- Superstars loaded dynamically -->
+          </div>
+        </section>
+      </main>
+
+      <div class="actions-footer">
+          <button class="btn btn-finalize mp-host-only" id="btn-simulate-end">FINALIZE DRAFT</button>
+      </div>
+    </div>
+
+    <!-- STATE 4: END SCREEN -->
+    <div class="screen-state" id="state-end">
+      <div class="mp-end-content">
+
+        
+        <div class="mp-final-rosters" id="mp-final-rosters">
+          <!-- Dynamic content -->
+        </div>
+
+        <button class="mp-btn mp-btn-secondary" id="btn-back-lobby">BACK TO LOBBY</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- DRAFT ANIMATION BACKDROP -->
+  <div class="mp-draft-backdrop" id="mp-draft-backdrop"></div>
+
+  <div id="site-notifications" class="site-notifications" aria-live="polite"></div>
+
+  <div id="site-modal" class="site-modal" role="dialog" aria-modal="true" aria-labelledby="modal-title" hidden>
+    <div class="modal-backdrop"></div>
+    <div class="modal-box">
+      <h3 id="modal-title" class="modal-title"></h3>
+      <p class="modal-message"></p>
+      <input type="text" class="modal-input" id="modal-input" placeholder="" style="display: none;">
+      <div class="modal-actions">
+        <button type="button" class="btn-modal btn-modal-cancel">Cancel</button>
+        <button type="button" class="btn-modal btn-modal-ok">OK</button>
+      </div>
+    </div>
+  </div>
+
+  <script type="module" src="multiplayer.js"></script>
+</body>
+</html>

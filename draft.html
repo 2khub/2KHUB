@@ -53,6 +53,11 @@
         <img src="logo.png" alt="2KHUB – WWE 2K26 & AEW Universe Mode Draft Tool logo" class="site-logo">
       </a>
     </div>
+    <nav class="header-nav" aria-label="Main navigation">
+      <a href="index.html" class="header-nav-link">Home</a>
+      <a href="tools.html" class="header-nav-link">Tools</a>
+      <a href="guides.html" class="header-nav-link">Guides</a>
+    </nav>
     <a href="https://buymeacoffee.com/2khub" target="_blank" class="support-cta header-support-link">Support 2KHUB</a>
     <h1 class="sr-only">WWE Universe Draft Tool</h1>
   </header>
@@ -122,8 +127,8 @@
 
   <footer class="actions-footer" role="contentinfo">
     <button class="btn btn-auto-draft" onclick="autoDraftRemaining()" aria-label="Auto draft remaining roster to brands">AUTO-DRAFT</button>
+    <button class="btn btn-finalize" onclick="openDraftPreview()" aria-label="Finalize draft and view results">Finalize Draft</button>
     <button class="btn btn-export" onclick="exportToExcel()" aria-label="Export draft to Excel">Export to Excel</button>
-    <button class="btn btn-finalize" onclick="openDraftPreview()" aria-label="Finalize draft and download graphic">Finalize Draft</button>
     <button class="btn btn-reset" onclick="resetDraft()" aria-label="Reset draft">Reset Draft</button>
   </footer>
 
@@ -136,11 +141,10 @@
   <div id="draft-preview-modal" class="site-modal draft-preview-modal" role="dialog" aria-modal="true" aria-labelledby="draft-preview-title" hidden>
     <div class="modal-backdrop" id="draft-preview-backdrop"></div>
     <div class="modal-box draft-preview-box">
-      <h3 id="draft-preview-title" class="modal-title">Draft Results Preview</h3>
+
       <div id="draft-preview-content" class="draft-preview-content"></div>
       <div class="modal-actions draft-preview-actions">
         <button type="button" class="btn-modal btn-modal-cancel" id="draft-preview-close">Close</button>
-        <button type="button" class="btn-modal btn-modal-ok" id="draft-preview-save">Save draft results</button>
       </div>
     </div>
   </div>

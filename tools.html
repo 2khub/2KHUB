@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
+          crossorigin="anonymous"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Draft Tool - 2KHUB Universe Mode Manager</title>
+  <meta name="description" content="Interactive WWE 2K26 & AEW draft tool. Select your roster, create custom brands, and draft superstars for your Universe Mode or MyGM save.">
+  <meta name="theme-color" content="#f1c40f">
+  <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
+  <link rel="canonical" href="https://2khub.info/">
+  <meta property="og:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
+  <meta property="og:description" content="Track WWE 2K26 and AEW Universe saves, draft rosters, and build match cards with free tools built for wrestling booking fans.">
+  <meta property="og:image" content="https://2khub.info/logo.png">
+  <meta property="og:url" content="https://2khub.info/">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="2KHUB">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
+  <meta name="twitter:description" content="Free WWE 2K26 & AEW Universe Mode tracker, draft roster tools, and match card maker for wrestling booking fans.">
+  <meta name="twitter:image" content="https://2khub.info/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="home.css">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "2KHUB",
+    "applicationCategory": "GameApplication",
+    "operatingSystem": "Web Browser",
+    "description": "Free WWE 2K26 & AEW Universe Mode tracker with draft tools, match card generator, fantasy booking, and PPV card builder for modern wrestling rosters.",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "url": "https://2khub.info/"
+  }
+  </script>
+</head>
+<body class="home-page">
+
+  <video autoplay muted loop id="bg-video" class="home-bg-video" aria-hidden="true">
+    <source src="video.mp4" type="video/mp4">
+  </video>
+  <div class="overlay" aria-hidden="true"></div>
+
+  <div class="main-content-row">
+    <main class="home-main hub-main">
+      <div class="hub-card">
+        <div class="home-logo">
+          <img src="logo.png" alt="2KHUB – WWE 2K26 Universe Mode Tracker, Draft Tool and Match Card Generator logo" class="home-logo-img">
+        </div>
+        <p class="hub-subtitle">Pick a roster, then choose a tool.</p>
+
+        <div class="hub-section hub-roster-section">
+          <label class="home-label" for="roster-custom-select">Choose roster</label>
+          <div class="custom-select hub-roster-select" id="roster-custom-select" aria-label="Select WWE 2K roster">
+            <div class="select-selected" id="select-selected-roster">Loading...</div>
+            <div class="select-items select-hide" id="select-items-roster"></div>
+          </div>
+          <input type="hidden" id="wwe-roster-select" value="wwe2k25">
+        </div>
+
+        <nav class="hub-tiles" id="hub-tiles" aria-label="2KHUB tools">
+          <a href="#" id="hub-tile-draft" class="hub-tile hub-tile-bg-draft" data-action="draft" aria-label="Open WWE Universe Draft Tool">
+            <span class="hub-tile-title">Universe Draft</span>
+            <span class="hub-tile-desc">Start your wrestling universe with the best custom draft experience</span>
+          </a>
+          <a href="#" id="hub-tile-matchcard" class="hub-tile hub-tile-bg-matchcard" data-action="matchcard" aria-label="Open Match Card Generator">
+            <span class="hub-tile-title">Match Card Generator</span>
+            <span class="hub-tile-desc">Build your perfect match card for the next show</span>
+          </a>
+        </nav>
+      </div>
+    </main>
+
+    <!-- Universal Footer Component -->
+<footer class="universal-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Column 1: Brand -->
+      <div class="footer-column footer-brand">
+        <img src="logo.png" alt="2K HUB Logo" class="footer-logo">
+        <p class="footer-tagline">The ultimate companion app for your WWE 2K Universe Mode & MyGM.</p>
+      </div>
+
+      <!-- Column 2: Navigation -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="tools.html" class="footer-link">Tools</a></li>
+          <li><a href="guides.html" class="footer-link">Guides</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Support & Socials -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Community</h3>
+        <ul class="footer-links">
+          <li><button type="button" id="open-bug-modal" class="footer-link" style="background: none; border: none; padding: 0; cursor: pointer; font: inherit;">Contact Us</button></li>
+          <li><a href="https://www.reddit.com/user/2khub/" target="_blank" class="footer-link">Reddit</a></li>
+          <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" class="footer-link">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" class="footer-link">TikTok</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Legal -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Legal</h3>
+        <ul class="footer-links">
+          <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+          <li><a href="terms.html" class="footer-link">Terms & Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">&copy; 2025-2026 2KHUB. All rights reserved.</p>
+      <p class="footer-disclaimer">2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.universal-footer {
+  background: rgba(12, 12, 12, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 60px 24px 30px;
+  margin-top: 80px;
+  position: relative;
+}
+
+.universal-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(225, 6, 0, 0.8), rgba(0, 107, 182, 0.8));
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand {
+  grid-column: span 1;
+}
+
+.footer-logo {
+  height: 44px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  align-self: flex-start;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.footer-heading {
+  font-family: var(--font-main, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  color: #c0c0c0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffd700;
+}
+
+.footer-bottom {
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.footer-copyright {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0 0 8px 0;
+}
+
+.footer-disclaimer {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 968px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .universal-footer {
+    padding: 40px 20px 24px;
+    margin-top: 60px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-heading {
+    font-size: 0.9rem;
+  }
+}
+</style>
+  </div>
+
+  <!-- Bug Report / Contact modal (Netlify Forms) -->
+  <div id="bug-report-modal" class="bug-report-modal" role="dialog" aria-modal="true" aria-labelledby="bug-report-modal-title" hidden>
+    <div class="bug-report-modal-backdrop" id="bug-report-modal-backdrop"></div>
+    <div class="bug-report-modal-box">
+      <h2 id="bug-report-modal-title" class="bug-report-modal-title">Report a Bug / Contact</h2>
+      <form action="https://formspree.io/f/xdalpbgo" method="POST">
+
+        <div class="bug-report-field">
+          <label for="bug-report-email" class="bug-report-label">Email <span class="bug-report-optional">(optional)</span></label>
+          <input type="email" id="bug-report-email" name="email" class="bug-report-input" placeholder="you@example.com" autocomplete="email">
+        </div>
+        <div class="bug-report-field">
+          <label for="bug-report-description" class="bug-report-label">Bug description / message <span class="bug-report-required">(required)</span></label>
+          <textarea id="bug-report-description" name="description" class="bug-report-textarea" placeholder="Describe the issue or your message..." rows="5" required></textarea>
+        </div>
+        <div class="bug-report-actions">
+          <button type="button" class="bug-report-btn bug-report-btn-close" id="bug-report-modal-close">Close</button>
+          <button type="submit" class="bug-report-btn bug-report-btn-submit">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="home.js"></script>
+</body>
+</html>

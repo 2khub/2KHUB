@@ -1,0 +1,184 @@
+<!-- Universal Footer Component -->
+<footer class="universal-footer">
+  <div class="footer-container">
+    <div class="footer-grid">
+      <!-- Column 1: Brand -->
+      <div class="footer-column footer-brand">
+        <img src="logo.png" alt="2K HUB Logo" class="footer-logo">
+        <p class="footer-tagline">The ultimate companion app for your WWE 2K Universe Mode & MyGM.</p>
+      </div>
+
+      <!-- Column 2: Navigation -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Navigation</h3>
+        <ul class="footer-links">
+          <li><a href="index.html" class="footer-link">Home</a></li>
+          <li><a href="tools.html" class="footer-link">Tools</a></li>
+          <li><a href="guides.html" class="footer-link">Guides</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 3: Support & Socials -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Community</h3>
+        <ul class="footer-links">
+          <li><a href="#" id="footer-contact-link" class="footer-link">Contact Us</a></li>
+          <li><a href="https://www.reddit.com/user/2khub/" target="_blank" class="footer-link">Reddit</a></li>
+          <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" class="footer-link">Instagram</a></li>
+          <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" class="footer-link">TikTok</a></li>
+        </ul>
+      </div>
+
+      <!-- Column 4: Legal -->
+      <div class="footer-column">
+        <h3 class="footer-heading">Legal</h3>
+        <ul class="footer-links">
+          <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
+          <li><a href="terms.html" class="footer-link">Terms & Conditions</a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-bottom">
+      <p class="footer-copyright">&copy; 2025-2026 2KHUB. All rights reserved.</p>
+      <p class="footer-disclaimer">2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
+    </div>
+  </div>
+</footer>
+
+<style>
+.universal-footer {
+  background: rgba(12, 12, 12, 0.95);
+  backdrop-filter: blur(10px);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 60px 24px 30px;
+  margin-top: 80px;
+  position: relative;
+}
+
+.universal-footer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, rgba(225, 6, 0, 0.8), rgba(0, 107, 182, 0.8));
+}
+
+.footer-container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-brand {
+  grid-column: span 1;
+}
+
+.footer-logo {
+  height: 50px;
+  width: auto;
+  margin-bottom: 16px;
+  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
+}
+
+.footer-tagline {
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.footer-heading {
+  font-family: var(--font-main, 'Inter', sans-serif);
+  font-size: 0.95rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffffff;
+  margin: 0 0 16px 0;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.footer-link {
+  color: #c0c0c0;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.footer-link:hover {
+  color: #ffd700;
+}
+
+.footer-bottom {
+  padding-top: 30px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  text-align: center;
+}
+
+.footer-copyright {
+  font-size: 0.85rem;
+  color: #888;
+  margin: 0 0 8px 0;
+}
+
+.footer-disclaimer {
+  font-size: 0.8rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.5;
+}
+
+@media (max-width: 968px) {
+  .footer-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32px;
+  }
+}
+
+@media (max-width: 640px) {
+  .universal-footer {
+    padding: 40px 20px 24px;
+    margin-top: 60px;
+  }
+
+  .footer-grid {
+    grid-template-columns: 1fr;
+    gap: 32px;
+  }
+
+  .footer-brand {
+    text-align: center;
+  }
+
+  .footer-logo {
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .footer-heading {
+    font-size: 0.9rem;
+  }
+}
+</style>

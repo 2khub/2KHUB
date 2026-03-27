@@ -1,0 +1,196 @@
+/* ══════════════════════════════════════════════════════════════
+   2KHUB SHARED THEME
+   Loaded on every content page (index, guides, articles, legal).
+   Provides: nav logo sizing, universal footer, typography base,
+   glassmorphism utility, and page-offset consistency.
+   ══════════════════════════════════════════════════════════════ */
+
+/* ── BASE TYPOGRAPHY & SMOOTHING ── */
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #0a0a0c;
+  color: #e0e0e0;
+}
+
+/* ── NAVBAR — height normalization ── */
+.site-nav,
+.landing-nav {
+  padding-top: 16px !important;
+  padding-bottom: 16px !important;
+}
+
+/* ── NAVBAR LOGO — strict 40 px, never stretched ── */
+.nav-logo-img {
+  height: 40px !important;
+  width: auto !important;
+  object-fit: contain !important;
+  display: block;
+  flex-shrink: 0;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
+}
+
+/* ── UNIVERSAL FOOTER ── */
+.universal-footer {
+  background: rgba(10, 10, 12, 0.97);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 60px 24px 30px;
+  margin-top: 80px;
+  position: relative;
+}
+
+.universal-footer::before {
+  content: "";
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
+}
+
+.footer-container {
+  max-width: 1140px;
+  margin: 0 auto;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 40px;
+  margin-bottom: 40px;
+}
+
+.footer-column {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── FOOTER LOGO — never stretched ── */
+.footer-logo {
+  height: 44px;
+  width: auto;
+  max-width: 180px;
+  object-fit: contain;
+  display: block;
+  align-self: flex-start;
+  margin-bottom: 14px;
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.12));
+}
+
+.footer-tagline {
+  font-size: 0.87rem;
+  color: rgba(255, 255, 255, 0.35);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.footer-heading {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #fff;
+  margin: 0 0 14px;
+}
+
+.footer-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.footer-link {
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  font-size: 0.87rem;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.footer-link:hover { color: #ffd700; }
+
+.footer-bottom {
+  padding-top: 28px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  text-align: center;
+}
+
+.footer-copyright {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.25);
+  margin: 0 0 6px;
+}
+
+.footer-disclaimer {
+  font-size: 0.77rem;
+  color: rgba(255, 255, 255, 0.18);
+  margin: 0;
+  line-height: 1.5;
+}
+
+/* ── SUPPORT BUTTON ── */
+.support-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 9px 20px;
+  border-radius: 999px;
+  background: #FFDD00;
+  color: #000;
+  font-weight: 800;
+  font-size: 0.78rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  transition: transform 0.18s ease, box-shadow 0.18s ease, filter 0.18s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.support-cta:hover,
+.support-cta:focus {
+  filter: brightness(1.06);
+  transform: translateY(-1px) scale(1.03);
+  box-shadow: 0 6px 18px rgba(255, 221, 0, 0.35);
+  outline: none;
+}
+
+/* ── GLASSMORPHISM UTILITY ── */
+.glass-panel {
+  background: rgba(18, 18, 24, 0.82);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+/* ── RESPONSIVE FOOTER ── */
+@media (max-width: 968px) {
+  .footer-grid { grid-template-columns: repeat(2, 1fr); gap: 32px; }
+}
+@media (max-width: 640px) {
+  .universal-footer { padding: 40px 20px 24px; margin-top: 60px; }
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+  .footer-logo { margin-left: auto; margin-right: auto; }
+}
+
+/* ── NAV RESPONSIVE ── */
+@media (max-width: 640px) {
+  .site-nav,
+  .landing-nav {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
