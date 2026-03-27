@@ -89,8 +89,21 @@
       transition: transform 0.35s cubic-bezier(0.2,0,0,1), box-shadow 0.35s ease, border-color 0.35s ease;
       background: rgba(12,12,12,0.96);
     }
-    .mode-card-single { --glow: rgba(225, 6, 0, 0.7); --glow-soft: rgba(225, 6, 0, 0.15); --accent: #ff4040; }
-    .mode-card-multi  { --glow: rgba(0, 107, 182, 0.7); --glow-soft: rgba(0, 107, 182, 0.15); --accent: #3399ff; }
+    .mode-card-single    { --glow: rgba(225, 6, 0, 0.7); --glow-soft: rgba(225, 6, 0, 0.15); --accent: #ff4040; }
+    .mode-card-multi      { --glow: rgba(0, 107, 182, 0.7); --glow-soft: rgba(0, 107, 182, 0.15); --accent: #3399ff; }
+    .mode-card-matchcard  { --glow: rgba(255,215,0,0.65); --glow-soft: rgba(255,215,0,0.1); --accent: #ffd700; }
+    .mode-card-matchcard .mode-card-cta { color: #0a0a0a; }
+    .mode-card-wide {
+      grid-column: 1 / -1;
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 160px;
+      padding: 36px 44px;
+      gap: 32px;
+    }
+    .mode-card-wide .mode-card-title { font-size: 2rem; margin-bottom: 8px; }
+    .mode-card-wide .mode-card-desc  { margin-bottom: 0; max-width: 560px; }
     .mode-card::before {
       content: ""; position: absolute; inset: 0;
       background: linear-gradient(160deg, var(--glow-soft) 0%, transparent 60%);
@@ -298,6 +311,8 @@
     @media (max-width: 880px) {
       .mode-cards { grid-template-columns: 1fr; max-width: 480px; }
       .mode-card { min-height: 280px; }
+      .mode-card-wide { flex-direction: column; justify-content: flex-end; align-items: flex-start; padding: 40px 36px; }
+      .mode-card-wide .mode-card-desc { margin-bottom: 28px; }
       .stats-bar { grid-template-columns: repeat(3,1fr); max-width: 480px; }
       .news-grid { grid-template-columns: 1fr; }
       .footer-grid { grid-template-columns: repeat(2, 1fr); }
@@ -354,6 +369,17 @@
         <h2 class="mode-card-title">Multiplayer<br>Draft</h2>
         <p class="mode-card-desc">Draft live with up to 4 friends. Real-time picks, turn order, and full export when the draft is done.</p>
         <div class="mode-card-cta">Play Now →</div>
+      </a>
+      <!-- Match Card Generator -->
+      <a href="tools.html" class="mode-card mode-card-matchcard mode-card-wide">
+        <span class="mode-card-number">03</span>
+        <span class="mode-card-badge">FREE</span>
+        <div>
+          <div class="mode-card-label">Creative Tools</div>
+          <h2 class="mode-card-title">Match Card Generator</h2>
+          <p class="mode-card-desc">Design pro WWE match cards for your events. Customize entries, championships, and event branding — then export as a shareable image.</p>
+        </div>
+        <div class="mode-card-cta">Create Now →</div>
       </a>
     </div>
 
@@ -472,5 +498,6 @@
       </div>
     </div>
   </footer>
+  <script src="transitions.js"></script>
 </body>
 </html>

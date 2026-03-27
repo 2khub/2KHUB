@@ -53,7 +53,7 @@
     <main class="home-main hub-main">
       <div class="hub-card">
         <div class="home-logo">
-          <img src="logo.png" alt="2KHUB – WWE 2K26 Universe Mode Tracker, Draft Tool and Match Card Generator logo" class="home-logo-img">
+          <a href="index.html"><img src="logo.png" alt="2KHUB – WWE 2K26 Universe Mode Tracker, Draft Tool and Match Card Generator logo" class="home-logo-img"></a>
         </div>
         <p class="hub-subtitle">Pick a roster, then choose a tool.</p>
 
@@ -128,6 +128,20 @@
 </footer>
 
 <style>
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+body {
+  animation: pageEnter 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+body.page-exit {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.22s ease-in, transform 0.22s ease-in;
+  pointer-events: none;
+}
+
 .universal-footer {
   background: rgba(12, 12, 12, 0.95);
   backdrop-filter: blur(10px);
@@ -292,6 +306,7 @@
     </div>
   </div>
 
+  <script src="transitions.js"></script>
   <script src="home.js"></script>
 </body>
 </html>

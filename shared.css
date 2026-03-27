@@ -5,6 +5,19 @@
    glassmorphism utility, and page-offset consistency.
    ══════════════════════════════════════════════════════════════ */
 
+/* ── PAGE TRANSITION ANIMATIONS ── */
+@keyframes pageEnter {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+body.page-exit {
+  opacity: 0;
+  transform: translateY(-10px);
+  transition: opacity 0.22s ease-in, transform 0.22s ease-in;
+  pointer-events: none;
+}
+
 /* ── BASE TYPOGRAPHY & SMOOTHING ── */
 body {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -12,6 +25,36 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background: #0a0a0c;
   color: #e0e0e0;
+  animation: pageEnter 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+/* ── NAV LINK HOVER: SLIDE UNDERLINE ── */
+.nav-link:not(.nav-cta),
+.site-nav-link,
+.footer-link,
+.guides-foot-link {
+  position: relative;
+  transition: color 0.22s ease;
+}
+.nav-link:not(.nav-cta)::after,
+.site-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: -3px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.26s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 2px;
+}
+.nav-link:not(.nav-cta):hover::after,
+.site-nav-link:hover::after,
+.site-nav-link.active::after {
+  transform: scaleX(1);
+  transform-origin: left;
 }
 
 /* ── NAVBAR — height normalization ── */
