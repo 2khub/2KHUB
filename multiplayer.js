@@ -554,13 +554,13 @@ function listenToRoom(code) {
             const turnBanner = document.getElementById('turn-banner');
             if (turnBanner) {
                 if (isMyTurn) {
-                    turnBanner.textContent = "YOUR PICK!";
-                    turnBanner.style.background = "rgba(46, 204, 113, 0.9)";
+                    turnBanner.textContent = "Your pick";
+                    turnBanner.classList.add('mine');
                 } else {
                     const currentPlayer = data.players ? data.players[data.currentTurn] : null;
                     const name = currentPlayer ? currentPlayer.brandName : 'Opponent';
-                    turnBanner.textContent = `${name}'s PICK`;
-                    turnBanner.style.background = "rgba(15,15,20,0.95)";
+                    turnBanner.textContent = `${name}'s pick`;
+                    turnBanner.classList.remove('mine');
                 }
             }
             
@@ -658,7 +658,9 @@ function downloadDraftImage() {
     document.body.appendChild(exportBoard);
     
     setTimeout(() => {
-        HC.crispImages(exportBoard, 2).then(() => html2canvas(exportBoard, {
+        const fontsReady = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+        const imagesReady = Promise.all(Array.from(exportBoard.querySelectorAll('img')).map(im => im.complete ? null : new Promise(r => { im.onload = im.onerror = r; })));
+        fontsReady.then(() => imagesReady).then(() => HC.crispImages(exportBoard, 2)).then(() => html2canvas(exportBoard, {
             useCORS: true,
             allowTaint: true,
             backgroundColor: '#0a0a14',
