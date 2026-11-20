@@ -13,12 +13,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>WWE 2K26 & AEW Match Card Generator - 2KHUB</title>
-  <meta name="description" content="Free WWE 2K26 & AEW match card maker. Build PPV cards for WWE 2K26 and AEW Universe, add matches, set themes, and download graphics for your booking.">
-  <meta name="theme-color" content="#f1c40f">
+  <meta name="description" content="Free WWE 2K26 & AEW match card maker. Build PPV cards for WWE 2K26 and AEW Universe, add matches, name your show, and download graphics for your booking.">
+  <meta name="theme-color" content="#0a0a14">
   <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
   <link rel="canonical" href="https://2khub.info/matchcard-generator">
   <meta property="og:title" content="WWE 2K26 & AEW Match Card Generator - 2KHUB">
-  <meta property="og:description" content="Create WWE 2K26 and AEW match cards, set show themes, add matches, and export PPV graphics for your WWE 2K26 and AEW Universe booking.">
+  <meta property="og:description" content="Create WWE 2K26 and AEW match cards, name your show, add matches, and export PPV graphics for your WWE 2K26 and AEW Universe booking.">
   <meta property="og:image" content="https://2khub.info/logo.png">
   <meta property="og:url" content="https://2khub.info/matchcard-generator">
   <meta property="og:type" content="website">
@@ -27,10 +27,14 @@
   <meta name="twitter:title" content="WWE 2K26 & AEW Match Card Generator - 2KHUB">
   <meta name="twitter:description" content="Free WWE 2K26 & AEW match card generator. Build and download PPV cards for your WWE 2K26 and AEW Universe Mode.">
   <meta name="twitter:image" content="https://2khub.info/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hardcore.css">
   <link rel="stylesheet" href="matchcard.css">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -38,128 +42,92 @@
     "name": "2KHUB WWE 2K26 & AEW Match Card Generator",
     "applicationCategory": "GameApplication",
     "operatingSystem": "Web Browser",
-    "description": "Free WWE 2K26 and AEW match card generator. Create PPV cards, set themes, add matches and download graphics for Universe Mode fantasy booking.",
+    "description": "Free WWE 2K26 and AEW match card generator. Create PPV cards, name your show, add matches and download graphics for Universe Mode fantasy booking.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "url": "https://2khub.info/matchcard-generator"
   }
   </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-  <script src="matchcard.js" defer></script>
 </head>
-<body class="matchcard-page">
+<body class="hc mc-page">
 
-  <video autoplay muted loop id="bg-video" aria-hidden="true">
-  <source src="video.mp4" type="video/mp4">
-  </video>
-  <div class="overlay" aria-hidden="true"></div>
-
-  <header class="matchcard-header" role="banner">
-    <a href="index.html" class="header-logo-link" title="Back to 2KHUB Home" aria-label="Back to 2KHUB Home">
-      <img src="logo.png" alt="2KHUB – WWE 2K26 & AEW Match Card Generator logo" class="header-logo-img">
-    </a>
-    <a href="PUNE_LINKUL_AICI" target="_blank" class="support-cta header-support-link">Support 2KHUB</a>
-    <h1 class="sr-only">Match Card Generator</h1>
+  <header class="hc-header" role="banner">
+    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB – WWE 2K26 & AEW Match Card Generator logo"></a>
+    <h1 class="page-title">Match Card Maker</h1>
+    <div class="hc-header-actions">
+      <a class="btn btn-steel btn-sm" href="tools.html">Draft</a>
+      <a class="btn btn-support btn-sm hide-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support</a>
+    </div>
   </header>
 
-  <div class="matchcard-layout">
-    <aside class="matchcard-sidebar">
-      <div class="pool-title-banner">
-        <h2 class="pool-title-text">Available Roster</h2>
-        <span id="matchcard-roster-count" class="pool-count">0</span>
-      </div>
-      <div class="filters-container">
-        <input type="text" id="matchcard-search" class="matchcard-search" placeholder="Search name..." aria-label="Search roster by name">
-        <div class="filter-row">
-          <select id="matchcard-filter-sex" aria-label="Filter by gender">
-            <option value="all">All Genders</option>
-            <option value="man">Men</option>
-            <option value="woman">Women</option>
-          </select>
-          <select id="matchcard-filter-tier" aria-label="Filter by tier">
-            <option value="all">All Tiers</option>
-            <option value="high">Main Event</option>
-            <option value="mid">Mid Card</option>
-            <option value="low">Jobber</option>
-          </select>
+  <div class="mc-layout">
+
+    <!-- ROSTER / TAG TEAMS -->
+    <aside class="mc-side panel" id="mc-side" aria-label="Roster">
+      <div class="side-top">
+        <div class="seg side-tabs" id="side-tabs">
+          <button type="button" data-act="tab" data-v="stars" class="on">Superstars</button>
+          <button type="button" data-act="tab" data-v="teams">Tag teams <i id="team-count"></i></button>
         </div>
+        <button type="button" class="sheet-done btn btn-primary btn-sm" data-act="sheet-close">Done</button>
       </div>
-      <div id="matchcard-roster-list" class="matchcard-roster-list cards-grid"></div>
+
+      <div id="side-stars" class="side-pane">
+        <div class="side-filters">
+          <select id="game-select" class="hc-select" aria-label="Game roster"></select>
+          <select id="pool-select" class="hc-select" aria-label="Roster source" hidden></select>
+          <input id="q" class="field" type="search" placeholder="Search superstars..." autocomplete="off" aria-label="Search superstars">
+          <div class="seg" id="sex-seg">
+            <button type="button" data-act="f-sex" data-v="all" class="on">All</button>
+            <button type="button" data-act="f-sex" data-v="man">Men</button>
+            <button type="button" data-act="f-sex" data-v="woman">Women</button>
+          </div>
+        </div>
+        <div class="side-count" id="roster-count">0</div>
+        <div id="roster-list" class="side-list" role="list"></div>
+      </div>
+
+      <div id="side-teams" class="side-pane" hidden>
+        <div class="side-filters">
+          <button type="button" class="btn btn-primary" data-act="team-new">+ Create tag team</button>
+          <p class="fine-print">Click a team to drop both partners into the next open tag slot, or drag it onto a team.</p>
+        </div>
+        <div id="team-list" class="side-list"></div>
+      </div>
     </aside>
 
-    <!-- Mobile roster picker overlay (used when tapping an empty VS slot) -->
-    <div id="matchcard-roster-overlay" class="matchcard-roster-overlay" hidden aria-hidden="true">
-      <div class="matchcard-roster-overlay-inner">
-        <div class="matchcard-roster-overlay-header">
-          <h2 class="matchcard-roster-overlay-title">Tap a superstar to fill the slot</h2>
-          <button type="button" id="matchcard-roster-overlay-close" class="matchcard-roster-overlay-close" aria-label="Close roster picker">×</button>
+    <!-- THE CARD -->
+    <main class="mc-main">
+      <div class="card-bar">
+        <div class="card-title">
+          <h2>Fight card</h2>
+          <p>Click a slot, then a superstar &mdash; or just click superstars to fill the card top to bottom.</p>
         </div>
-        <div class="matchcard-roster-overlay-body">
-          <!-- The existing #matchcard-roster-list is moved here on mobile while picking -->
-        </div>
-      </div>
-    </div>
-
-    <div class="matchcard-main">
-      <div class="match-settings-bar">
-        <label class="match-setting">
-          <span class="match-setting-label">Show Theme</span>
-          <select id="matchcard-ppv" class="match-setting-select">
-            <option value="default">Default</option>
-            <option value="raw">Raw</option>
-            <option value="smackdown">SmackDown</option>
-            <option value="nxt">NXT</option>
-            <option value="dynamite">Dynamite</option>
-            <option value="collision">Collision</option>
-            <option value="rampage">Rampage</option>
-            <option value="oldnxt">Old NXT</option>
-            <option value="mainevent">Main Event</option>
-            <option value="snme">Saturday Night's Main Event</option>
-            <option value="wm41">Wrestlemania</option>
-            <option value="royalrumble">Royal Rumble</option>
-            <option value="summerslam">Summerslam</option>
-            <option value="ss">Survivor Series</option>
-            <option value="mitb">Money In The Bank</option>
-            <option value="ec">Elimination Chamber</option>
-            <option value="backlash">Backlash</option>
-            <option value="hiac">Hell In A Cell</option>
-            <option value="bb">Bad Blood</option>
-            <option value="catc">Clash At The Castle</option>
-            <option value="cj">Crown Jewel</option>
-            <option value="bib">Bash In Berlin</option>
-          </select>
-        </label>
-
-      </div>
-
-      <div class="matchcard-events-wrap">
-        <div id="matchcard-events" class="matchcard-events"></div>
-        <div class="matchcard-events-footer">
-          <button type="button" id="matchcard-add-match-bottom" class="btn btn-add-match" aria-label="Add new match to card">+ Add Match</button>
+        <div class="card-show">
+          <label class="lbl" for="show-name">Show name</label>
+          <div class="show-form">
+            <input id="show-name" class="field" maxlength="28" placeholder="e.g. Monday Night Raw" autocomplete="off">
+            <input id="show-color" class="show-color" type="color" value="#e0202c" aria-label="Show color" title="Show color">
+          </div>
         </div>
       </div>
-    </div>
+
+      <div id="events" class="events"></div>
+      <div class="add-row"><button type="button" class="btn btn-steel" data-act="add-match">+ Add match</button></div>
+    </main>
   </div>
 
-  <footer class="matchcard-footer" role="contentinfo">
-    <button type="button" id="matchcard-download" class="btn-download" aria-label="Download match card image">Download Match Card</button>
+  <footer class="prompts" role="contentinfo">
+    <button type="button" class="btn btn-steel btn-sm" data-act="add-match">+ Add match</button>
+    <button type="button" class="btn btn-steel btn-sm mc-only-mobile" data-act="sheet-open">+ Superstars</button>
+    <button type="button" class="btn btn-steel btn-sm" data-act="clear-card">Clear card</button>
+    <span class="gap"></span>
+    <button type="button" class="btn btn-primary" id="download" data-act="download">Download match card</button>
   </footer>
 
-  <div id="matchcard-preview-modal" class="matchcard-modal" role="dialog" aria-modal="true" hidden>
-    <div class="matchcard-modal-backdrop" id="matchcard-modal-backdrop"></div>
-    <div class="matchcard-modal-box">
-      <h3 class="matchcard-modal-title">Match Card Preview</h3>
-      <div class="matchcard-preview-scroll-wrap" aria-label="Match card preview - scroll horizontally if needed">
-        <div id="matchcard-modal-content" class="matchcard-modal-content"></div>
-      </div>
-      <div class="matchcard-modal-actions">
-        <button type="button" class="btn-modal-cancel" id="matchcard-modal-close" aria-label="Close preview">Close</button>
-        <button type="button" class="btn-modal-save" id="matchcard-modal-save" aria-label="Save match card image">Save match card</button>
-      </div>
-    </div>
-  </div>
+  <div id="mc-export-board" class="mcx-board" aria-hidden="true"></div>
 
-  <div id="matchcard-export-board" class="matchcard-export-board" aria-hidden="true"></div>
-
-  <div id="matchcard-notifications" class="matchcard-notifications" aria-live="polite"></div>
+  <script src="hardcore.js"></script>
+  <script src="tagteams.js"></script>
+  <script src="matchcard.js"></script>
 </body>
 </html>

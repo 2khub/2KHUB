@@ -1,774 +1,655 @@
+/* 2KHUB Match Card Maker. Requires hardcore.js + tagteams.js (+ html2canvas for downloads). */
 (function () {
-    const rosterListEl = document.getElementById('matchcard-roster-list');
-    const rosterCountEl = document.getElementById('matchcard-roster-count');
-    const searchInput = document.getElementById('matchcard-search');
-    const filterSex = document.getElementById('matchcard-filter-sex');
-    const filterTier = document.getElementById('matchcard-filter-tier');
-    const ppvSelect = document.getElementById('matchcard-ppv');
-    const addMatchBtn = document.getElementById('matchcard-add-match');
-    const addMatchBtnBottom = document.getElementById('matchcard-add-match-bottom');
-    const eventsContainer = document.getElementById('matchcard-events');
-    const downloadBtn = document.getElementById('matchcard-download');
-    const exportBoard = document.getElementById('matchcard-export-board');
-    const previewModal = document.getElementById('matchcard-preview-modal');
-    const modalContent = document.getElementById('matchcard-modal-content');
-    const modalClose = document.getElementById('matchcard-modal-close');
-    const modalSave = document.getElementById('matchcard-modal-save');
-    const modalBackdrop = document.getElementById('matchcard-modal-backdrop');
-    const notificationsEl = document.getElementById('matchcard-notifications');
-    const rosterOverlayEl = document.getElementById('matchcard-roster-overlay');
-    const rosterOverlayBodyEl = rosterOverlayEl && rosterOverlayEl.querySelector('.matchcard-roster-overlay-body');
-    const rosterOverlayCloseBtn = document.getElementById('matchcard-roster-overlay-close');
-    const rosterSidebarContainerEl = rosterListEl ? rosterListEl.parentElement : null;
+  'use strict';
+  var HC = window.HC, TT = window.TagTeams;
+  var $ = function (id) { return document.getElementById(id); };
+  var esc = HC.esc;
+  var SAVE_KEY = '2khub_matchcard';
 
-    function showNotification(message) {
-        if (!notificationsEl) return;
-        var toast = document.createElement('div');
-        toast.className = 'matchcard-toast';
-        toast.textContent = message;
-        notificationsEl.appendChild(toast);
-        setTimeout(function () {
-            if (toast.parentNode) toast.parentNode.removeChild(toast);
-        }, 3000);
-    }
+  // ------------------------------------------------------------------ config
+  var CHAMP_GROUPS = [
+    ['WWE World Titles', [['undisputed_wwe', 'Undisputed WWE Championship'], ['whc_modern', 'World Heavyweight Championship (Modern)'], ['whc_classic', 'World Heavyweight Championship (Big Gold)'],
+      ['wwe_champ_black', 'WWE Championship (Black Strap)'], ['wwe_spinner', 'WWE Championship (Spinner)'], ['universal1', 'WWE Universal Championship (Red)'], ['universal2', 'WWE Universal Championship (Blue)']]],
+    ["Women's Titles", [['wwe_womens', "WWE Women's Championship"], ['womens_world', "Women's World Championship"], ['raw_womens', "Raw Women's Championship"], ['sd_womens', "SmackDown Women's Championship"], ['divas', 'WWE Divas Championship']]],
+    ['Midcard Titles', [['ic', 'Intercontinental Championship'], ['us', 'United States Championship'], ['women_ic', "Women's Intercontinental Championship"], ['women_us', "Women's United States Championship"]]],
+    ['Tag Team Titles', [['world_tag', 'World Tag Team Championship'], ['wwe_tag', 'WWE Tag Team Championship'], ['tag_copper', 'WWE Tag Team Championship (Copper)'], ['womens_tag', "WWE Women's Tag Team Championship"], ['raw_tag', 'Raw Tag Team Championship'], ['sd_tag', 'SmackDown Tag Team Championship']]],
+    ['NXT Titles', [['nxt_champ', 'NXT Championship'], ['nxt_womens', "NXT Women's Championship"], ['nxt_na', 'NXT North American Championship'], ['nxt_tag', 'NXT Tag Team Championship']]],
+    ['AEW Titles', [['aew_world', 'AEW World Championship'], ['aew_tnt', 'AEW TNT Championship'], ['aew_int', 'AEW International Championship'], ['aew_cont', 'AEW Continental Championship'],
+      ['aew_nat', 'AEW National Championship'], ['aew_womens_world', "AEW Women's World Championship"], ['aew_tbs', 'AEW TBS Championship'], ['aew_tag', 'AEW World Tag Team Championship'],
+      ['aew_womens_tag', "AEW Women's World Tag Team Championship"], ['aew_trios', 'AEW World Trios Championship']]]
+  ];
+  function beltImg(id) { return id && id !== 'none' ? 'belts_images/px/' + id + '.png' : ''; }
 
-    // --- Edit these in code: PPV background image for each theme ---
-    var PPV_IMAGES = {
-        default: '',
-        raw: 'images/raw2025.jpg',
-        smackdown: 'images/smackdown2025.jpg',
-        nxt: 'images/nxt2025.jpg',
-        dynamite: 'images/dynamite.png',
-        collision: 'images/collision.png',
-        rampage: 'images/rampage.png',
-        oldnxt: 'images/oldnxt.png',
-        mainevent: 'images/mainevent.png',
-        snme: 'images/snme.png',
-        wm41: 'images/wm41.png',
-        royalrumble: 'images/royalrumble.jpg',
-        summerslam: 'images/summerslam.jpg',
-        ss: 'images/ss.png',
-        mitb: 'images/mitb.jpg',
-        ec: 'images/ec.png',
-        backlash: 'images/backlash.png',
-        hiac: 'images/hiac.png',
-        bb: 'images/bb.png',
-        catc: 'images/catc.png',
-        cj: 'images/cj.png',
-        bib: 'images/bib.png'
-    };
+  var FORMATS = {
+    '1v1': { slots: 2, layout: 'team', teamSplit: [1, 1], label: '1 vs 1' },
+    '2v2': { slots: 4, layout: 'team', teamSplit: [2, 2], label: '2 vs 2 (Tag Team)' },
+    '3v3': { slots: 6, layout: 'team', teamSplit: [3, 3], label: '3 vs 3 (6-Man Tag)' },
+    '4v4': { slots: 8, layout: 'team', teamSplit: [4, 4], label: '4 vs 4 (8-Man Tag)' },
+    triple: { slots: 3, layout: 'free', label: 'Triple Threat' },
+    fatal4: { slots: 4, layout: 'free', label: 'Fatal 4-Way' },
+    '5way': { slots: 5, layout: 'free', label: '5-Way' },
+    '6way': { slots: 6, layout: 'free', label: '6-Way' },
+    handicap1on2: { slots: 3, layout: 'team', teamSplit: [1, 2], label: 'Handicap 1 on 2' },
+    handicap1on3: { slots: 4, layout: 'team', teamSplit: [1, 3], label: 'Handicap 1 on 3' },
+    handicap2on3: { slots: 5, layout: 'team', teamSplit: [2, 3], label: 'Handicap 2 on 3' }
+  };
+  var STIP_GROUPS = [
+    ['Standard Matches', [['normal', 'Normal Match'], ['submission', 'Submission Match'], ['ironman', 'Iron Man Match'], ['2of3', '2 out of 3 Falls'], ['lastman', 'Last Man Standing'], ['iquit', 'I Quit Match'], ['firstblood', 'First Blood']]],
+    ['No Disqualification', [['noholds', 'No Holds Barred'], ['extreme', 'Extreme Rules'], ['fallsanywhere', 'Falls Count Anywhere'], ['backstage', 'Backstage Brawl']]],
+    ['Weapon-Based Matches', [['tlc', 'TLC Match'], ['ladder', 'Ladder Match'], ['tables', 'Table Match'], ['chairs', 'Chairs Match']]],
+    ['Enclosed Environments', [['steelcage', 'Steel Cage Match'], ['hellinacell', 'Hell in a Cell'], ['chamber', 'Elimination Chamber'], ['wargames', 'WarGames'], ['fightpit', 'Fight Pit']]],
+    ['Specialty Matches', [['ambulance', 'Ambulance Match'], ['casket', 'Casket Match'], ['guestref', 'Special Guest Referee'], ['buriedalive', 'Buried Alive Match'], ['inferno', 'Inferno Match'],
+      ['lumberjack', 'Lumberjack Match'], ['scramble', 'Championship Scramble'], ['gauntlet', 'Gauntlet Match']]]
+  ];
+  var STIP_LABEL = {};
+  STIP_GROUPS.forEach(function (g) { g[1].forEach(function (o) { STIP_LABEL[o[0]] = o[1]; }); });
 
-    // --- Edit these in code: championship belt image for each title ---
-    var CHAMPIONSHIP_IMAGES = {
-    none: '',
-    undisputed_wwe: 'belts_images/undisputed_wwe.png',
-    whc_modern: 'belts_images/whc_modern.png',
-    wwe_womens: 'belts_images/wwe_womens.png',
-    womens_world: 'belts_images/womens_world.png',
-    ic: 'belts_images/ic.png',
-    us: 'belts_images/us.png',
-    women_ic: 'belts_images/women_ic.png',
-    women_us: 'belts_images/women_us.png',
-    world_tag: 'belts_images/world_tag.png',
-    wwe_tag: 'belts_images/wwe_tag.png',
-    womens_tag: 'belts_images/womens_tag.png',
-    wwe_champ_black: 'belts_images/wwe_champ_black.png',
-    universal1: 'belts_images/universal1.png',
-    universal2: 'belts_images/universal2.png',
-    raw_womens: 'belts_images/raw_womens.png',
-    sd_womens: 'belts_images/sd_womens.png',
-    raw_tag: 'belts_images/raw_tag.png',
-    sd_tag: 'belts_images/sd_tag.png',
-    wwe_spinner: 'belts_images/wwe_spinner.png',
-    whc_classic: 'belts_images/whc_classic.png',
-    divas: 'belts_images/divas.png',
-    tag_copper: 'belts_images/tag_copper.png',
-    nxt_champ: 'belts_images/nxt_champ.png',
-    nxt_womens: 'belts_images/nxt_womens.png',
-    nxt_na: 'belts_images/nxt_na.png',
-    nxt_women_na: 'belts_images/nxt_women_na.png',
-    nxt_tag: 'belts_images/nxt_tag.png',
-    aew_world: 'belts_images/aew_world.png',
-    aew_tnt: 'belts_images/aew_tnt.png',
-    aew_int: 'belts_images/aew_int.png',
-    aew_cont: 'belts_images/aew_cont.png',
-    aew_womens_world: 'belts_images/aew_womens_world.png',
-    aew_tbs: 'belts_images/aew_tbs.png',
-    aew_tag: 'belts_images/aew_tag.png',
-    aew_womens_tag: 'belts_images/aew_womens_tag.png',
-    aew_trios: 'belts_images/aew_trios.png',
-    aew_nat: 'belts_images/aew_nat.png'
-};
+  // ------------------------------------------------------------------ state
+  var S = {
+    rosterId: HC.currentRosterId(), rosterList: [], roster: [], source: 'all',
+    events: [], nextId: 1, active: null, q: '', sex: 'all', tab: 'stars', showName: '', color: '#e0202c'
+  };
 
-    var MATCH_FORMAT = {
-        '1v1': { slots: 2, layout: 'team', teamSplit: [1, 1], label: '1 vs 1' },
-        '2v2': { slots: 4, layout: 'team', teamSplit: [2, 2], label: '2 vs 2 (Tag Team)' },
-        triple: { slots: 3, layout: 'freeforall', label: 'Triple Threat' },
-        fatal4: { slots: 4, layout: 'freeforall', label: 'Fatal 4-Way' },
-        '5way': { slots: 5, layout: 'freeforall', label: '5-Way' },
-        '6way': { slots: 6, layout: 'freeforall', label: '6-Way' },
-        handicap1on2: { slots: 3, layout: 'team', teamSplit: [1, 2], label: 'Handicap 1 on 2' },
-        handicap1on3: { slots: 4, layout: 'team', teamSplit: [1, 3], label: 'Handicap 1 on 3' },
-        handicap2on3: { slots: 5, layout: 'team', teamSplit: [2, 3], label: 'Handicap 2 on 3' },
-        '3v3': { slots: 6, layout: 'team', teamSplit: [3, 3], label: '3 vs 3 (6-Man Tag)' },
-        '4v4': { slots: 8, layout: 'team', teamSplit: [4, 4], label: '4 vs 4 (8-Man Tag)' }
-    };
-    var STIPULATION_GROUPS = {
-        'Standard Matches': [
-            { value: 'normal', label: 'Normal Match' },
-            { value: 'submission', label: 'Submission Match' },
-            { value: 'ironman', label: 'Iron Man Match' },
-            { value: '2of3', label: '2 out of 3 Falls' },
-            { value: 'lastman', label: 'Last Man Standing' },
-            { value: 'iquit', label: 'I Quit Match' },
-            { value: 'firstblood', label: 'First Blood' }
-        ],
-        'No Disqualification': [
-            { value: 'noholds', label: 'No Holds Barred' },
-            { value: 'extreme', label: 'Extreme Rules' },
-            { value: 'fallsanywhere', label: 'Falls Count Anywhere' },
-            { value: 'backstage', label: 'Backstage Brawl' }
-        ],
-        'Weapon-Based Matches': [
-            { value: 'tlc', label: 'TLC Match' },
-            { value: 'ladder', label: 'Ladder Match' },
-            { value: 'tables', label: 'Table Match' },
-            { value: 'chairs', label: 'Chairs Match' }
-        ],
-        'Enclosed Environments': [
-            { value: 'steelcage', label: 'Steel Cage Match' },
-            { value: 'hellinacell', label: 'Hell in a Cell' },
-            { value: 'chamber', label: 'Elimination Chamber' },
-            { value: 'wargames', label: 'WarGames' },
-            { value: 'fightpit', label: 'Fight Pit' }
-        ],
-        'Specialty Matches': [
-            { value: 'ambulance', label: 'Ambulance Match' },
-            { value: 'casket', label: 'Casket Match' },
-            { value: 'guestref', label: 'Special Guest Referee' },
-            { value: 'buriedalive', label: 'Buried Alive Match' },
-            { value: 'inferno', label: 'Inferno Match' },
-            { value: 'lumberjack', label: 'Lumberjack Match' },
-            { value: 'scramble', label: 'Championship Scramble' },
-            { value: 'gauntlet', label: 'Gauntlet Match' }
-        ]
-    };
-    var STIPULATION_OPTIONS = {};
-    (function () {
-        var g, i, opt;
-        for (g in STIPULATION_GROUPS) {
-            for (i = 0; i < STIPULATION_GROUPS[g].length; i++) {
-                opt = STIPULATION_GROUPS[g][i];
-                STIPULATION_OPTIONS[opt.value] = opt.label;
-            }
-        }
-    })();
-    const TIER_LABELS = { high: 'Main Event', mid: 'Mid Card', low: 'Jobber' };
-    const WATERMARK_LOGO = 'logo.png';
-    var roster = [];
-    var nextEventId = 1;
-    var events = [{ id: 1, matchType: '1v1', championship: 'none', stipulation: 'normal', slots: [null, null] }];
+  function slim(s) { return { name: s.name, img: HC.px(s.img || ''), sex: s.sex || 'man', tier: s.tier || 'mid' }; }
+  function key(s) { return HC.keyOf(s.name); }
+  function fmt(ev) { return FORMATS[ev.type] || FORMATS['1v1']; }
+  function newEvent(type) {
+    type = FORMATS[type] ? type : '1v1';
+    var n = FORMATS[type].slots, slots = [];
+    for (var i = 0; i < n; i++) slots.push(null);
+    return { id: S.nextId++, type: type, champ: 'none', stip: 'normal', slots: slots, sideTeams: [null, null] };
+  }
+  function getEvent(id) { for (var i = 0; i < S.events.length; i++) if (S.events[i].id === id) return S.events[i]; return null; }
+  function sidesOf(ev) {
+    var f = fmt(ev);
+    if (f.layout !== 'team') return null;
+    return [{ start: 0, end: f.teamSplit[0] }, { start: f.teamSplit[0], end: f.slots }];
+  }
+  function sideIndex(ev, i) { var s = sidesOf(ev); return s ? (i < s[0].end ? 0 : 1) : -1; }
+  function isMobile() { return window.matchMedia && window.matchMedia('(max-width: 900px)').matches; }
 
-    var selectedSuperstar = null;
-    var selectedElement = null;
-    var activeSlotForOverlay = null;
-
-    function isMobileTapMode() {
-        return window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
-    }
-
-    function clearSelection() {
-        if (selectedElement) {
-            selectedElement.classList.remove('tap-selected');
-            selectedElement = null;
-        }
-        selectedSuperstar = null;
-        document.querySelectorAll('.mc-slot-empty.tap-drop-target').forEach(function (el) { el.classList.remove('tap-drop-target'); });
-    }
-
-    function setSelection(superstar, element) {
-        clearSelection();
-        selectedSuperstar = superstar;
-        selectedElement = element;
-        if (element) element.classList.add('tap-selected');
-        if (isMobileTapMode()) {
-            document.querySelectorAll('.mc-slot.mc-slot-empty').forEach(function (el) {
-                el.classList.add('tap-drop-target');
-            });
-        }
-    }
-
-    function openRosterOverlayForSlot(slotEl) {
-        if (!isMobileTapMode()) return;
-        if (!rosterListEl || !rosterOverlayEl || !rosterOverlayBodyEl || !rosterSidebarContainerEl) return;
-
-        // Clear any previous highlight
-        document.querySelectorAll('.mc-slot-selecting').forEach(function (el) {
-            el.classList.remove('mc-slot-selecting');
-        });
-
-        activeSlotForOverlay = slotEl || null;
-        if (activeSlotForOverlay) {
-            activeSlotForOverlay.classList.add('mc-slot-selecting');
-        }
-
-        // Move roster list into the overlay body
-        if (rosterListEl.parentElement !== rosterOverlayBodyEl) {
-            rosterOverlayBodyEl.appendChild(rosterListEl);
-        }
-
-        rosterOverlayEl.hidden = false;
-        rosterOverlayEl.setAttribute('aria-hidden', 'false');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeRosterOverlay() {
-        if (!rosterListEl || !rosterOverlayEl || !rosterOverlayBodyEl || !rosterSidebarContainerEl) return;
-
-        if (rosterListEl.parentElement === rosterOverlayBodyEl) {
-            rosterSidebarContainerEl.appendChild(rosterListEl);
-        }
-
-        rosterOverlayEl.hidden = true;
-        rosterOverlayEl.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = '';
-
-        if (activeSlotForOverlay) {
-            activeSlotForOverlay.classList.remove('mc-slot-selecting');
-        }
-        activeSlotForOverlay = null;
-    }
-
-    function assignSuperstarFromOverlay(superstar) {
-        if (!activeSlotForOverlay || !superstar) return;
-        var eid = parseInt(activeSlotForOverlay.dataset.eventId, 10);
-        var idx = parseInt(activeSlotForOverlay.dataset.slotIndex, 10);
-        if (isNaN(eid) || isNaN(idx)) return;
-        setSlot(eid, idx, superstar);
-        closeRosterOverlay();
-    }
-
-    function getRosterId() {
-        return typeof sessionStorage !== 'undefined' ? (sessionStorage.getItem('draftRoster') || 'wwe2k25') : 'wwe2k25';
-    }
-
-    function loadRoster() {
-        var rosterId = getRosterId();
-        fetch('data/' + rosterId + '.json')
-            .then(function (r) {
-                if (!r.ok) throw new Error('Failed to load roster');
-                return r.json();
-            })
-            .then(function (data) {
-                roster = Array.isArray(data.roster) ? data.roster : [];
-                roster.sort(function (a, b) { return (a.name || '').localeCompare(b.name || '', undefined, { sensitivity: 'base' }); });
-                renderRosterList();
-                renderEvents();
-            })
-            .catch(function () {
-                roster = [];
-                if (rosterListEl) rosterListEl.innerHTML = '<p class="matchcard-empty-msg">Could not load roster. Select a roster on Home first.</p>';
-                if (rosterCountEl) rosterCountEl.textContent = '0';
-                renderEvents();
-            });
-    }
-
-    function getFilteredRoster() {
-        var q = (searchInput ? searchInput.value : '').trim().toLowerCase();
-        var sex = filterSex ? filterSex.value : 'all';
-        var tier = filterTier ? filterTier.value : 'all';
-        return roster.filter(function (s) {
-            var nameOk = !q || (s.name || '').toLowerCase().includes(q);
-            var sexOk = sex === 'all' || (s.sex || 'man') === sex;
-            var tierOk = tier === 'all' || (s.tier || 'mid') === tier;
-            return nameOk && sexOk && tierOk;
-        });
-    }
-
-    function renderRosterList() {
-        if (!rosterListEl) return;
-        if (isMobileTapMode()) clearSelection();
-        var list = getFilteredRoster();
-        rosterListEl.innerHTML = '';
-        if (rosterCountEl) rosterCountEl.textContent = String(list.length);
-
-        var tierColors = { high: '#f1c40f', mid: '#3498db', low: '#555' };
-        list.forEach(function (s, index) {
-            var card = document.createElement('div');
-            card.className = 'roster-card animate-in';
-            card.style.animationDelay = (index * 0.03) + 's';
-            var tier = s.tier || 'mid';
-            card.style.borderLeftColor = tierColors[tier] || tierColors.mid;
-            card.draggable = !isMobileTapMode();
-
-            var sexDisplay = (s.sex || 'man').charAt(0).toUpperCase() + (s.sex || 'man').slice(1);
-            var tierDisplay = TIER_LABELS[tier] || tier;
-            var imgSrc = s.img || 'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png';
-
-            card.innerHTML =
-                '<img src="' + imgSrc + '" alt="" loading="lazy" onerror="this.src=\'https://upload.wikimedia.org/wikipedia/commons/9/99/Sample_User_Icon.png\'">' +
-                '<div class="card-info">' +
-                '<div class="card-name">' + (s.name || '') + '</div>' +
-                '<div class="card-meta">' + sexDisplay + ' • <span style="color:' + (tierColors[tier] || tierColors.mid) + '">' + tierDisplay + '</span></div>' +
-                '</div>';
-
-            card.addEventListener('dragstart', function (e) {
-                e.dataTransfer.setData('text/plain', JSON.stringify(s));
-                e.dataTransfer.effectAllowed = 'copy';
-                card.style.opacity = '0.5';
-            });
-            card.addEventListener('dragend', function () { card.style.opacity = '1'; });
-            card.addEventListener('click', function (e) {
-                if (isMobileTapMode()) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    if (activeSlotForOverlay) {
-                        assignSuperstarFromOverlay(s);
-                    }
-                }
-            });
-            rosterListEl.appendChild(card);
-        });
-    }
-
-    function getFormatConfig(type) {
-        var cfg = MATCH_FORMAT[type];
-        return cfg || MATCH_FORMAT['1v1'];
-    }
-    function getSlotCountForType(type) {
-        var cfg = getFormatConfig(type);
-        return cfg.slots || 2;
-    }
-    function getLayoutForType(type) {
-        var cfg = getFormatConfig(type);
-        return { layout: cfg.layout || 'team', teamSplit: cfg.teamSplit || [1, 1] };
-    }
-
-    function addMatch() {
-        nextEventId += 1;
-        var newEv = { id: nextEventId, matchType: '1v1', championship: 'none', stipulation: 'normal', slots: [null, null] };
-        events.push(newEv);
-        if (!eventsContainer) return;
-        var block = document.createElement('div');
-        block.className = 'mc-event-block animate-in';
-        block.id = 'mc-event-wrap-' + newEv.id;
-        block.style.animationDelay = '0s';
-        block.innerHTML = getEventBlockHTML(newEv);
-        eventsContainer.appendChild(block);
-        attachEventBlockListeners(block, newEv);
-        renderEventBlock(newEv);
-        showNotification('Match added');
-    }
-
-    function removeMatch(eventId) {
-        events = events.filter(function (e) { return e.id !== eventId; });
-        if (events.length === 0) events = [{ id: ++nextEventId, matchType: '1v1', championship: 'none', stipulation: 'normal', slots: [null, null] }];
-        renderEvents();
-        showNotification('Match removed');
-    }
-
-    function changeEventType(eventId, newType) {
-        var ev = events.find(function (e) { return e.id === eventId; });
-        if (!ev) return;
-        ev.matchType = newType;
-        var n = getSlotCountForType(newType);
+  function save() {
+    HC.jset(SAVE_KEY, { v: 1, showName: S.showName, color: S.color, nextId: S.nextId, events: S.events });
+  }
+  function restore() {
+    var d = HC.jget(SAVE_KEY, null);
+    if (d && d.v === 1 && Array.isArray(d.events) && d.events.length) {
+      S.events = d.events.filter(function (ev) { return ev && FORMATS[ev.type] && Array.isArray(ev.slots); }).map(function (ev) {
+        var n = FORMATS[ev.type].slots;
+        ev.slots = ev.slots.slice(0, n);
         while (ev.slots.length < n) ev.slots.push(null);
-        while (ev.slots.length > n) ev.slots.pop();
-        renderEvents();
+        ev.sideTeams = Array.isArray(ev.sideTeams) ? ev.sideTeams : [null, null];
+        ev.slots = ev.slots.map(function (x) { return x ? slim(x) : x; });
+        return ev;
+      });
+      S.nextId = Math.max(d.nextId || 1, S.events.reduce(function (m, e) { return Math.max(m, e.id + 1); }, 1));
+      S.showName = typeof d.showName === 'string' ? d.showName.slice(0, 28) : '';
+      S.color = /^#[0-9a-f]{6}$/i.test(d.color || '') ? d.color : S.color;
     }
+    if (!S.events.length) S.events = [newEvent('1v1')];
+  }
 
-    function changeEventChampionship(eventId, championshipId) {
-        var ev = events.find(function (e) { return e.id === eventId; });
-        if (!ev) return;
-        ev.championship = championshipId || 'none';
-        renderEventBlock(ev);
+  // ------------------------------------------------------------------ slot targeting
+  function orderedSlots() {
+    var out = [];
+    S.events.forEach(function (ev) { ev.slots.forEach(function (_, i) { out.push({ e: ev.id, i: i }); }); });
+    return out;
+  }
+  function targetSlot() {
+    if (S.active) {
+      var ev = getEvent(S.active.e);
+      if (ev && S.active.i < ev.slots.length) return S.active;
+      S.active = null;
     }
-
-    function changeEventStipulation(eventId, stipulationId) {
-        var ev = events.find(function (e) { return e.id === eventId; });
-        if (!ev) return;
-        ev.stipulation = stipulationId || 'normal';
-        renderEventBlock(ev);
+    var all = orderedSlots();
+    for (var k = 0; k < all.length; k++) if (!getEvent(all[k].e).slots[all[k].i]) return all[k];
+    return null;
+  }
+  function advanceFrom(pos) {
+    var all = orderedSlots(), start = 0;
+    all.forEach(function (p, idx) { if (p.e === pos.e && p.i === pos.i) start = idx + 1; });
+    for (var k = 0; k < all.length; k++) {
+      var p = all[(start + k) % all.length];
+      if (!getEvent(p.e).slots[p.i]) { S.active = p; return; }
     }
+    S.active = null;
+  }
 
-    function setSlot(eventId, slotIndex, superstar) {
-        var ev = events.find(function (e) { return e.id === eventId; });
-        if (!ev || slotIndex < 0 || slotIndex >= ev.slots.length) return;
-        ev.slots[slotIndex] = superstar;
-        renderEventBlock(ev);
-        showNotification('Added to match');
+  // ------------------------------------------------------------------ card mutations
+  // is this superstar already somewhere in the match (ignoring slots in [from, to))?
+  function inMatch(ev, ss, from, to) {
+    var k = key(ss);
+    return ev.slots.some(function (s, i) { return s && key(s) === k && !(i >= from && i < to); });
+  }
+
+  function fill(eid, idx, ss) {
+    var ev = getEvent(eid);
+    if (!ev || idx < 0 || idx >= ev.slots.length) return;
+    if (inMatch(ev, ss, idx, idx + 1)) { HC.toast(ss.name + ' is already in this match.', 'warning'); return; }
+    ev.slots[idx] = slim(ss);
+    var sd = sideIndex(ev, idx);
+    if (sd >= 0) ev.sideTeams[sd] = null;
+    advanceFrom({ e: eid, i: idx });
+    render();
+  }
+
+  function addSuperstar(ss) {
+    var t = targetSlot();
+    if (!t) { HC.toast('The card is full — add another match first.', 'warning'); return; }
+    fill(t.e, t.i, ss);
+  }
+
+  function placeOnSide(ev, side, team) {
+    var sd = sidesOf(ev);
+    if (!sd) return false;
+    var range = sd[side], size = range.end - range.start;
+    if (team.members.length > size) { HC.toast('That side only has ' + size + ' slot' + (size === 1 ? '' : 's') + '.', 'warning'); return false; }
+    var clash = team.members.filter(function (m) { return inMatch(ev, m, range.start, range.end); })[0];
+    if (clash) { HC.toast(clash.name + ' is already in this match.', 'warning'); return false; }
+    for (var i = range.start; i < range.end; i++) ev.slots[i] = null;
+    team.members.forEach(function (m, k) { ev.slots[range.start + k] = slim(m); });
+    ev.sideTeams[side] = { id: team.id, name: TT.displayName(team) };
+    advanceFrom({ e: ev.id, i: range.start + team.members.length - 1 });
+    return true;
+  }
+
+  function placeTeam(team) {
+    var n = team.members.length, ev, sd, side = -1, target = null;
+    var t = S.active && getEvent(S.active.e) ? S.active : null;
+    if (t) {
+      ev = getEvent(t.e); side = sideIndex(ev, t.i);
+      if (side >= 0) { sd = sidesOf(ev)[side]; if (sd.end - sd.start >= n) target = { ev: ev, side: side }; }
     }
-
-    function removeFromSlot(eventId, slotIndex) {
-        var ev = events.find(function (e) { return e.id === eventId; });
-        if (!ev || slotIndex < 0 || slotIndex >= ev.slots.length) return;
-        ev.slots[slotIndex] = null;
-        renderEventBlock(ev);
-        showNotification('Removed from match');
-    }
-
-    function renderOneSlot(ev, slotsEl, slotIndex) {
-        var slot = document.createElement('div');
-        slot.className = 'mc-slot mc-slot-empty';
-        slot.dataset.eventId = String(ev.id);
-        slot.dataset.slotIndex = String(slotIndex);
-        var filled = ev.slots[slotIndex];
-        if (filled) {
-            slot.classList.remove('mc-slot-empty');
-            slot.classList.add('mc-slot-filled');
-            slot.innerHTML = '<img src="' + (filled.img || '') + '" alt=""><span class="mc-slot-name">' + (filled.name || '') + '</span>';
-            slot.addEventListener('click', function () {
-                var eid = parseInt(this.dataset.eventId, 10);
-                var idx = parseInt(this.dataset.slotIndex, 10);
-                removeFromSlot(eid, idx);
-            });
-        } else {
-            slot.innerHTML = '<span class="mc-slot-label">Drop superstar</span>';
-            slot.addEventListener('dragover', function (e) {
-                if (isMobileTapMode()) return;
-                e.preventDefault();
-                e.stopPropagation();
-                e.dataTransfer.dropEffect = 'copy';
-                this.classList.add('drag-over');
-            });
-            slot.addEventListener('dragleave', function () {
-                this.classList.remove('drag-over');
-            });
-            slot.addEventListener('drop', function (e) {
-                if (isMobileTapMode()) return;
-                e.preventDefault();
-                e.stopPropagation();
-                this.classList.remove('drag-over');
-                var eid = parseInt(this.dataset.eventId, 10);
-                var idx = parseInt(this.dataset.slotIndex, 10);
-                try {
-                    var data = JSON.parse(e.dataTransfer.getData('text/plain'));
-                    if (data && data.name) setSlot(eid, idx, data);
-                } catch (err) {}
-            });
-            slot.addEventListener('click', function (e) {
-                if (isMobileTapMode()) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    openRosterOverlayForSlot(this);
-                }
-            });
-        }
-        slotsEl.appendChild(slot);
-    }
-
-    function renderEventBlock(ev) {
-        var wrap = document.getElementById('mc-event-wrap-' + ev.id);
-        if (!wrap) return;
-        var slotsEl = wrap.querySelector('.mc-event-slots');
-        if (!slotsEl) return;
-        slotsEl.innerHTML = '';
-
-        var championshipDisplay = wrap.querySelector('.mc-event-championship-display');
-        if (championshipDisplay) {
-            championshipDisplay.innerHTML = '';
-            championshipDisplay.classList.remove('mc-championship-visible');
-            if (ev.championship && ev.championship !== 'none' && CHAMPIONSHIP_IMAGES[ev.championship]) {
-                var beltImg = document.createElement('img');
-                beltImg.src = CHAMPIONSHIP_IMAGES[ev.championship];
-                beltImg.alt = '';
-                beltImg.className = 'mc-belt-preview';
-                var label = document.createElement('span');
-                label.className = 'mc-belt-label';
-                label.textContent = 'Title match';
-                championshipDisplay.appendChild(beltImg);
-                championshipDisplay.appendChild(label);
-                championshipDisplay.classList.add('mc-championship-visible');
-            }
-        }
-
-        var layout = getLayoutForType(ev.matchType);
-        var leftCount = layout.teamSplit ? layout.teamSplit[0] : 0;
-        var rightCount = layout.teamSplit ? layout.teamSplit[1] : 0;
-
-        if (layout.layout === 'team' && leftCount > 0 && rightCount > 0) {
-            for (var i = 0; i < leftCount; i++) renderOneSlot(ev, slotsEl, i);
-            var vsCenter = document.createElement('div');
-            vsCenter.className = 'mc-vs';
-            vsCenter.textContent = 'VS';
-            slotsEl.appendChild(vsCenter);
-            for (var k = leftCount; k < ev.slots.length; k++) renderOneSlot(ev, slotsEl, k);
-        } else {
-            for (var i = 0; i < ev.slots.length; i++) {
-                if (i > 0) {
-                    var vs = document.createElement('div');
-                    vs.className = 'mc-vs';
-                    vs.textContent = 'VS';
-                    slotsEl.appendChild(vs);
-                }
-                renderOneSlot(ev, slotsEl, i);
-            }
-        }
-    }
-
-    function getEventBlockHTML(ev) {
-        var stipOptions = '';
-        var grp, j, opt;
-        for (grp in STIPULATION_GROUPS) {
-            stipOptions += '<optgroup label="' + grp + '">';
-            for (j = 0; j < STIPULATION_GROUPS[grp].length; j++) {
-                opt = STIPULATION_GROUPS[grp][j];
-                stipOptions += '<option value="' + opt.value + '"' + (ev.stipulation === opt.value ? ' selected' : '') + '>' + opt.label + '</option>';
-            }
-            stipOptions += '</optgroup>';
-        }
-        var formatOptions = '';
-        var fmtKey;
-        for (fmtKey in MATCH_FORMAT) {
-            formatOptions += '<option value="' + fmtKey + '"' + (ev.matchType === fmtKey ? ' selected' : '') + '>' + MATCH_FORMAT[fmtKey].label + '</option>';
-        }
-        return '<div class="mc-event-header">' +
-            '<select class="mc-event-type" data-event-id="' + ev.id + '">' + formatOptions + '</select>' +
-            '<select class="mc-event-stipulation" data-event-id="' + ev.id + '">' + stipOptions + '</select>' +
-            '<select class="mc-event-championship" data-event-id="' + ev.id + '">' +
-            '<option value="none"' + (ev.championship === 'none' ? ' selected' : '') + '>Non-Title Match</option>' +
-            '<option value="undisputed_wwe"' + (ev.championship === 'undisputed_wwe' ? ' selected' : '') + '>Undisputed WWE Championship</option>' +
-            '<option value="whc_modern"' + (ev.championship === 'whc_modern' ? ' selected' : '') + '>World Heavyweight Championship (Modern)</option>' +
-            '<option value="wwe_womens"' + (ev.championship === 'wwe_womens' ? ' selected' : '') + '>WWE Women\'s Championship</option>' +
-            '<option value="womens_world"' + (ev.championship === 'womens_world' ? ' selected' : '') + '>Women\'s World Championship</option>' +
-            '<option value="ic"' + (ev.championship === 'ic' ? ' selected' : '') + '>Intercontinental Championship</option>' +
-            '<option value="us"' + (ev.championship === 'us' ? ' selected' : '') + '>United States Championship</option>' +
-            '<option value="women_ic"' + (ev.championship === 'women_ic' ? ' selected' : '') + '>Women\'s Intercontinental Championship</option>' +
-            '<option value="women_us"' + (ev.championship === 'women_us' ? ' selected' : '') + '>Women\'s United States Championship</option>' +
-            '<option value="world_tag"' + (ev.championship === 'world_tag' ? ' selected' : '') + '>World Tag Team Championship</option>' +
-            '<option value="wwe_tag"' + (ev.championship === 'wwe_tag' ? ' selected' : '') + '>WWE Tag Team Championship</option>' +
-            '<option value="womens_tag"' + (ev.championship === 'womens_tag' ? ' selected' : '') + '>WWE Women\'s Tag Team Championship</option>' +
-            '<option value="wwe_champ_black"' + (ev.championship === 'wwe_champ_black' ? ' selected' : '') + '>WWE Championship (Black Strap)</option>' +
-            '<option value="universal1"' + (ev.championship === 'universal1' ? ' selected' : '') + '>WWE Universal Championship (Red)</option>' +
-            '<option value="universal2"' + (ev.championship === 'universal2' ? ' selected' : '') + '>WWE Universal Championship (Blue)</option>' +
-            '<option value="raw_womens"' + (ev.championship === 'raw_womens' ? ' selected' : '') + '>Raw Women\'s Championship</option>' +
-            '<option value="sd_womens"' + (ev.championship === 'sd_womens' ? ' selected' : '') + '>SmackDown Women\'s Championship</option>' +
-            '<option value="raw_tag"' + (ev.championship === 'raw_tag' ? ' selected' : '') + '>Raw Tag Team Championship</option>' +
-            '<option value="sd_tag"' + (ev.championship === 'sd_tag' ? ' selected' : '') + '>SmackDown Tag Team Championship</option>' +
-            '<option value="wwe_spinner"' + (ev.championship === 'wwe_spinner' ? ' selected' : '') + '>WWE Championship (Spinner)</option>' +
-            '<option value="whc_classic"' + (ev.championship === 'whc_classic' ? ' selected' : '') + '>World Heavyweight Championship (Big Gold)</option>' +
-            '<option value="divas"' + (ev.championship === 'divas' ? ' selected' : '') + '>WWE Divas Championship</option>' +
-            '<option value="tag_copper"' + (ev.championship === 'tag_copper' ? ' selected' : '') + '>WWE Tag Team Championship (Copper)</option>' +
-            '<option value="nxt_champ"' + (ev.championship === 'nxt_champ' ? ' selected' : '') + '>NXT Championship</option>' +
-            '<option value="nxt_womens"' + (ev.championship === 'nxt_womens' ? ' selected' : '') + '>NXT Women\'s Championship</option>' +
-            '<option value="nxt_na"' + (ev.championship === 'nxt_na' ? ' selected' : '') + '>NXT North American Championship</option>' +
-            '<option value="nxt_women_na"' + (ev.championship === 'nxt_women_na' ? ' selected' : '') + '>NXT Women\'s North American Championship</option>' +
-            '<option value="nxt_tag"' + (ev.championship === 'nxt_tag' ? ' selected' : '') + '>NXT Tag Team Championship</option>' +
-            '<option value="aew_world"' + (ev.championship === 'aew_world' ? ' selected' : '') + '>AEW World Championship</option>' +
-            '<option value="aew_tnt"' + (ev.championship === 'aew_tnt' ? ' selected' : '') + '>AEW TNT Championship</option>' +
-            '<option value="aew_int"' + (ev.championship === 'aew_int' ? ' selected' : '') + '>AEW International Championship</option>' +
-            '<option value="aew_cont"' + (ev.championship === 'aew_cont' ? ' selected' : '') + '>AEW Continental Championship</option>' +
-            '<option value="aew_womens_world"' + (ev.championship === 'aew_womens_world' ? ' selected' : '') + '>AEW Women\'s World Championship</option>' +
-            '<option value="aew_tbs"' + (ev.championship === 'aew_tbs' ? ' selected' : '') + '>AEW TBS Championship</option>' +
-            '<option value="aew_tag"' + (ev.championship === 'aew_tag' ? ' selected' : '') + '>AEW World Tag Team Championship</option>' +
-            '<option value="aew_trios"' + (ev.championship === 'aew_trios' ? ' selected' : '') + '>AEW World Trios Championship</option>' +
-            '<option value="aew_womens_tag"' + (ev.championship === 'aew_womens_tag' ? ' selected' : '') + '>AEW Women\'s World Tag Team Championship</option>' +
-            '<option value="aew_nat"' + (ev.championship === 'aew_nat' ? ' selected' : '') + '>AEW National Championship</option>' +
-
-            '</select>' +
-            '<button type="button" class="btn btn-remove-match" data-event-id="' + ev.id + '">Remove match</button>' +
-            '</div>' +
-            '<div class="mc-event-championship-display" aria-live="polite"></div>' +
-            '<div class="mc-event-slots"></div>';
-    }
-
-    function attachEventBlockListeners(block, ev) {
-        var eventId = ev.id;
-        var typeSelect = block.querySelector('.mc-event-type');
-        if (typeSelect) {
-            typeSelect.addEventListener('change', function () {
-                changeEventType(eventId, typeSelect.value);
-            });
-        }
-        var stipSelect = block.querySelector('.mc-event-stipulation');
-        if (stipSelect) {
-            stipSelect.addEventListener('change', function () {
-                changeEventStipulation(eventId, stipSelect.value);
-            });
-        }
-        var champSelect = block.querySelector('.mc-event-championship');
-        if (champSelect) {
-            champSelect.addEventListener('change', function () {
-                changeEventChampionship(eventId, champSelect.value);
-                var wrap = document.getElementById('mc-event-wrap-' + eventId);
-                var disp = wrap && wrap.querySelector('.mc-event-championship-display');
-                if (disp && disp.classList.contains('mc-championship-visible')) {
-                    disp.classList.add('mc-belt-animate');
-                    setTimeout(function () { disp.classList.remove('mc-belt-animate'); }, 600);
-                }
-            });
-        }
-        var rmBtn = block.querySelector('.btn-remove-match');
-        if (rmBtn) rmBtn.addEventListener('click', function () { removeMatch(eventId); });
-    }
-
-    function renderEvents() {
-        if (!eventsContainer) return;
-        eventsContainer.innerHTML = '';
-
-        events.forEach(function (ev) {
-            var block = document.createElement('div');
-            block.className = 'mc-event-block';
-            block.id = 'mc-event-wrap-' + ev.id;
-            block.innerHTML = getEventBlockHTML(ev);
-            eventsContainer.appendChild(block);
-            attachEventBlockListeners(block, ev);
-            renderEventBlock(ev);
+    if (!target) {
+      S.events.some(function (e) {
+        var s = sidesOf(e);
+        if (!s) return false;
+        return [0, 1].some(function (k) {
+          var size = s[k].end - s[k].start, empty = 0;
+          for (var i = s[k].start; i < s[k].end; i++) if (!e.slots[i]) empty++;
+          var clashes = team.members.some(function (m) { return inMatch(e, m, 0, 0); });
+          if (size >= n && empty === size && !clashes) { target = { ev: e, side: k }; return true; }
+          return false;
         });
+      });
     }
-
-    function getBgImageUrl() {
-        var theme = ppvSelect ? ppvSelect.value : 'raw';
-        return (PPV_IMAGES[theme] || '').trim() || null;
+    if (!target) {
+      if (n > 4) { HC.toast('That team has ' + n + ' members — a side holds at most 4. Draft it, but a match needs a smaller team.', 'warning'); return; }
+      var type = n === 4 ? '4v4' : n === 3 ? '3v3' : '2v2';
+      var made = newEvent(type);
+      S.events.push(made);
+      target = { ev: made, side: 0 };
+      HC.toast('Added a ' + FORMATS[type].label + ' for them.');
     }
+    if (placeOnSide(target.ev, target.side, team)) render();
+  }
 
-    var PPV_TITLE_NAMES = { default: 'Wrestling', raw: 'Raw', smackdown: 'SmackDown', nxt: 'NXT', dynamite: 'Dynamite', collision: 'Collision', rampage:'Rampage', oldnxt: 'Old NXT', mainevent: 'Main Event', snme: 'Saturday Night Main Event', wm41: 'Wrestlemania', royalrumble: 'Royal Rumble', summerslam: 'Summerslam', ss: 'Survivor Series', mitb: 'Money In The Bank', ec: 'Elimination Chamber', backlash: 'Backlash', hiac: 'Hell In A Cell', bb: 'Bad Blood', catc: 'Clash At The Castle', cj: 'Crown Jewel', bib: 'Bash In Berlin'};
+  function changeType(ev, type) {
+    ev.type = type;
+    var n = FORMATS[type].slots;
+    while (ev.slots.length < n) ev.slots.push(null);
+    ev.slots.length = n;
+    ev.sideTeams = [null, null];
+    if (S.active && S.active.e === ev.id && S.active.i >= n) S.active = null;
+  }
 
-    function getMatchcardExportHTML() {
-        var theme = ppvSelect ? ppvSelect.value : 'raw';
-        var themeClass = 'theme-' + theme;
-        var bg = getBgImageUrl();
-        var ppvTitle = PPV_TITLE_NAMES[theme] || theme;
+  // ------------------------------------------------------------------ rendering: card
+  function optionsHTML(groups, selected) {
+    return groups.map(function (g) {
+      return '<optgroup label="' + esc(g[0]) + '">' + g[1].map(function (o) {
+        return '<option value="' + o[0] + '"' + (o[0] === selected ? ' selected' : '') + '>' + esc(o[1]) + '</option>';
+      }).join('') + '</optgroup>';
+    }).join('');
+  }
+  var FORMAT_OPTS = Object.keys(FORMATS);
 
-        var html = '<div class="matchcard-export-preview ' + themeClass + '" style="';
-        if (bg) html += 'background-image: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url(\'' + bg.replace(/'/g, "\\'") + '\'); background-size: cover; background-position: center; background-repeat: no-repeat;';
-        html += '">';
-        html += '<h2 class="matchcard-export-ppv-title">' + ppvTitle + ' Match Card</h2>';
-
-        events.forEach(function (ev) {
-            var stipulation = ev.stipulation && STIPULATION_OPTIONS[ev.stipulation] ? STIPULATION_OPTIONS[ev.stipulation] : 'Normal Match';
-            var fmtCfg = getFormatConfig(ev.matchType);
-            var matchTypeLabel = fmtCfg.label || ev.matchType || '1 vs 1';
-            var layout = getLayoutForType(ev.matchType);
-            var leftCount = layout.teamSplit ? layout.teamSplit[0] : 0;
-            var rightCount = layout.teamSplit ? layout.teamSplit[1] : 0;
-
-            var hasBelt = ev.championship && ev.championship !== 'none' && CHAMPIONSHIP_IMAGES[ev.championship];
-            var isTeam = layout.layout === 'team' && leftCount > 0 && rightCount > 0;
-
-            html += '<div class="matchcard-export-match">';
-            html += '<div class="mc-export-title-row">';
-            if (hasBelt && !isTeam) {
-                html += '<img src="' + CHAMPIONSHIP_IMAGES[ev.championship] + '" alt="" class="mc-export-belt" crossorigin="anonymous">';
-            }
-            html += '<div class="mc-export-match-type">' + matchTypeLabel + '</div>';
-            html += '</div>';
-            html += '<div class="mc-export-stipulation">' + stipulation + '</div>';
-            html += '<div class="matchcard-export-slots">';
-
-            if (isTeam) {
-                for (var i = 0; i < leftCount; i++) {
-                    var s = ev.slots[i];
-                    if (s) {
-                        html += '<div class="matchcard-export-slot"><img src="' + (s.img || '') + '" alt="" crossorigin="anonymous"><span>' + (s.name || '') + '</span></div>';
-                    } else {
-                        html += '<div class="matchcard-export-slot empty"><span>—</span></div>';
-                    }
-                }
-                html += '<div class="mc-export-vs-block">';
-                if (hasBelt) {
-                    html += '<img src="' + CHAMPIONSHIP_IMAGES[ev.championship] + '" alt="" class="mc-export-belt" crossorigin="anonymous">';
-                }
-                html += '<span class="mc-vs">VS</span></div>';
-                for (var k = leftCount; k < ev.slots.length; k++) {
-                    s = ev.slots[k];
-                    if (s) {
-                        html += '<div class="matchcard-export-slot"><img src="' + (s.img || '') + '" alt="" crossorigin="anonymous"><span>' + (s.name || '') + '</span></div>';
-                    } else {
-                        html += '<div class="matchcard-export-slot empty"><span>—</span></div>';
-                    }
-                }
-            } else {
-                ev.slots.forEach(function (s, i) {
-                    if (i > 0) html += '<span class="mc-vs">VS</span>';
-                    if (s) {
-                        html += '<div class="matchcard-export-slot"><img src="' + (s.img || '') + '" alt="" crossorigin="anonymous"><span>' + (s.name || '') + '</span></div>';
-                    } else {
-                        html += '<div class="matchcard-export-slot empty"><span>—</span></div>';
-                    }
-                });
-            }
-            html += '</div></div>';
-        });
-
-        html += '<div class="matchcard-export-watermark">';
-        html += '<span>Generated on </span><img src="' + WATERMARK_LOGO + '" alt="" crossorigin="anonymous"><span>.info</span>';
-        html += '</div></div>';
-        return html;
+  function slotHTML(ev, i, tgt) {
+    var s = ev.slots[i];
+    var isNext = tgt && tgt.e === ev.id && tgt.i === i;
+    if (s) {
+      return '<div class="mc-slot filled" data-e="' + ev.id + '" data-i="' + i + '" title="Click to remove"><img src="' + esc(s.img) + '" alt=""><span class="mc-slot-name">' + esc(s.name) + '</span><b class="mc-x">&times;</b></div>';
     }
+    return '<div class="mc-slot empty' + (isNext ? ' next' : '') + '" data-e="' + ev.id + '" data-i="' + i + '"><span class="plus">+</span><span class="mc-slot-label">' + (isNext ? 'Pick a superstar' : 'Add superstar') + '</span></div>';
+  }
 
-    function openMatchcardPreview() {
-        if (typeof html2canvas === 'undefined') return;
-        if (!previewModal || !modalContent) return;
-        modalContent.innerHTML = getMatchcardExportHTML();
-        previewModal.hidden = false;
+  function eventHTML(ev, idx, tgt) {
+    var f = fmt(ev), sd = sidesOf(ev), main = S.events.length > 1 && idx === S.events.length - 1;
+    var belt = beltImg(ev.champ);
+    var body = '';
+    if (sd) {
+      body = [0, 1].map(function (k) {
+        var r = sd[k], size = r.end - r.start, slots = '';
+        for (var i = r.start; i < r.end; i++) slots += slotHTML(ev, i, tgt);
+        var tm = ev.sideTeams[k];
+        return '<div class="mc-side-box' + (tm ? ' is-team' : '') + '">' +
+          '<div class="mc-side-head"><span class="mc-side-name">' + (tm ? esc(tm.name) : (size === 1 ? 'Competitor' : 'Team ' + (k ? 'B' : 'A'))) + '</span>' +
+          (size >= 2 ? '<button type="button" class="mini hi" data-act="side-team" data-e="' + ev.id + '" data-side="' + k + '">Tag team</button>' : '') +
+          '<button type="button" class="mini" data-act="side-clear" data-e="' + ev.id + '" data-side="' + k + '">Clear</button></div>' +
+          '<div class="mc-side-slots n' + size + '">' + slots + '</div></div>';
+      }).join('<div class="mc-vs"><span>VS</span></div>');
+    } else {
+      var s = '';
+      for (var j = 0; j < ev.slots.length; j++) s += slotHTML(ev, j, tgt);
+      body = '<div class="mc-free n' + ev.slots.length + '">' + s + '</div>';
     }
+    return '<section class="mc-event panel" data-e="' + ev.id + '">' +
+      '<div class="mc-ev-head"><span class="mc-ev-n">Match ' + (idx + 1) + (main ? ' <em>Main event</em>' : '') + '</span>' +
+      '<div class="mc-ev-sel">' +
+      '<select class="hc-select" data-f="type" aria-label="Match type">' + FORMAT_OPTS.map(function (k) { return '<option value="' + k + '"' + (k === ev.type ? ' selected' : '') + '>' + FORMATS[k].label + '</option>'; }).join('') + '</select>' +
+      '<select class="hc-select" data-f="stip" aria-label="Stipulation">' + optionsHTML(STIP_GROUPS, ev.stip) + '</select>' +
+      '<select class="hc-select" data-f="champ" aria-label="Championship"><option value="none">Non-title match</option>' + optionsHTML(CHAMP_GROUPS, ev.champ) + '</select>' +
+      '</div>' +
+      '<div class="mc-ev-tools">' +
+      '<button type="button" class="icon-btn" data-act="up" data-e="' + ev.id + '" title="Move up" aria-label="Move match up"' + (idx === 0 ? ' disabled' : '') + '>&#9650;</button>' +
+      '<button type="button" class="icon-btn" data-act="down" data-e="' + ev.id + '" title="Move down" aria-label="Move match down"' + (idx === S.events.length - 1 ? ' disabled' : '') + '>&#9660;</button>' +
+      '<button type="button" class="icon-btn" data-act="del" data-e="' + ev.id + '" title="Remove match" aria-label="Remove match">&times;</button></div></div>' +
+      (belt ? '<div class="mc-belt"><img src="' + esc(belt) + '" alt=""><span>Title match</span></div>' : '') +
+      '<div class="mc-ev-body ' + (sd ? 'is-team' : 'is-free') + '">' + body + '</div></section>';
+  }
 
-    function closeMatchcardPreview() {
-        if (previewModal) previewModal.hidden = true;
+  function renderEvents() {
+    var tgt = targetSlot();
+    $('events').innerHTML = S.events.map(function (ev, i) { return eventHTML(ev, i, tgt); }).join('');
+  }
+
+  // ------------------------------------------------------------------ rendering: sidebar
+  function onCardKeys() {
+    var m = {};
+    S.events.forEach(function (ev) { ev.slots.forEach(function (s) { if (s) m[key(s)] = 1; }); });
+    return m;
+  }
+  function filteredRoster() {
+    var q = S.q.trim().toLowerCase(), base = S.roster;
+    if (S.source !== 'all') {
+      var last = HC.jget('2khub_last_draft', null);
+      var show = last && last.rosterId === S.rosterId ? last.shows.filter(function (s) { return s.id === S.source; })[0] : null;
+      if (show) {
+        var keys = {};
+        show.members.forEach(function (m) { keys[key(m)] = 1; });
+        base = S.roster.filter(function (s) { return keys[key(s)]; });
+      }
     }
+    return base.filter(function (s) { return (!q || s.name.toLowerCase().indexOf(q) >= 0) && (S.sex === 'all' || s.sex === S.sex); });
+  }
 
-    function saveMatchcardFromPreview() {
-        if (!exportBoard || typeof html2canvas === 'undefined') return;
-        exportBoard.innerHTML = getMatchcardExportHTML();
-        exportBoard.style.width = '800px';
-        var theme = ppvSelect ? ppvSelect.value : 'raw';
-        var bg = getBgImageUrl();
-        exportBoard.style.background = bg ? 'transparent' : (theme === 'raw' ? '#0f0f0f' : theme === 'smackdown' ? '#0a0f1a' : theme === 'nxt' ? '#1a1a0a' : theme === 'oldnxt' ? '#1a1a0a' : '#0a151a' );
-        closeMatchcardPreview();
+  function renderRoster() {
+    var list = filteredRoster(), on = onCardKeys();
+    $('roster-count').textContent = list.length + ' superstar' + (list.length === 1 ? '' : 's');
+    $('roster-list').innerHTML = list.length ? list.map(function (s) {
+      var k = key(s);
+      return '<div class="mrow' + (on[k] ? ' on-card' : '') + '" role="listitem" draggable="true" data-k="' + esc(k) + '">' +
+        '<img src="' + esc(s.img) + '" alt="" loading="lazy" draggable="false"><span class="nm">' + esc(s.name) + '</span>' +
+        (on[k] ? '<span class="tag">On card</span>' : '<span class="tag t-' + s.tier + '">' + HC.TIERS[s.tier].short + '</span>') + '</div>';
+    }).join('') : '<div class="empty-note">No superstars match.</div>';
+  }
 
-        html2canvas(exportBoard, {
-            backgroundColor: bg ? null : '#0a0a0a',
-            scale: 2,
-            useCORS: true,
-            allowTaint: true
-        }).then(function (canvas) {
-            var link = document.createElement('a');
-            link.download = 'matchcard.png';
-            link.href = canvas.toDataURL('image/png');
-            link.click();
-            showNotification('Match card downloaded');
-        }).catch(function (err) {
-            console.error(err);
-            showNotification('Download failed');
-        });
-    }
+  function renderTeams() {
+    var teams = TT.list(S.rosterId);
+    $('team-count').textContent = teams.length || '';
+    $('team-list').innerHTML = teams.length ? teams.map(function (t) {
+      return '<div class="team-row" draggable="true" data-team="' + esc(t.id) + '">' + TT.facesHTML(t) +
+        '<div class="team-info"><div class="team-name">' + esc(TT.displayName(t)) + '</div><div class="team-members">' + t.members.map(function (m) { return esc(m.name); }).join(' · ') + '</div></div>' +
+        '<button type="button" class="icon-btn edit" data-act="team-edit" title="Edit team" aria-label="Edit team">&#9998;</button>' +
+        '<button type="button" class="icon-btn" data-act="team-del" title="Delete team" aria-label="Delete team">&times;</button></div>';
+    }).join('') : '<div class="empty-note"><b>No tag teams yet</b>Create one and it will be saved for next time.</div>';
+  }
 
-    if (searchInput) searchInput.addEventListener('input', renderRosterList);
-    if (filterSex) filterSex.addEventListener('change', renderRosterList);
-    if (filterTier) filterTier.addEventListener('change', renderRosterList);
-    if (addMatchBtn) addMatchBtn.addEventListener('click', addMatch);
-    if (addMatchBtnBottom) addMatchBtnBottom.addEventListener('click', addMatch);
+  function renderSide() {
+    $('side-stars').hidden = S.tab !== 'stars';
+    $('side-teams').hidden = S.tab !== 'teams';
+    document.querySelectorAll('#side-tabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === S.tab); });
+    document.querySelectorAll('#sex-seg button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === S.sex); });
+  }
 
-    if (modalBackdrop) modalBackdrop.addEventListener('click', closeMatchcardPreview);
-    if (modalClose) modalClose.addEventListener('click', closeMatchcardPreview);
-    if (modalSave) modalSave.addEventListener('click', saveMatchcardFromPreview);
+  // phone bottom-sheet covers the lower part of the card: keep the slot being filled in the visible strip
+  function scrollToTarget() {
+    var el = document.querySelector('.mc-slot.next'), main = document.querySelector('.mc-main');
+    if (!el || !main) return;
+    var r = el.getBoundingClientRect(), m = main.getBoundingClientRect();
+    main.scrollBy({ top: r.top - m.top - 10, behavior: 'smooth' });
+  }
 
-    // Roster overlay close handlers (tap outside / X button / ESC)
-    if (rosterOverlayCloseBtn) {
-        rosterOverlayCloseBtn.addEventListener('click', function () {
-            closeRosterOverlay();
-        });
-    }
-    if (rosterOverlayEl) {
-        rosterOverlayEl.addEventListener('click', function (e) {
-            if (e.target === rosterOverlayEl) {
-                // Click on backdrop
-                closeRosterOverlay();
-            }
-        });
-    }
-    document.addEventListener('keydown', function (e) {
-        if (e.key === 'Escape' && rosterOverlayEl && !rosterOverlayEl.hidden) {
-            closeRosterOverlay();
-        }
+  function render() {
+    renderEvents(); renderRoster(); renderTeams(); renderSide(); save();
+    if (isMobile() && document.body.classList.contains('sheet-open')) scrollToTarget();
+  }
+
+  function buildPoolSelect() {
+    var sel = $('pool-select');
+    var last = HC.jget('2khub_last_draft', null);
+    if (!last || last.rosterId !== S.rosterId) { sel.hidden = true; S.source = 'all'; return; }
+    var shows = last.shows.filter(function (s) { return s.members && s.members.length; });
+    if (!shows.length) { sel.hidden = true; S.source = 'all'; return; }
+    sel.innerHTML = '<option value="all">Full roster</option>' + shows.map(function (s) { return '<option value="' + esc(s.id) + '">' + esc(s.name) + ' (' + s.members.length + ' drafted)</option>'; }).join('');
+    sel.hidden = false;
+    sel.value = S.source;
+    if (sel.value !== S.source) S.source = sel.value = 'all';
+  }
+
+  // ------------------------------------------------------------------ roster loading
+  function loadRoster(id) {
+    S.rosterId = id;
+    HC.sset('draftRoster', id, true);
+    $('roster-list').innerHTML = '<div class="empty-note">Loading roster…</div>';
+    return HC.loadRoster(id).then(function (data) {
+      if (S.rosterId !== id) return;
+      S.roster = data.roster.slice().sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }); });
+      S.source = 'all';
+      buildPoolSelect();
+      render();
+    }).catch(function () {
+      S.roster = [];
+      $('roster-list').innerHTML = '<div class="empty-note"><b>Could not load roster</b>Pick a game from the menu above.</div>';
     });
+  }
 
-    if (downloadBtn) {
-        downloadBtn.addEventListener('click', function () {
-            openMatchcardPreview();
-        });
+  // ------------------------------------------------------------------ team picker (for a side)
+  function openTeamPicker(ev, side) {
+    var r = sidesOf(ev)[side], size = r.end - r.start;
+    var body = document.createElement('div');
+    function draw() {
+      var teams = TT.list(S.rosterId).filter(function (t) { return t.members.length <= size; });
+      body.innerHTML = (teams.length ? teams.map(function (t) {
+        return '<div class="team-row pick" data-id="' + esc(t.id) + '" tabindex="0">' + TT.facesHTML(t) +
+          '<div class="team-info"><div class="team-name">' + esc(TT.displayName(t)) + '</div><div class="team-members">' + t.members.map(function (m) { return esc(m.name); }).join(' · ') + '</div></div></div>';
+      }).join('') : '<p class="muted">You have no saved tag teams yet. Create your first one — it takes a few seconds.</p>') +
+        '<div style="margin-top:14px"><button type="button" class="btn btn-primary btn-sm" id="pk-new">+ Create new tag team</button></div>';
+    }
+    draw();
+    var m = HC.openModal({ title: 'Choose a tag team', body: body, focus: false, actions: [{ label: 'Cancel', kind: 'steel' }] });
+    body.addEventListener('click', function (e) {
+      var row = e.target.closest('.team-row.pick');
+      if (row) {
+        var t = TT.find(S.rosterId, row.dataset.id);
+        if (t && placeOnSide(ev, side, t)) { render(); m.close(); }
+        return;
+      }
+      if (e.target.id === 'pk-new') {
+        m.close();
+        TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, onSave: function (team) { if (placeOnSide(ev, side, team)) render(); } });
+      }
+    });
+  }
+
+  // ------------------------------------------------------------------ export
+  function showTitle() { return (S.showName || '').trim() || 'Match Card'; }
+
+  function exportHTML() {
+    var html = '<div class="mcx" style="--acc:' + esc(S.color) + '">' +
+      '<div class="mcx-head"><div class="mcx-show">' + esc(showTitle()) + '</div><div class="mcx-bar"></div></div>';
+
+    function slotX(s) {
+      return s ? '<div class="mcx-slot"><img src="' + esc(s.img) + '" crossorigin="anonymous" alt=""><span>' + esc(s.name) + '</span></div>'
+        : '<div class="mcx-slot empty"><i>?</i><span>TBA</span></div>';
+    }
+    function beltX(belt) { return belt ? '<img class="mcx-belt" src="' + esc(belt) + '" crossorigin="anonymous" alt="">' : ''; }
+    S.events.forEach(function (ev, idx) {
+      var f = fmt(ev), sd = sidesOf(ev), belt = beltImg(ev.champ);
+      var main = S.events.length > 1 && idx === S.events.length - 1;
+      html += '<div class="mcx-match' + (main ? ' main' : '') + '">' +
+        '<div class="mcx-top">' + (main ? '<span class="mcx-main">Main event</span>' : '') + '<span class="mcx-type">' + esc(f.label) + '</span>' +
+        '<span class="mcx-stip">' + esc(STIP_LABEL[ev.stip] || 'Normal Match') + '</span></div>';
+      if (sd) {
+        var sideX = function (k) {
+          var tm = ev.sideTeams[k], out = '<div class="mcx-side">' + (tm ? '<div class="mcx-team">' + esc(tm.name) + '</div>' : '') + '<div class="mcx-row">';
+          for (var i = sd[k].start; i < sd[k].end; i++) out += slotX(ev.slots[i]);
+          return out + '</div></div>';
+        };
+        html += '<div class="mcx-body">' + sideX(0) + '<div class="mcx-vs">' + beltX(belt) + '<b>VS</b></div>' + sideX(1) + '</div>';
+      } else {
+        html += '<div class="mcx-body free">' + beltX(belt) + '<div class="mcx-row">' + ev.slots.map(slotX).join('') + '</div></div>';
+      }
+      html += '</div>';
+    });
+    return html + '<div class="mcx-wm"><span>Made on</span><img src="images/px/logo.png" crossorigin="anonymous" alt="2KHUB"><span>.info</span></div></div>';
+  }
+
+  function waitImages(root) {
+    return Promise.all(Array.prototype.slice.call(root.querySelectorAll('img')).map(function (im) {
+      return im.complete ? Promise.resolve() : new Promise(function (res) { im.onload = im.onerror = res; });
+    }));
+  }
+
+  // Shrink the picture, then enlarge it with hard edges: text and shapes become chunky pixels like the sprites.
+  function pixelate(src, block, out) {
+    var w = Math.ceil(src.width / block), h = Math.ceil(src.height / block);
+    var small = document.createElement('canvas'); small.width = w; small.height = h;
+    var sx = small.getContext('2d'); sx.imageSmoothingEnabled = true; sx.drawImage(src, 0, 0, w, h);
+    var big = document.createElement('canvas'); big.width = w * out; big.height = h * out;
+    var bx = big.getContext('2d'); bx.imageSmoothingEnabled = false; bx.drawImage(small, 0, 0, big.width, big.height);
+    return big;
+  }
+
+  // -> Promise<canvas> with the finished, pixelated match card
+  function renderCard() {
+    var board = $('mc-export-board');
+    board.innerHTML = exportHTML();
+    var fonts = (document.fonts && document.fonts.ready) ? document.fonts.ready : Promise.resolve();
+    return fonts.then(function () { return waitImages(board); }).then(function () { return HC.crispImages(board, 1); }).then(function () {
+      return html2canvas(board.firstChild, { backgroundColor: '#0e0e16', scale: 1, useCORS: true, allowTaint: true });
+    }).then(function (canvas) {
+      board.innerHTML = '';
+      return pixelate(canvas, 2, 4);
+    }, function (err) { board.innerHTML = ''; throw err; });
+  }
+
+  function openPreview() {
+    var filled = S.events.some(function (ev) { return ev.slots.some(Boolean); });
+    if (!filled) { HC.toast('Add at least one superstar to the card first.', 'warning'); return; }
+    if (typeof html2canvas === 'undefined') { HC.toast('Image library is still loading — try again in a moment.', 'warning'); return; }
+    var body = document.createElement('div');
+    body.className = 'mcx-wrap';
+    body.innerHTML = '<p class="muted">Making your card…</p>';
+    var url = null;
+    var m = HC.openModal({
+      title: 'Match card', body: body, wide: true, focus: false,
+      actions: [
+        { label: 'Close', kind: 'steel' },
+        { id: 'save', label: 'Save image', kind: 'primary', close: false, onClick: function () {
+          if (!url) return false;
+          var a = document.createElement('a');
+          a.download = (showTitle().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'show') + '-matchcard.png';
+          a.href = url;
+          a.click();
+          HC.toast('Match card downloaded.', 'success');
+          return false;
+        } }
+      ]
+    });
+    m.buttons.save.disabled = true;
+    renderCard().then(function (canvas) {
+      url = canvas.toDataURL('image/png');
+      body.innerHTML = '';
+      var img = new Image();
+      img.className = 'mcx-result';
+      img.alt = 'Match card';
+      img.src = url;
+      body.appendChild(img);
+      m.buttons.save.disabled = false;
+    }).catch(function (err) {
+      console.error(err);
+      HC.toast('Could not make the image. If you opened this file locally, use the hosted site.', 'error');
+      m.close();
+    });
+  }
+
+  // ------------------------------------------------------------------ events
+  function openSheet() { document.body.classList.add('sheet-open'); setTimeout(scrollToTarget, 60); }
+  function closeSheet() { document.body.classList.remove('sheet-open'); }
+
+  document.addEventListener('click', function (e) {
+    var btn = e.target.closest('[data-act]');
+    if (btn) {
+      if (btn.disabled) return;
+      var act = btn.dataset.act, ev = btn.dataset.e ? getEvent(+btn.dataset.e) : null;
+      switch (act) {
+        case 'tab': S.tab = btn.dataset.v; renderSide(); return;
+        case 'f-sex': S.sex = btn.dataset.v; renderSide(); renderRoster(); return;
+        case 'add-match': {
+          var m = newEvent('1v1');
+          S.events.push(m);
+          S.active = { e: m.id, i: 0 };
+          render();
+          var el = document.querySelector('.mc-event[data-e="' + m.id + '"]');
+          if (el) el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+        case 'clear-card':
+          HC.confirm({ title: 'Clear the whole card?', message: 'Removes every match and superstar from the card.', okLabel: 'Clear', kind: 'danger' }).then(function (ok) {
+            if (ok) { S.events = [newEvent('1v1')]; S.active = null; render(); }
+          });
+          return;
+        case 'download': openPreview(); return;
+        case 'sheet-open': openSheet(); return;
+        case 'sheet-close': closeSheet(); return;
+        case 'up': case 'down': {
+          if (!ev) return;
+          var i = S.events.indexOf(ev), j = act === 'up' ? i - 1 : i + 1;
+          if (j < 0 || j >= S.events.length) return;
+          S.events[i] = S.events[j]; S.events[j] = ev; render();
+          return;
+        }
+        case 'del':
+          if (!ev) return;
+          S.events = S.events.filter(function (x) { return x !== ev; });
+          if (!S.events.length) S.events = [newEvent('1v1')];
+          S.active = null; render();
+          return;
+        case 'side-clear': {
+          if (!ev) return;
+          var r = sidesOf(ev)[+btn.dataset.side];
+          for (var k = r.start; k < r.end; k++) ev.slots[k] = null;
+          ev.sideTeams[+btn.dataset.side] = null;
+          S.active = { e: ev.id, i: r.start };
+          render();
+          return;
+        }
+        case 'side-team': if (ev) openTeamPicker(ev, +btn.dataset.side); return;
+        case 'team-new':
+          TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, onSave: function () { S.tab = 'teams'; render(); } });
+          return;
+        case 'team-edit': {
+          var t = TT.find(S.rosterId, btn.closest('.team-row').dataset.team);
+          if (t) TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, team: t, onSave: function () { render(); } });
+          return;
+        }
+        case 'team-del': {
+          var td = TT.find(S.rosterId, btn.closest('.team-row').dataset.team);
+          if (td) HC.confirm({ title: 'Delete tag team?', message: 'Delete "' + TT.displayName(td) + '"? Matches already on your card keep their wrestlers.', okLabel: 'Delete', kind: 'danger' }).then(function (ok) {
+            if (ok) { TT.remove(S.rosterId, td.id); renderTeams(); }
+          });
+          return;
+        }
+      }
+      return;
     }
 
-    loadRoster();
+    // slot click
+    var slot = e.target.closest('.mc-slot');
+    if (slot) {
+      var sev = getEvent(+slot.dataset.e), si = +slot.dataset.i;
+      if (!sev) return;
+      if (sev.slots[si]) {
+        sev.slots[si] = null;
+        var sd = sideIndex(sev, si);
+        if (sd >= 0) sev.sideTeams[sd] = null;
+      }
+      S.active = { e: sev.id, i: si };
+      render();
+      if (isMobile()) openSheet();
+      return;
+    }
+
+    // roster / team rows
+    var row = e.target.closest('#roster-list .mrow');
+    if (row) {
+      var found = S.roster.filter(function (s) { return key(s) === row.dataset.k; })[0];
+      if (found) addSuperstar(found);
+      return;
+    }
+    var trow = e.target.closest('#team-list .team-row');
+    if (trow) {
+      var team = TT.find(S.rosterId, trow.dataset.team);
+      if (team) placeTeam(team);
+    }
+  });
+
+  document.addEventListener('change', function (e) {
+    var sel = e.target.closest('.mc-ev-sel select');
+    if (sel) {
+      var ev = getEvent(+sel.closest('.mc-event').dataset.e);
+      if (!ev) return;
+      if (sel.dataset.f === 'type') changeType(ev, sel.value);
+      else if (sel.dataset.f === 'stip') ev.stip = sel.value;
+      else if (sel.dataset.f === 'champ') ev.champ = sel.value;
+      render();
+      return;
+    }
+    if (e.target.id === 'game-select') { loadRoster(e.target.value); }
+    else if (e.target.id === 'pool-select') { S.source = e.target.value; renderRoster(); }
+  });
+
+  $('q').addEventListener('input', function (e) { S.q = e.target.value; renderRoster(); });
+  $('show-name').addEventListener('input', function (e) { S.showName = e.target.value; save(); });
+  $('show-color').addEventListener('input', function (e) { S.color = e.target.value; save(); });
+
+  // drag & drop (desktop)
+  var dragData = null;
+  document.addEventListener('dragstart', function (e) {
+    var row = e.target.closest && e.target.closest('#roster-list .mrow, #team-list .team-row');
+    if (!row) return;
+    dragData = row.dataset.team ? { t: 'team', id: row.dataset.team } : { t: 's', k: row.dataset.k };
+    e.dataTransfer.setData('text/plain', row.dataset.team || row.dataset.k);
+    e.dataTransfer.effectAllowed = 'copy';
+    row.classList.add('dragging');
+    document.body.classList.add('dragging');
+  });
+  document.addEventListener('dragend', function () {
+    dragData = null;
+    document.body.classList.remove('dragging');
+    document.querySelectorAll('.dragging, .drag-over').forEach(function (x) { x.classList.remove('dragging', 'drag-over'); });
+  });
+  document.addEventListener('dragover', function (e) {
+    var slot = e.target.closest && e.target.closest('.mc-slot');
+    if (!slot || !dragData) return;
+    e.preventDefault();
+    document.querySelectorAll('.drag-over').forEach(function (x) { if (x !== slot) x.classList.remove('drag-over'); });
+    slot.classList.add('drag-over');
+  });
+  document.addEventListener('drop', function (e) {
+    var slot = e.target.closest && e.target.closest('.mc-slot');
+    if (!slot || !dragData) return;
+    e.preventDefault();
+    var d = dragData;
+    dragData = null;
+    slot.classList.remove('drag-over');
+    var ev = getEvent(+slot.dataset.e), i = +slot.dataset.i;
+    if (!ev) return;
+    if (d.t === 's') {
+      var ss = S.roster.filter(function (s) { return key(s) === d.k; })[0];
+      if (ss) fill(ev.id, i, ss);
+    } else {
+      var team = TT.find(S.rosterId, d.id), side = sideIndex(ev, i);
+      if (!team) return;
+      if (side < 0) { HC.toast('Drop a tag team onto a tag match (2 vs 2 or bigger).', 'warning'); return; }
+      if (placeOnSide(ev, side, team)) render();
+    }
+  });
+
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') closeSheet();
+  });
+
+  // ------------------------------------------------------------------ boot
+  restore();
+  $('show-name').value = S.showName;
+  $('show-color').value = S.color;
+  renderEvents();
+  renderSide();
+  HC.loadRosterList().then(function (list) {
+    S.rosterList = list;
+    if (!list.some(function (r) { return r.id === S.rosterId; })) S.rosterId = list[0].id;
+    $('game-select').innerHTML = list.map(function (r) { return '<option value="' + esc(r.id) + '"' + (r.id === S.rosterId ? ' selected' : '') + '>' + esc(r.name) + '</option>'; }).join('');
+    return loadRoster(S.rosterId);
+  });
 })();

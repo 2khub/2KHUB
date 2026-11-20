@@ -33,18 +33,6 @@ let currentRoomCode = null;
 let userId = null;
 let isHost = false;
 
-const rosterLogos = {
-    "wwe2k26": "images/2k26.png",
-    "aew": "images/aew-home.png",
-    "wwe2k25": "images/2k25.png",
-    "wwe2k24": "images/2k24.png",
-    "wwe2k23": "images/2k23.png",
-    "wwe2k22": "images/2k22.png",
-    "wwe2k20": "images/2k20.png",
-    "wwe2k19": "images/2k19.png",
-    "wwe2k18": "images/2k18.png",
-    "all_time_roster": "icon.png"
-};
 
 // === NOTIFICATION HELPERS ===
 function showToast(message, type = 'info') {
@@ -105,8 +93,7 @@ function initCustomRosterSelect() {
     const selectItems = document.getElementById('mp-select-items-roster');
     const rosterInput = document.getElementById('mp-roster-select');
 
-    fetch('data/wwe-rosters.json')
-        .then(r => r.ok ? r.json() : [])
+    HC.loadRosterList()
         .then(list => {
             if (!selectItems || !rosterInput) return;
             selectItems.innerHTML = '';
@@ -116,13 +103,12 @@ function initCustomRosterSelect() {
             }
 
             list.forEach(item => {
-                const logoUrl = rosterLogos[item.id] || rosterLogos["wwe2k26"];
                 const optionDiv = document.createElement('div');
                 optionDiv.className = 'select-item';
-                optionDiv.innerHTML = `<img src="${logoUrl}" class="roster-select-logo" alt=""> <span class="roster-select-name">${item.name}</span>`;
+                optionDiv.innerHTML = `<span class="roster-select-name">${item.name}</span>`;
                 optionDiv.addEventListener('click', () => {
                     rosterInput.value = item.id;
-                    selectSelected.innerHTML = `<img src="${logoUrl}" class="roster-select-logo" alt=""> <span class="roster-select-name">${item.name}</span>`;
+                    selectSelected.innerHTML = `<span class="roster-select-name">${item.name}</span>`;
                     selectItems.classList.add('select-hide');
                     loadRosterData(item.id);
                 });
@@ -131,9 +117,8 @@ function initCustomRosterSelect() {
 
             if (list.length > 0) {
                 const first = list[0];
-                const firstLogo = rosterLogos[first.id] || rosterLogos["wwe2k26"];
                 rosterInput.value = first.id;
-                selectSelected.innerHTML = `<img src="${firstLogo}" class="roster-select-logo" alt=""> <span class="roster-select-name">${first.name}</span>`;
+                selectSelected.innerHTML = `<span class="roster-select-name">${first.name}</span>`;
             }
         })
         .catch(() => {
@@ -157,25 +142,12 @@ function initCustomRosterSelect() {
 
 async function loadRosterData(rosterId) {
     try {
-        const dataPath = `data/${rosterId}.json`;
-        console.log(`Loading roster: ${dataPath}`);
-        const response = await fetch(dataPath);
-        if (!response.ok) throw new Error("Roster JSON not found");
-
-        const data = await response.json();
-
-        if (Array.isArray(data)) {
-            superstars = data;
-        } else if (data.roster) {
-            superstars = data.roster;
-        } else {
-            throw new Error("Invalid roster format");
-        }
-
+        const data = await HC.loadRoster(rosterId);
+        superstars = data.roster.slice();
         superstars.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
         selectedRoster = rosterId;
         renderSuperstarList();
-        
+
     } catch (e) {
         console.error(e);
         showToast("Error loading roster data. Check console.", "error");
@@ -621,35 +593,20 @@ function updateTurnBanner() {
     if (banner) banner.textContent = "Waiting for game to start...";
 }
 
-const gameGraphics = {
-    "wwe2k26": "images/draft2k26.png",
-    "aew": "images/aew.png",
-    "wwe2k25": "images/draft2k25.png",
-    "wwe2k24": "images/draft2k24.png",
-    "wwe2k23": "images/draft2k23.png",
-    "wwe2k22": "images/draft2k22.png",
-    "wwe2k20": "images/draft2k20.png",
-    "wwe2k19": "images/draft2k19.png",
-    "wwe2k18": "images/draft2k18.png",
-    "all_time_roster": "icon.png"
-};
-
 // === EXPORT FUNCTIONS ===
 
 function getDraftResultsHTML(players) {
     const gameId = selectedRoster || 'wwe2k26';
-    const logoUrl = gameGraphics[gameId] || gameGraphics["wwe2k26"];
     
     let gameTitle = gameId.toUpperCase() + " DRAFT RESULTS";
     if (gameId.startsWith('wwe2k')) gameTitle = "WWE 2K" + gameId.substring(5) + " DRAFT RESULTS";
     if (gameId.startsWith('svr')) gameTitle = "SVR " + gameId.substring(3) + " DRAFT RESULTS";
     
-    const watermarkLogoUrl = "logo.png";
+    const watermarkLogoUrl = "images/px/logo.png";
     
     let htmlContent = `
         <div class="export-header">
             <div class="logo-wrapper">
-                <img src="${logoUrl}" class="export-logo" crossorigin="anonymous">
                 <div class="export-watermark-inline">
                     <span>Generated on </span>
                     <img src="${watermarkLogoUrl}" class="watermark-logo-img" crossorigin="anonymous">
@@ -696,17 +653,17 @@ function downloadDraftImage() {
     const gameId = selectedRoster || 'wwe2k26';
     
     const exportBoard = document.createElement('div');
-    exportBoard.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1400px;background:#0a0a0a;padding:50px;box-sizing:border-box;';
+    exportBoard.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1400px;background:#0a0a14;padding:50px;box-sizing:border-box;';
     exportBoard.innerHTML = getDraftResultsHTML(currentRoomPlayers);
     document.body.appendChild(exportBoard);
     
     setTimeout(() => {
-        html2canvas(exportBoard, {
+        HC.crispImages(exportBoard, 2).then(() => html2canvas(exportBoard, {
             useCORS: true,
             allowTaint: true,
-            backgroundColor: '#050505',
+            backgroundColor: '#0a0a14',
             scale: 2
-        }).then(canvas => {
+        })).then(canvas => {
             const link = document.createElement('a');
             link.download = `${gameId}_multiplayer_draft.png`;
             link.href = canvas.toDataURL('image/png');

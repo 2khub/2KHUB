@@ -1,0 +1,25 @@
+/* Home page: logo and three text tiles. */
+.home { max-width: 1100px; margin: 0 auto; padding: 40px 24px; min-height: calc(100vh - 60px - 250px); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 40px; }
+.home-logo { height: 108px; width: auto; }
+.cards { width: 100%; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.card { position: relative; display: flex; flex-direction: column; justify-content: space-between; gap: 40px; min-height: 260px; padding: 24px; background: var(--surface); border: 2px solid var(--border); border-top: 8px solid var(--red); box-shadow: 4px 4px 0 #000; text-decoration: none; color: inherit; transition: transform .1s, box-shadow .1s, border-color .1s; }
+.card:nth-child(2) { border-top-color: var(--blue); }
+.card:nth-child(3) { border-top-color: #fff; }
+.card:hover, .card:focus-visible { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000; border-color: #fff; outline: none; }
+.card:nth-child(1):hover { border-top-color: var(--red); }
+.card:nth-child(2):hover { border-top-color: var(--blue); }
+.card-n { font: 400 64px/1 var(--font-d); color: var(--surface-3); }
+.card h2 { margin: 0; font: 400 44px/1 var(--font-d); }
+.card-go { font: 600 14px var(--font); color: var(--text-2); }
+.card-go::after { content: " \2192"; color: var(--accent); }
+.card:hover .card-go { color: #fff; }
+
+@media (max-width: 760px) {
+  .home { min-height: 0; gap: 24px; padding: 24px 16px; }
+  .home-logo { height: 90px; }
+  .cards { grid-template-columns: 1fr; gap: 14px; }
+  .card { min-height: 0; flex-direction: row; align-items: center; gap: 16px; padding: 16px 18px; }
+  .card-n { font-size: 44px; }
+  .card h2 { font-size: 32px; flex: 1; }
+  .card-go { display: none; }
+}

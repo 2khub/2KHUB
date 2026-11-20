@@ -14,151 +14,29 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Terms & Conditions - 2KHUB</title>
   <meta name="robots" content="noindex">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="icon" type="image/png" href="icon.png">
-  <link rel="stylesheet" href="shared.css">
-  <style>
-    body.home-page {
-      padding-top: 72px;
-    }
-    .site-nav {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      background: rgba(8, 8, 10, 0.94);
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-      padding: 16px 48px;
-      z-index: 1000;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-    .site-nav::after {
-      content: ""; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
-      background: linear-gradient(90deg, #e10600 0%, #8b004e 50%, #006bb6 100%);
-    }
-    .site-nav-logo {
-      height: 40px;
-    }
-    .site-nav-links {
-      display: flex;
-      gap: 32px;
-      align-items: center;
-    }
-    .site-nav-link {
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 0.95rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      transition: color 0.3s ease;
-    }
-    .site-nav-link:hover {
-      color: #ffd700;
-    }
-    .legal-footer {
-      max-width: 800px;
-      margin: 40px auto 20px;
-      padding: 20px 30px;
-      text-align: center;
-      border-top: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    .legal-footer-links {
-      display: flex;
-      gap: 16px;
-      justify-content: center;
-      margin-bottom: 12px;
-      flex-wrap: wrap;
-    }
-    .legal-footer-link {
-      color: #a0a0a0;
-      text-decoration: none;
-      font-size: 0.9rem;
-      transition: color 0.3s ease;
-    }
-    .legal-footer-link:hover {
-      color: #ffd700;
-    }
-    .legal-footer-separator {
-      color: #555;
-      margin: 0 4px;
-    }
-    .legal-footer-copyright {
-      color: #666;
-      font-size: 0.85rem;
-      margin-top: 12px;
-    }
-    .page-container {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 30px;
-      background: rgba(15, 15, 20, 0.85);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      color: #ddd;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-    }
-    .page-title {
-      color: #fff;
-      margin-bottom: 20px;
-      border-bottom: 2px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 10px;
-      font-size: 2rem;
-      font-weight: 800;
-    }
-    h2 { 
-      color: #fff; 
-      margin-top: 25px; 
-      margin-bottom: 10px; 
-      font-size: 1.3rem;
-      font-weight: 700;
-    }
-    p { 
-      line-height: 1.7; 
-      margin-bottom: 15px;
-      color: #e0e0e0;
-    }
-    ul { 
-      margin-bottom: 15px; 
-      padding-left: 20px;
-      color: #c0c0c0;
-    }
-    li { 
-      margin-bottom: 8px;
-      line-height: 1.6;
-    }
-    strong {
-      color: #ffd700;
-    }
-  </style>
+  <link rel="stylesheet" href="hardcore.css">
+  <link rel="stylesheet" href="page.css">
+  
 </head>
-<body class="home-page" style="display: block; overflow-y: auto;">
-  <video autoplay muted loop id="bg-video" class="home-bg-video" aria-hidden="true" style="position: fixed;">
-    <source src="video.mp4" type="video/mp4">
-  </video>
-  <div class="overlay" aria-hidden="true" style="position: fixed;"></div>
+<body class="hc enter">
 
-  <nav class="site-nav">
-    <a href="index.html">
-      <img src="logo.png" alt="2KHUB Logo" class="site-nav-logo nav-logo-img">
-    </a>
-    <div class="site-nav-links">
-      <a href="index.html" class="site-nav-link">Home</a>
-      <a href="tools.html" class="site-nav-link">Tools</a>
-      <a href="guides.html" class="site-nav-link">Guides</a>
+  <header class="hc-header" role="banner">
+    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB"></a>
+    <nav class="hc-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Draft</a>
+      <a href="matchcard-generator.html">Match Cards</a>
+      <a href="multiplayer.html">Multiplayer</a>
+    </nav>
+    <div class="hc-header-actions">
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2KHUB</a>
     </div>
-    <a href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener" class="support-cta">Support 2KHUB</a>
-  </nav>
+  </header>
 
-  <div class="page-container">
-    <h1 class="page-title">Terms & Conditions</h1>
+  <main class="doc">
+    <h1>Terms & Conditions</h1>
     <p>Last updated: March 21, 2026</p>
 
     <h2>1. Acceptance of Terms</h2>
@@ -198,22 +76,44 @@
 
     <h2>10. Contact Information</h2>
     <p>If you have any questions about these Terms & Conditions, please contact us through our contact form on the homepage.</p>
-  </div>
+  </main>
 
-  <footer class="legal-footer">
-    <div class="legal-footer-links">
-      <a href="guides.html" class="legal-footer-link">Guides</a>
-      <span class="legal-footer-separator">•</span>
-      <a href="index.html" class="legal-footer-link">Home</a>
-      <span class="legal-footer-separator">•</span>
-      <a href="privacy.html" class="legal-footer-link">Privacy Policy</a>
-      <span class="legal-footer-separator">•</span>
-      <a href="terms.html" class="legal-footer-link">Terms & Conditions</a>
-    </div>
-    <div class="legal-footer-copyright">
-      <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
+  <footer class="hc-footer">
+    <div class="hc-footer-in">
+      <div class="hc-footer-grid">
+        <div><img src="images/px/logo.png" alt="2KHUB Logo" class="fl"></div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html" class="fk">Home</a></li>
+            <li><a href="tools.html" class="fk">Draft Tool</a></li>
+            <li><a href="matchcard-generator.html" class="fk">Match Cards</a></li>
+            <li><a href="multiplayer.html" class="fk">Multiplayer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://www.reddit.com/user/2khub/" target="_blank" rel="noopener" class="fk">Reddit</a></li>
+            <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" rel="noopener" class="fk">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" rel="noopener" class="fk">TikTok</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html" class="fk">Privacy Policy</a></li>
+            <li><a href="terms.html" class="fk">Terms &amp; Conditions</a></li>
+            <li><a href="contact.html" class="fk">Contact</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hc-footer-bottom">
+        <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
+        <p>2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
+      </div>
     </div>
   </footer>
-  <script src="transitions.js"></script>
+  <script src="hardcore.js"></script>
 </body>
 </html>

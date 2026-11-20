@@ -12,9 +12,9 @@
           crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draft Tool - 2KHUB Universe Mode Manager</title>
-  <meta name="description" content="Interactive WWE 2K26 & AEW draft tool. Select your roster, create custom brands, and draft superstars for your Universe Mode or MyGM save.">
-  <meta name="theme-color" content="#f1c40f">
+  <title>Draft Setup - 2KHUB Universe Mode Manager</title>
+  <meta name="description" content="Set up your WWE 2K26 & AEW draft in three quick steps: pick a game, name your shows, choose free draft or take turns. Built for Universe Mode and MyGM.">
+  <meta name="theme-color" content="#0a0a14">
   <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
   <link rel="canonical" href="https://2khub.info/">
   <meta property="og:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
@@ -27,9 +27,11 @@
   <meta name="twitter:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
   <meta name="twitter:description" content="Free WWE 2K26 & AEW Universe Mode tracker, draft roster tools, and match card maker for wrestling booking fans.">
   <meta name="twitter:image" content="https://2khub.info/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
-  <link rel="stylesheet" href="home.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hardcore.css">
+  <link rel="stylesheet" href="setup.css">
   <link rel="icon" type="image/png" href="icon.png">
   <link rel="apple-touch-icon" href="icon.png">
   <script type="application/ld+json">
@@ -40,280 +42,174 @@
     "applicationCategory": "GameApplication",
     "operatingSystem": "Web Browser",
     "description": "Free WWE 2K26 & AEW Universe Mode tracker with draft tools, match card generator, fantasy booking, and PPV card builder for modern wrestling rosters.",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "USD"
-    },
+    "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
     "url": "https://2khub.info/"
   }
   </script>
 </head>
-<body class="home-page">
+<body class="hc enter setup-page">
 
-  <video autoplay muted loop id="bg-video" class="home-bg-video" aria-hidden="true">
-    <source src="video.mp4" type="video/mp4">
-  </video>
-  <div class="overlay" aria-hidden="true"></div>
+  <header class="hc-header" role="banner">
+    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB"></a>
+    <nav class="hc-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="tools.html" class="on">Draft</a>
+      <a href="matchcard-generator.html">Match Cards</a>
+      <a href="multiplayer.html">Multiplayer</a>
+    </nav>
+    <div class="hc-header-actions">
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2KHUB</a>
+    </div>
+  </header>
 
-  <div class="main-content-row">
-    <main class="home-main hub-main">
-      <div class="hub-card">
-        <div class="home-logo">
-          <a href="index.html"><img src="logo.png" alt="2KHUB – WWE 2K26 Universe Mode Tracker, Draft Tool and Match Card Generator logo" class="home-logo-img"></a>
-        </div>
-        <p class="hub-subtitle">Pick a roster, then choose a tool.</p>
+  <main class="setup">
+    <div class="setup-hero">
+      <h1 class="page-h1">Draft setup</h1>
+      <p class="lead">Choose the game, who is in the draft, any tag teams, your shows and the draft style. The defaults are fine &mdash; you can just press <b>Start draft</b>.</p>
+    </div>
 
-        <div class="hub-section hub-roster-section">
-          <label class="home-label" for="roster-custom-select">Choose roster</label>
-          <div class="custom-select hub-roster-select" id="roster-custom-select" aria-label="Select WWE 2K roster">
-            <div class="select-selected" id="select-selected-roster">Loading...</div>
-            <div class="select-items select-hide" id="select-items-roster"></div>
+    <div id="resume" class="resume panel" hidden>
+      <div class="resume-txt"><b>Draft in progress</b><span id="resume-info"></span></div>
+      <div class="resume-btns">
+        <button type="button" class="btn btn-primary btn-sm" id="resume-go">Resume</button>
+        <button type="button" class="btn btn-steel btn-sm" id="resume-drop">Discard</button>
+      </div>
+    </div>
+
+    <section class="panel step" aria-labelledby="s1">
+      <div class="ph"><span class="num">1</span><span class="grow" id="s1">Choose your game</span><span class="hint" id="roster-info"></span></div>
+      <div class="step-body"><div class="game-grid" id="game-grid" role="radiogroup" aria-label="Game roster"></div></div>
+    </section>
+
+    <section class="panel step" aria-labelledby="s2">
+      <div class="ph"><span class="num">2</span><span class="grow" id="s2">Superstar pool</span><span class="hint" id="pool-info"></span></div>
+      <div class="step-body">
+        <p class="step-help">Choose who is in the draft. Everyone starts in &mdash; click a superstar to take them out, or use a quick filter.</p>
+        <div class="pool-quick">
+          <div class="seg" id="pool-quick">
+            <button type="button" data-q="all">Everyone</button>
+            <button type="button" data-q="men">Men only</button>
+            <button type="button" data-q="women">Women only</button>
+            <button type="button" data-q="nojob">No jobbers</button>
+            <button type="button" data-q="top">Main event only</button>
+            <button type="button" data-q="none">Clear all</button>
           </div>
-          <input type="hidden" id="wwe-roster-select" value="wwe2k25">
+          <button type="button" class="link-btn" id="pool-custom">+ Add custom superstar</button>
+        </div>
+        <input id="pool-search" class="field" type="search" placeholder="Search superstars..." autocomplete="off" aria-label="Search superstars">
+        <div class="pool-grid" id="pool-grid"></div>
+      </div>
+    </section>
+
+    <section class="panel step" aria-labelledby="s3">
+      <div class="ph"><span class="num">3</span><span class="grow" id="s3">Tag teams</span><button type="button" class="btn btn-primary btn-sm" id="team-new">+ Create tag team</button></div>
+      <div class="step-body">
+        <p class="step-help">Optional. Build teams of 2 or more superstars from your pool &mdash; a team is drafted together as a single pick.</p>
+        <div id="team-list" class="team-list"></div>
+      </div>
+    </section>
+
+    <section class="panel step" aria-labelledby="s4">
+      <div class="ph"><span class="num">4</span><span class="grow" id="s4">Name your shows</span><button type="button" class="link-btn" id="reset-shows">Reset to game defaults</button></div>
+      <div class="step-body">
+        <div class="show-grid" id="show-grid"></div>
+        <p class="fine">2 to 4 shows. Superstars get drafted onto these.</p>
+      </div>
+    </section>
+
+    <section class="panel step" aria-labelledby="s5">
+      <div class="ph"><span class="num">5</span><span class="grow" id="s5">Pick your draft style</span></div>
+      <div class="step-body">
+        <div class="style-grid" role="radiogroup" aria-label="Draft style">
+          <button type="button" class="style-card on" data-mode="free" role="radio" aria-checked="true">
+            <span class="style-name">Free Draft</span>
+            <span class="style-desc">Draft anyone to any show, any time. Fast and flexible &mdash; best for planning a roster.</span>
+          </button>
+          <button type="button" class="style-card" data-mode="turns" role="radio" aria-checked="false">
+            <span class="style-name">Take Turns</span>
+            <span class="style-desc">Shows pick one at a time, like the old GM-mode draft. Great for friends or a real Universe draft.</span>
+          </button>
         </div>
 
-        <nav class="hub-tiles" id="hub-tiles" aria-label="2KHUB tools">
-          <a href="#" id="hub-tile-draft" class="hub-tile hub-tile-bg-draft" data-action="draft" aria-label="Open WWE Universe Draft Tool">
-            <span class="hub-tile-title">Universe Draft</span>
-            <span class="hub-tile-desc">Start your wrestling universe with the best custom draft experience</span>
-          </a>
-          <a href="#" id="hub-tile-matchcard" class="hub-tile hub-tile-bg-matchcard" data-action="matchcard" aria-label="Open Match Card Generator">
-            <span class="hub-tile-title">Match Card Generator</span>
-            <span class="hub-tile-desc">Build your perfect match card for the next show</span>
-          </a>
-        </nav>
+        <div class="opts-row">
+          <div class="opt" id="opt-order" hidden>
+            <label class="lbl">Pick order</label>
+            <div class="seg" id="order-seg">
+              <button type="button" data-v="alt" class="on">Alternate</button>
+              <button type="button" data-v="snake">Snake</button>
+            </div>
+          </div>
+          <div class="opt" id="opt-random" hidden>
+            <label class="lbl">Who picks first?</label>
+            <div class="seg" id="random-seg">
+              <button type="button" data-v="0" class="on">Show 1</button>
+              <button type="button" data-v="1">Random</button>
+            </div>
+          </div>
+          <div class="opt">
+            <label class="lbl" for="cap-select">Roster size per show</label>
+            <select id="cap-select" class="hc-select">
+              <option value="0">No limit</option>
+              <option value="10">10 superstars</option>
+              <option value="15">15 superstars</option>
+              <option value="20">20 superstars</option>
+              <option value="25">25 superstars</option>
+              <option value="30">30 superstars</option>
+              <option value="40">40 superstars</option>
+            </select>
+          </div>
+        </div>
       </div>
-    </main>
+    </section>
 
-    <!-- Universal Footer Component -->
-<footer class="universal-footer">
-  <div class="footer-container">
-    <div class="footer-grid">
-      <!-- Column 1: Brand -->
-      <div class="footer-column footer-brand">
-        <img src="logo.png" alt="2K HUB Logo" class="footer-logo">
-        <p class="footer-tagline">The ultimate companion app for your WWE 2K Universe Mode & MyGM.</p>
+    <div class="prompts launch">
+      <div class="launch-sum" id="summary">Loading&hellip;</div>
+      <a class="btn btn-steel" id="to-matchcard" href="matchcard-generator.html">Match card maker</a>
+      <button type="button" class="btn btn-primary btn-lg" id="start">Start draft &#9654;</button>
+    </div>
+  </main>
+
+  <footer class="hc-footer">
+    <div class="hc-footer-in">
+      <div class="hc-footer-grid">
+        <div>
+          <img src="images/px/logo.png" alt="2KHUB Logo" class="fl">
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html" class="fk">Home</a></li>
+            <li><a href="tools.html" class="fk">Draft Tool</a></li>
+            <li><a href="matchcard-generator.html" class="fk">Match Cards</a></li>
+            <li><a href="multiplayer.html" class="fk">Multiplayer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://www.reddit.com/user/2khub/" target="_blank" rel="noopener" class="fk">Reddit</a></li>
+            <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" rel="noopener" class="fk">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" rel="noopener" class="fk">TikTok</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html" class="fk">Privacy Policy</a></li>
+            <li><a href="terms.html" class="fk">Terms &amp; Conditions</a></li>
+            <li><a href="contact.html" class="fk">Contact</a></li>
+          </ul>
+        </div>
       </div>
-
-      <!-- Column 2: Navigation -->
-      <div class="footer-column">
-        <h3 class="footer-heading">Navigation</h3>
-        <ul class="footer-links">
-          <li><a href="index.html" class="footer-link">Home</a></li>
-          <li><a href="tools.html" class="footer-link">Tools</a></li>
-          <li><a href="guides.html" class="footer-link">Guides</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 3: Support & Socials -->
-      <div class="footer-column">
-        <h3 class="footer-heading">Community</h3>
-        <ul class="footer-links">
-          <li><button type="button" id="open-bug-modal" class="footer-link" style="background: none; border: none; padding: 0; cursor: pointer; font: inherit;">Contact Us</button></li>
-          <li><a href="https://www.reddit.com/user/2khub/" target="_blank" class="footer-link">Reddit</a></li>
-          <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" class="footer-link">Instagram</a></li>
-          <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" class="footer-link">TikTok</a></li>
-        </ul>
-      </div>
-
-      <!-- Column 4: Legal -->
-      <div class="footer-column">
-        <h3 class="footer-heading">Legal</h3>
-        <ul class="footer-links">
-          <li><a href="privacy.html" class="footer-link">Privacy Policy</a></li>
-          <li><a href="terms.html" class="footer-link">Terms & Conditions</a></li>
-        </ul>
+      <div class="hc-footer-bottom">
+        <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
+        <p>2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
       </div>
     </div>
+  </footer>
 
-    <div class="footer-bottom">
-      <p class="footer-copyright">&copy; 2025-2026 2KHUB. All rights reserved.</p>
-      <p class="footer-disclaimer">2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
-    </div>
-  </div>
-</footer>
-
-<style>
-@keyframes pageEnter {
-  from { opacity: 0; transform: translateY(14px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-body {
-  animation: pageEnter 0.38s cubic-bezier(0.22, 1, 0.36, 1) both;
-}
-body.page-exit {
-  opacity: 0;
-  transform: translateY(-10px);
-  transition: opacity 0.22s ease-in, transform 0.22s ease-in;
-  pointer-events: none;
-}
-
-.universal-footer {
-  background: rgba(12, 12, 12, 0.95);
-  backdrop-filter: blur(10px);
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding: 60px 24px 30px;
-  margin-top: 80px;
-  position: relative;
-}
-
-.universal-footer::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  background: linear-gradient(90deg, rgba(225, 6, 0, 0.8), rgba(0, 107, 182, 0.8));
-}
-
-.footer-container {
-  max-width: 1200px;
-  margin: 0 auto;
-}
-
-.footer-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 40px;
-  margin-bottom: 40px;
-}
-
-.footer-column {
-  display: flex;
-  flex-direction: column;
-}
-
-.footer-brand {
-  grid-column: span 1;
-}
-
-.footer-logo {
-  height: 44px;
-  width: auto;
-  max-width: 180px;
-  object-fit: contain;
-  display: block;
-  align-self: flex-start;
-  margin-bottom: 16px;
-  filter: drop-shadow(0 0 12px rgba(255, 255, 255, 0.15));
-}
-
-.footer-tagline {
-  font-size: 0.9rem;
-  line-height: 1.6;
-  color: #a0a0a0;
-  margin: 0;
-}
-
-.footer-heading {
-  font-family: var(--font-main, 'Inter', sans-serif);
-  font-size: 0.95rem;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  color: #ffffff;
-  margin: 0 0 16px 0;
-}
-
-.footer-links {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.footer-link {
-  color: #c0c0c0;
-  text-decoration: none;
-  font-size: 0.9rem;
-  transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-  color: #ffd700;
-}
-
-.footer-bottom {
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
-  text-align: center;
-}
-
-.footer-copyright {
-  font-size: 0.85rem;
-  color: #888;
-  margin: 0 0 8px 0;
-}
-
-.footer-disclaimer {
-  font-size: 0.8rem;
-  color: #666;
-  margin: 0;
-  line-height: 1.5;
-}
-
-@media (max-width: 968px) {
-  .footer-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 32px;
-  }
-}
-
-@media (max-width: 640px) {
-  .universal-footer {
-    padding: 40px 20px 24px;
-    margin-top: 60px;
-  }
-
-  .footer-grid {
-    grid-template-columns: 1fr;
-    gap: 32px;
-  }
-
-  .footer-brand {
-    text-align: center;
-  }
-
-  .footer-logo {
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .footer-heading {
-    font-size: 0.9rem;
-  }
-}
-</style>
-  </div>
-
-  <!-- Bug Report / Contact modal (Netlify Forms) -->
-  <div id="bug-report-modal" class="bug-report-modal" role="dialog" aria-modal="true" aria-labelledby="bug-report-modal-title" hidden>
-    <div class="bug-report-modal-backdrop" id="bug-report-modal-backdrop"></div>
-    <div class="bug-report-modal-box">
-      <h2 id="bug-report-modal-title" class="bug-report-modal-title">Report a Bug / Contact</h2>
-      <form action="https://formspree.io/f/xdalpbgo" method="POST">
-
-        <div class="bug-report-field">
-          <label for="bug-report-email" class="bug-report-label">Email <span class="bug-report-optional">(optional)</span></label>
-          <input type="email" id="bug-report-email" name="email" class="bug-report-input" placeholder="you@example.com" autocomplete="email">
-        </div>
-        <div class="bug-report-field">
-          <label for="bug-report-description" class="bug-report-label">Bug description / message <span class="bug-report-required">(required)</span></label>
-          <textarea id="bug-report-description" name="description" class="bug-report-textarea" placeholder="Describe the issue or your message..." rows="5" required></textarea>
-        </div>
-        <div class="bug-report-actions">
-          <button type="button" class="bug-report-btn bug-report-btn-close" id="bug-report-modal-close">Close</button>
-          <button type="submit" class="bug-report-btn bug-report-btn-submit">Submit</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-  <script src="transitions.js"></script>
-  <script src="home.js"></script>
+  <script src="hardcore.js"></script>
+  <script src="tagteams.js"></script>
+  <script src="setup.js"></script>
 </body>
 </html>
