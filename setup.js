@@ -51,7 +51,7 @@
       var r = byId[id];
       return '<button type="button" class="game-tile' + (r.id === st.rosterId ? ' on' : '') + '" data-id="' + esc(r.id) + '" role="radio" aria-checked="' + (r.id === st.rosterId) + '">' +
         '<span>' + esc(r.name) + '</span></button>';
-    }).join('') + '<a class="browse-tile" href="rosters.html?for=draft"><span>+ Browse rosters</span></a>';
+    }).join('') + '<a class="browse-tile" href="rosters?for=draft"><span>+ Browse rosters</span></a>';
   }
 
   // no roster picked yet: the page stays usable and says what to do
@@ -308,7 +308,7 @@
     HC.sset('draftRoster', st.rosterId, true);
     HC.touchRecent(st.rosterId);
     HC.sdel('2khub_draft_state');
-    window.location.href = 'draft.html';
+    window.location.href = 'draft';
   });
 
   $('to-matchcard').addEventListener('click', function () {
@@ -329,7 +329,7 @@
     $('resume-go').addEventListener('click', function () {
       HC.sdel('draftSetup', true);
       HC.sset('draftRoster', d.rosterId, true);
-      window.location.href = 'draft.html';
+      window.location.href = 'draft';
     });
     $('resume-drop').addEventListener('click', function () {
       HC.confirm({ title: 'Discard draft?', message: 'This deletes your saved draft progress.', okLabel: 'Discard', kind: 'danger' }).then(function (ok) {

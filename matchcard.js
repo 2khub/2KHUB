@@ -578,7 +578,7 @@
         case 'tab': S.tab = btn.dataset.v; renderSide(); return;
         case 'mode-roster':
           if (S.rosterId && S.mode !== 'roster') { S.mode = 'roster'; if (!S.roster.length) loadRoster(S.rosterId); render(); }
-          else window.location.href = 'rosters.html?for=matchcard';
+          else window.location.href = 'rosters?for=matchcard';
           return;
         case 'mode-free': S.mode = 'free'; S.sex = 'all'; render(); return;
         case 'free-new': openFreeEditor(null); return;

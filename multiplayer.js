@@ -108,7 +108,7 @@ function renderRosterPicker() {
     grid.innerHTML = ids.map(id => {
         const r = byId[id];
         return '<button type="button" class="game-tile' + (id === input.value ? ' on' : '') + '" data-id="' + HC.esc(id) + '" role="radio" aria-checked="' + (id === input.value) + '"><span>' + HC.esc(r.name) + '</span></button>';
-    }).join('') + '<a class="browse-tile" href="rosters.html?for=multiplayer"><span>+ Browse rosters</span></a>';
+    }).join('') + '<a class="browse-tile" href="rosters?for=multiplayer"><span>+ Browse rosters</span></a>';
     if (hostBtn) hostBtn.disabled = !input.value;
     if (!input.value) info.textContent = rosterChoices.length ? 'Pick a roster to host.' : 'No roster yet.';
 }

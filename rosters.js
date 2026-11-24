@@ -192,7 +192,7 @@
         HC.sset('draftRoster', id, true);
       }
       HC.touchRecent(id);
-      window.location.href = from === 'matchcard' ? 'matchcard-generator.html' : from === 'multiplayer' ? 'multiplayer.html' : 'tools.html';
+      window.location.href = from === 'matchcard' ? 'matchcard-generator' : from === 'multiplayer' ? 'multiplayer' : 'tools';
     }).catch(fail);
   }
 

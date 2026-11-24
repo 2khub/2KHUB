@@ -75,7 +75,7 @@
       var name = st.profile ? st.profile.display_name : 'Account';
       box.innerHTML = '<button type="button" class="btn btn-steel btn-sm" id="auth-btn" aria-haspopup="true">' + esc(name) + ' &#9662;</button>' +
         '<div class="auth-pop" id="auth-pop" hidden><div class="auth-who"><b>' + esc(name) + '</b><span>' + esc((st.user.email || '')) + '</span></div>' +
-        '<a class="auth-item" href="rosters.html#mine">My rosters</a>' +
+        '<a class="auth-item" href="rosters#mine">My rosters</a>' +
         '<button type="button" class="auth-item" data-auth="name">Change display name</button>' +
         '<button type="button" class="auth-item" data-auth="export">Download my data</button>' +
         '<button type="button" class="auth-item" data-auth="out">Sign out</button>' +
@@ -113,7 +113,7 @@
     body.innerHTML = '<p>Sign in to share rosters with the community and keep your Universe saves in the cloud.</p>' +
       '<div class="auth-providers"><button type="button" class="btn btn-steel btn-lg auth-prov google" data-prov="google"><span class="ico">' + ICON.google + '</span>Continue with Google</button>' +
       '<button type="button" class="btn btn-steel btn-lg auth-prov discord" data-prov="discord"><span class="ico">' + ICON.discord + '</span>Continue with Discord</button></div>' +
-      '<p class="muted auth-fine">By signing in you agree to the <a href="terms.html">Terms</a> and the <a href="privacy.html">Privacy Policy</a>. You can still use the draft tools without an account.</p>';
+      '<p class="muted auth-fine">By signing in you agree to the <a href="terms">Terms</a> and the <a href="privacy">Privacy Policy</a>. You can still use the draft tools without an account.</p>';
     body.addEventListener('click', function (e) { var b = e.target.closest('[data-prov]'); if (b) { b.disabled = true; signInWith(b.dataset.prov); } });
     HC.openModal({ title: 'Sign in', body: body, focus: false, actions: [{ label: 'Close', kind: 'steel' }] });
   }

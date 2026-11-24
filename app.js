@@ -855,13 +855,13 @@
     }
     var setup = session || HC.jget('2khub_setup', null) || {};
     var rosterId = setup.rosterId || HC.currentRosterId();
-    if (!rosterId) { window.location.replace('tools.html'); return; }   // nothing set up yet: go pick a roster
+    if (!rosterId) { window.location.replace('tools'); return; }   // nothing set up yet: go pick a roster
     HC.loadRoster(rosterId).then(function (data) {
       S = newState(setup, data);
       start();
     }).catch(function (err) {
       console.error(err);
-      $('pool').innerHTML = '<div class="empty"><b>Could not load the roster</b>Go back to Setup and pick a roster.<br><a class="btn btn-primary btn-sm" href="tools.html">Open setup</a></div>';
+      $('pool').innerHTML = '<div class="empty"><b>Could not load the roster</b>Go back to Setup and pick a roster.<br><a class="btn btn-primary btn-sm" href="tools">Open setup</a></div>';
     });
   }
 

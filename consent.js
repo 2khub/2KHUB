@@ -44,7 +44,7 @@
     var b = document.createElement('div');
     b.id = 'cc-banner'; b.className = 'cc-banner'; b.setAttribute('role', 'dialog'); b.setAttribute('aria-label', 'Cookie choice');
     b.innerHTML = '<p><b>Cookies.</b> We use them to see how the site is used. The tools work without them. ' +
-      'Read the <a href="privacy.html">Privacy Policy</a>.</p>' +
+      'Read the <a href="privacy">Privacy Policy</a>.</p>' +
       '<div class="cc-btns"><button type="button" class="btn btn-steel btn-sm" data-cc="necessary">Only necessary</button>' +
       '<button type="button" class="btn btn-primary btn-sm" data-cc="all">Accept all</button></div>';
     b.addEventListener('click', function (e) { var t = e.target.closest('[data-cc]'); if (t) choose(t.dataset.cc); });
