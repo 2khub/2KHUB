@@ -1,4 +1,4 @@
-/* 2KHUB Draft board.
+/* 2UHub Draft board.
    Setup comes from tools.html (sessionStorage 'draftSetup'); progress autosaves to localStorage
    so a refresh never loses a draft. Requires hardcore.js + tagteams.js. */
 (function () {
@@ -43,7 +43,7 @@
 
   // ------------------------------------------------------------------ state
   function newState(setup, data) {
-    var shows = (setup.shows && setup.shows.length >= 2 ? setup.shows : data.brands)
+    var shows = (setup.shows && setup.shows.length >= 2 ? setup.shows : HC.DEFAULT_BRANDS)
       .slice(0, 4).map(function (s, i) { return { id: s.id || 'show' + i + Date.now().toString(36), name: s.name, color: s.color }; });
     var order = shows.map(function (s) { return s.id; });
     if (setup.mode === 'turns' && setup.randomFirst) HC.shuffle(order);
@@ -445,7 +445,7 @@
     el.innerHTML = list.map(function (s) {
       var k = key(s);
       return '<div class="row t-' + s.tier + (k === UI.sel ? ' sel' : '') + '" role="listitem" draggable="true" data-k="' + esc(k) + '">' +
-        '<img class="face" src="' + esc(s.img) + '" alt="" loading="lazy" draggable="false">' +
+        '<img class="face" src="' + esc(s.img) + '" alt="" loading="lazy" decoding="async" draggable="false">' +
         '<span class="nm">' + esc(s.name) + '</span>' +
         '<span class="tag t-' + s.tier + '">' + TIERS[s.tier].short + '</span></div>';
     }).join('');
@@ -540,7 +540,7 @@
 
   function renderHeader() {
     $('page-title').textContent = S.rosterName + ' Draft';
-    document.title = S.rosterName + ' Draft - 2KHUB';
+    document.title = S.rosterName + ' Draft - 2UHub';
   }
 
   function renderAll() { renderHeader(); renderGuide(); renderPool(); renderInfo(); renderShows(); renderBar(); }
@@ -586,7 +586,7 @@
     }).join('');
     return '<div class="xp"><div class="xp-head">' +
       '<div class="xp-title">' + esc(S.rosterName) + ' Draft Results</div>' +
-      '<div class="xp-wm">Generated on <img src="images/px/logo.png" crossorigin="anonymous" alt="2KHUB">.info</div></div>' +
+      '<div class="xp-wm">Generated on <img src="images/px/logo.png" crossorigin="anonymous" alt="2UHub">.com</div></div>' +
       '<div class="xp-grid">' + cols + '</div></div>';
   }
 
@@ -855,12 +855,13 @@
     }
     var setup = session || HC.jget('2khub_setup', null) || {};
     var rosterId = setup.rosterId || HC.currentRosterId();
+    if (!rosterId) { window.location.replace('tools.html'); return; }   // nothing set up yet: go pick a roster
     HC.loadRoster(rosterId).then(function (data) {
       S = newState(setup, data);
       start();
     }).catch(function (err) {
       console.error(err);
-      $('pool').innerHTML = '<div class="empty"><b>Could not load the roster</b>Go back to Setup and pick a game.<br><a class="btn btn-primary btn-sm" href="tools.html">Open setup</a></div>';
+      $('pool').innerHTML = '<div class="empty"><b>Could not load the roster</b>Go back to Setup and pick a roster.<br><a class="btn btn-primary btn-sm" href="tools.html">Open setup</a></div>';
     });
   }
 

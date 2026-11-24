@@ -1,21 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wibltdvrqy");
-  </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
-          crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Multiplayer Draft - 2KHUB</title>
-  <meta name="description" content="Multiplayer WWE 2K26 & AEW draft simulator. Draft with friends in real-time.">
+  <title>Multiplayer Draft - 2UHub</title>
+  <meta name="description" content="Multiplayer wrestling draft simulator. Draft with friends in real time.">
   <meta name="theme-color" content="#0a0a14">
-  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="canonical" href="https://2uhub.com/multiplayer">
+  <meta property="og:url" content="https://2uhub.com/multiplayer">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="hardcore.css">
   <link rel="stylesheet" href="multiplayer.css">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
@@ -26,15 +19,17 @@
 <body class="hc enter mp-page">
 
   <header class="hc-header" role="banner">
-    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB"></a>
+    <a href="index.html" class="hc-logo" aria-label="2UHub home"><img src="images/px/logo.png" alt="2UHub"></a>
     <nav class="hc-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="tools.html">Draft</a>
       <a href="matchcard-generator.html">Match Cards</a>
+      <a href="story.html">Story</a>
+      <a href="rosters.html">Rosters</a>
       <a href="multiplayer.html" class="on">Multiplayer</a>
     </nav>
     <div class="hc-header-actions">
-      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2KHUB</a>
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2UHub</a>
     </div>
     <h1 class="sr-only">Multiplayer Draft Tool</h1>
   </header>
@@ -45,7 +40,12 @@
     <div class="screen-state active" id="state-start">
       <div class="mp-card">
         <h2 class="mp-h">Multiplayer draft</h2>
-        <button class="btn btn-primary btn-lg mp-wide" id="btn-host">Host a draft</button>
+        <div class="mp-field mp-roster">
+          <div class="mp-roster-head"><span class="lbl" id="mp-roster-title">Browse rosters</span><span class="hint" id="mp-roster-info"></span></div>
+          <div class="game-grid" id="mp-roster-grid" role="radiogroup" aria-label="Roster"></div>
+          <input type="hidden" id="mp-roster-select" value="">
+        </div>
+        <button class="btn btn-primary btn-lg mp-wide" id="btn-host" disabled>Host a draft</button>
         <div class="mp-or"><span>or</span></div>
         <div class="mp-join">
           <input type="text" id="join-code-input" class="field mp-code-input" placeholder="Room code" maxlength="5" autocomplete="off">
@@ -60,16 +60,7 @@
         <h2 class="mp-h">Your brand</h2>
         <div class="mp-field">
           <label for="setup-brand-name" class="lbl">Name</label>
-          <input type="text" id="setup-brand-name" class="field" placeholder="e.g. RAW, SmackDown" maxlength="20">
-        </div>
-
-        <div class="mp-field" id="host-roster-select-container" style="display: none;">
-          <label class="lbl">Game</label>
-          <div class="custom-select" id="mp-roster-custom-select" aria-label="Select roster">
-            <div class="select-selected" id="mp-select-selected-roster">Loading...</div>
-            <div class="select-items select-hide" id="mp-select-items-roster"></div>
-          </div>
-          <input type="hidden" id="mp-roster-select" value="wwe2k26">
+          <input type="text" id="setup-brand-name" class="field" placeholder="e.g. Red Show" maxlength="20">
         </div>
 
         <div class="mp-field">
@@ -152,4 +143,5 @@
 
   <script src="hardcore.js"></script>
   <script type="module" src="multiplayer.js"></script>
-</html>
+</html>  <script src="consent.js" defer></script>
+

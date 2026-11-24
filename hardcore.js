@@ -1,4 +1,4 @@
-/* 2KHUB shared helpers: storage, toasts, modals, roster loading. No dependencies. */
+/* 2UHub shared helpers: storage, toasts, modals, roster loading. No dependencies. */
 (function () {
   'use strict';
 
@@ -9,14 +9,18 @@
   var LOGO = 'images/px/logo.png';
 
   // images/john-cena.png -> images/px/john-cena.png (pixel-art portrait). Anything else is returned as is.
+  // Set to false to replace every game portrait on the site with a plain silhouette (for example after a takedown request).
+  var SHOW_GAME_ARTWORK = true;
   function px(src) {
+    if (!SHOW_GAME_ARTWORK && /^(?:\.\/)?images\/(?!px\/(?:logo|art))/i.test(String(src || ''))) return FALLBACK_IMG;
     var m = /^(?:\.\/)?images\/([^\/]+)\.(?:png|jpe?g|webp)$/i.exec(String(src || ''));
     return m ? 'images/px/' + m[1] + '.png' : src;
   }
+  // Every roster starts with these three editable shows (rosters themselves carry no show names)
   var DEFAULT_BRANDS = [
-    { name: 'RAW', color: '#e10600' },
-    { name: 'SmackDown', color: '#1f7fe5' },
-    { name: 'NXT', color: '#ffc72c' }
+    { name: 'Red Show', color: '#e10600' },
+    { name: 'Blue Show', color: '#1f7fe5' },
+    { name: 'Gold Show', color: '#ffc72c' }
   ];
 
   function esc(s) {
@@ -133,48 +137,91 @@
     return out;
   }
 
-  // One file holds every game and every superstar: data/superstars.json
-  //   games:      [{id, name, brands}]
-  //   superstars: [{name, img, sex, tier, games:[ids], overrides?:{id:{name?,img?,tier?}}}]
-  // Choosing a game keeps the superstars whose `games` contains it, using that game's
-  // own name / image / tier where they differ from the defaults.
-  var dataPromise = null;
-  function loadData() {
-    if (!dataPromise) {
-      dataPromise = fetch('data/superstars.json').then(function (r) {
-        if (!r.ok) throw new Error('data/superstars.json not found');
-        return r.json();
-      }).catch(function (e) { dataPromise = null; throw e; });
-    }
-    return dataPromise;
+  // ---------------------------------------------------------------- rosters
+  // A roster is one JSON file: {format:'2uhub-roster', id, name, author, description, superstars:[{name,img,sex,tier}]}.
+  // The all-time roster (data/rosters/all_time_roster.json) feeds the name suggestions. Rosters people make are kept
+  // in this browser ("My rosters") and can be shared through the roster community (rosters.html).
+  var LIB_KEY = '2uhub_rosters';
+  var IMG_OK = /^images\/[\w .\-]+\.(png|jpe?g|webp)$/i;
+  var DATA_OK = /^data:image\/png;base64,[A-Za-z0-9+\/=]+$/;
+  var LIMITS = { name: 40, desc: 300, author: 24, brand: 20, stars: 500, officialStars: 1000, dataImg: 9000 };
+
+  // -> {ok:true, roster} with every field cleaned, or {ok:false, error}. Used for imports, uploads and downloads.
+  function cleanRoster(raw, opts) {
+    opts = opts || {};
+    if (!raw || typeof raw !== 'object') return { ok: false, error: 'That is not a roster file.' };
+    var name = String(raw.name || '').trim().slice(0, LIMITS.name);
+    if (!name) return { ok: false, error: 'The roster needs a name.' };
+    var max = opts.official ? LIMITS.officialStars : LIMITS.stars, seen = {}, stars = [];
+    (Array.isArray(raw.superstars) ? raw.superstars : []).forEach(function (s) {
+      if (!s) return;
+      var nm = String(s.name || '').trim().slice(0, LIMITS.name), k = keyOf(nm);
+      if (!nm || seen[k]) return;
+      seen[k] = 1;
+      var img = String(s.img || '');
+      if (img && !(IMG_OK.test(img) || (DATA_OK.test(img) && img.length <= LIMITS.dataImg))) img = '';
+      stars.push({ name: nm, img: img, sex: normSex(s.sex), tier: normTier(s.tier) });
+    });
+    if (stars.length < 2) return { ok: false, error: 'A roster needs at least 2 superstars.' };
+    if (stars.length > max) return { ok: false, error: 'A roster can have at most ' + max + ' superstars.' };
+    return { ok: true, roster: {
+      format: '2uhub-roster', version: 1, id: String(raw.id || ''), name: name, author: String(raw.author || '').trim().slice(0, LIMITS.author),
+      description: String(raw.description || '').trim().slice(0, LIMITS.desc), superstars: stars
+    } };
+  }
+
+  // My rosters: full copies kept in this browser (made here, imported, or added from the community)
+  function library() { var l = jget(LIB_KEY, []); return Array.isArray(l) ? l : []; }
+  function saveToLibrary(r) {
+    var l = library().filter(function (x) { return x.id !== r.id; });
+    l.unshift(r);
+    return jset(LIB_KEY, l);
+  }
+  function removeFromLibrary(id) { return jset(LIB_KEY, library().filter(function (x) { return x.id !== id; })); }
+  function newRosterId() { return 'u-' + Date.now().toString(36) + Math.floor(Math.random() * 1e6).toString(36); }
+
+  function build(r, id) {
+    return { id: id, name: r.name, author: r.author || '', description: r.description || '',
+      roster: normalizeRoster(r.superstars.map(function (s) { return { name: s.name, img: px(s.img), sex: s.sex, tier: s.tier }; })) };
   }
 
   var rosterCache = {};
-  // -> Promise<{id, brands:[{name,color}], roster:[...]}>
+  // -> Promise<{id, name, author, description, roster:[{name,img,sex,tier}]}>
   function loadRoster(id) {
     if (rosterCache[id]) return Promise.resolve(rosterCache[id]);
-    return loadData().then(function (data) {
-      var game = null;
-      (data.games || []).forEach(function (g) { if (g.id === id) game = g; });
-      if (!game) throw new Error('Unknown game: ' + id);
-      var roster = [];
-      (data.superstars || []).forEach(function (s) {
-        if ((s.games || []).indexOf(id) < 0) return;
-        var o = (s.overrides && s.overrides[id]) || {};
-        roster.push({ name: o.name || s.name, img: px(o.img || s.img), sex: s.sex, tier: o.tier || s.tier });
-      });
-      var brands = (game.brands && game.brands.length) ? game.brands : DEFAULT_BRANDS;
-      var res = { id: id, brands: brands.slice(0, 4).map(function (b) { return { name: b.name, color: b.color || '#ffffff' }; }), roster: normalizeRoster(roster) };
-      rosterCache[id] = res;
-      return res;
+    var mine = library().filter(function (x) { return x.id === id; })[0];
+    if (mine) {
+      var c = cleanRoster(mine);
+      if (!c.ok) return Promise.reject(new Error(c.error));
+      return Promise.resolve(build(c.roster, id));
+    }
+    return fetch('data/rosters/' + encodeURIComponent(id) + '.json').then(function (r) {
+      if (!r.ok) throw new Error('Unknown roster: ' + id);
+      return r.json();
+    }).then(function (raw) {
+      var c = cleanRoster(raw, { official: true });
+      if (!c.ok) throw new Error(c.error);
+      rosterCache[id] = build(c.roster, id);
+      return rosterCache[id];
     });
   }
 
-  function loadRosterList() {
-    return loadData().then(function (data) {
-      var list = (data.games || []).map(function (g) { return { id: g.id, name: g.name }; });
-      return list.length ? list : [{ id: 'wwe2k26', name: 'WWE 2K26' }];
-    }).catch(function () { return [{ id: 'wwe2k26', name: 'WWE 2K26' }]; });
+  // only the rosters in My rosters (made here, imported, or added from the community), most recently used first
+  function loadMyRosterList() {
+    var recent = recentRosters();
+    var lib = library().filter(function (r) { return r && r.id && r.name; }).map(function (r) { return { id: r.id, name: r.name, author: r.author || '' }; });
+    lib.sort(function (a, b) { var x = recent.indexOf(a.id), y = recent.indexOf(b.id); return (x < 0 ? 99 : x) - (y < 0 ? 99 : y); });
+    return Promise.resolve(lib);
+  }
+
+  // the last 5 rosters a draft was started with (or picked in the roster community), newest first
+  var RECENT_KEY = '2uhub_recent_rosters';
+  function recentRosters() { var l = jget(RECENT_KEY, []); return Array.isArray(l) ? l.slice(0, 5) : []; }
+  function touchRecent(id) {
+    if (!id) return;
+    var l = recentRosters().filter(function (x) { return x !== id; });
+    l.unshift(id);
+    jset(RECENT_KEY, l.slice(0, 5));
   }
 
   // current game id: session choice -> last setup -> default
@@ -182,7 +229,7 @@
     var s = sget('draftRoster', true);
     if (s) return s;
     var setup = jget('2khub_setup', null);
-    return (setup && setup.rosterId) || 'wwe2k26';
+    return (setup && setup.rosterId) || '';
   }
 
   // The superstars that are actually in a draft: the game's roster minus anyone switched off in
@@ -213,7 +260,7 @@
     return c.toDataURL('image/png');
   }
   function crispImages(root, scale) {
-    return Promise.all([].slice.call(root.querySelectorAll('img[src*="/px/"]')).map(function (im) {
+    return Promise.all([].slice.call(root.querySelectorAll('img[src*="/px/"], img[src^="belts/"]')).map(function (im) {
       return new Promise(function (res) {
         function go() {
           try { var w = im.getBoundingClientRect().width * (scale || 1); if (im.naturalWidth && w) im.src = upscale(im, w); } catch (e) { /* keep original */ }
@@ -224,12 +271,12 @@
     }));
   }
   // short label for show chips
-  var ABBR = { raw: 'RAW', smackdown: 'SD', 'smackdown live': 'SD', nxt: 'NXT', dynamite: 'DYN', collision: 'COL', rampage: 'RAM', ecw: 'ECW', 'new show': 'NEW' };
+  // short label for show chips: initials of a few words, or the first letters of one word
   function abbr(name) {
-    var n = String(name || '').trim().toLowerCase();
-    if (ABBR[n]) return ABBR[n];
-    var up = String(name || '').trim().toUpperCase();
-    return up.length <= 4 ? up : up.slice(0, 3);
+    var w = String(name || '').trim().toUpperCase().split(/\s+/).filter(Boolean);
+    if (!w.length) return '';
+    if (w.length > 1) return w.slice(0, 3).map(function (x) { return x.charAt(0); }).join('');
+    return w[0].length <= 4 ? w[0] : w[0].slice(0, 3);
   }
 
   var TIERS = {
@@ -279,7 +326,8 @@
     FALLBACK_IMG: FALLBACK_IMG, LOGO: LOGO, px: px, crispImages: crispImages, DEFAULT_BRANDS: DEFAULT_BRANDS, TIERS: TIERS,
     esc: esc, sget: sget, sset: sset, sdel: sdel, jget: jget, jset: jset,
     toast: toast, openModal: openModal, confirm: confirmBox,
-    loadRoster: loadRoster, loadRosterList: loadRosterList, buildPool: buildPool, currentRosterId: currentRosterId,
+    loadRoster: loadRoster, recentRosters: recentRosters, loadMyRosterList: loadMyRosterList, touchRecent: touchRecent, buildPool: buildPool, currentRosterId: currentRosterId,
+    cleanRoster: cleanRoster, library: library, saveToLibrary: saveToLibrary, removeFromLibrary: removeFromLibrary, newRosterId: newRosterId, LIMITS: LIMITS,
     keyOf: keyOf, normTier: normTier, normSex: normSex, normalizeRoster: normalizeRoster,
     abbr: abbr, hash: hash, shuffle: shuffle
   };

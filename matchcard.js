@@ -1,4 +1,4 @@
-/* 2KHUB Match Card Maker. Requires hardcore.js + tagteams.js (+ html2canvas for downloads). */
+/* 2UHub Match Card Maker. Requires hardcore.js + tagteams.js (+ html2canvas for downloads). */
 (function () {
   'use strict';
   var HC = window.HC, TT = window.TagTeams;
@@ -7,18 +7,18 @@
   var SAVE_KEY = '2khub_matchcard';
 
   // ------------------------------------------------------------------ config
-  var CHAMP_GROUPS = [
-    ['WWE World Titles', [['undisputed_wwe', 'Undisputed WWE Championship'], ['whc_modern', 'World Heavyweight Championship (Modern)'], ['whc_classic', 'World Heavyweight Championship (Big Gold)'],
-      ['wwe_champ_black', 'WWE Championship (Black Strap)'], ['wwe_spinner', 'WWE Championship (Spinner)'], ['universal1', 'WWE Universal Championship (Red)'], ['universal2', 'WWE Universal Championship (Blue)']]],
-    ["Women's Titles", [['wwe_womens', "WWE Women's Championship"], ['womens_world', "Women's World Championship"], ['raw_womens', "Raw Women's Championship"], ['sd_womens', "SmackDown Women's Championship"], ['divas', 'WWE Divas Championship']]],
-    ['Midcard Titles', [['ic', 'Intercontinental Championship'], ['us', 'United States Championship'], ['women_ic', "Women's Intercontinental Championship"], ['women_us', "Women's United States Championship"]]],
-    ['Tag Team Titles', [['world_tag', 'World Tag Team Championship'], ['wwe_tag', 'WWE Tag Team Championship'], ['tag_copper', 'WWE Tag Team Championship (Copper)'], ['womens_tag', "WWE Women's Tag Team Championship"], ['raw_tag', 'Raw Tag Team Championship'], ['sd_tag', 'SmackDown Tag Team Championship']]],
-    ['NXT Titles', [['nxt_champ', 'NXT Championship'], ['nxt_womens', "NXT Women's Championship"], ['nxt_na', 'NXT North American Championship'], ['nxt_tag', 'NXT Tag Team Championship']]],
-    ['AEW Titles', [['aew_world', 'AEW World Championship'], ['aew_tnt', 'AEW TNT Championship'], ['aew_int', 'AEW International Championship'], ['aew_cont', 'AEW Continental Championship'],
-      ['aew_nat', 'AEW National Championship'], ['aew_womens_world', "AEW Women's World Championship"], ['aew_tbs', 'AEW TBS Championship'], ['aew_tag', 'AEW World Tag Team Championship'],
-      ['aew_womens_tag', "AEW Women's World Tag Team Championship"], ['aew_trios', 'AEW World Trios Championship']]]
+  // Made-up titles, one set per spot on the card. The belt pictures in belts/ are drawn for the site (make-mock-belts.py).
+  var TITLE_GROUPS = [
+    ['Main card', [['world', 'World Title'], ['heavy', 'Heavyweight Title']]],
+    ['Mid card', [['mid', 'Midcard Title'], ['rising', 'Rising Title']]],
+    ['Tag teams', [['tag', 'Tag Team Titles'], ['trios', 'Trios Titles']]],
+    ['Women', [['w_world', "Women's World Title"], ['w_mid', "Women's Midcard Title"], ['w_tag', "Women's Tag Titles"]]]
   ];
-  function beltImg(id) { return id && id !== 'none' ? 'belts_images/px/' + id + '.png' : ''; }
+  var TITLE_LABEL = {};
+  TITLE_GROUPS.forEach(function (g) { g[1].forEach(function (o) { TITLE_LABEL[o[0]] = o[1]; }); });
+  // the name shown next to a belt: whatever the user typed, else the title's own name
+  function titleOf(ev) { return (ev.titleName || '').trim() || TITLE_LABEL[ev.champ] || ''; }
+  function beltImg(id) { return TITLE_LABEL[id] ? 'belts/' + id + '.png' : ''; }
 
   var FORMATS = {
     '1v1': { slots: 2, layout: 'team', teamSplit: [1, 1], label: '1 vs 1' },
@@ -46,11 +46,14 @@
 
   // ------------------------------------------------------------------ state
   var S = {
-    rosterId: HC.currentRosterId(), rosterList: [], roster: [], source: 'all',
-    events: [], nextId: 1, active: null, q: '', sex: 'all', tab: 'stars', showName: '', color: '#e0202c'
+    mode: '',            // '' (not chosen yet) | 'roster' (a roster from Browse rosters) | 'free' (type names and add photos)
+    rosterId: '', rosterName: '', roster: [], source: 'all', free: [],
+    events: [], nextId: 1, active: null, sex: 'all', tab: 'stars', showName: '', color: '#e0202c'
   };
+  function pool() { return S.mode === 'free' ? S.free : S.roster; }
+  function tid() { return S.mode === 'free' ? 'free' : S.rosterId; }
 
-  function slim(s) { return { name: s.name, img: HC.px(s.img || ''), sex: s.sex || 'man', tier: s.tier || 'mid' }; }
+  function slim(s) { return { name: s.name, img: HC.px(s.img || '') || HC.FALLBACK_IMG, sex: s.sex || 'man', tier: s.tier || 'mid' }; }
   function key(s) { return HC.keyOf(s.name); }
   function fmt(ev) { return FORMATS[ev.type] || FORMATS['1v1']; }
   function newEvent(type) {
@@ -69,7 +72,7 @@
   function isMobile() { return window.matchMedia && window.matchMedia('(max-width: 900px)').matches; }
 
   function save() {
-    HC.jset(SAVE_KEY, { v: 1, showName: S.showName, color: S.color, nextId: S.nextId, events: S.events });
+    HC.jset(SAVE_KEY, { v: 1, showName: S.showName, color: S.color, nextId: S.nextId, events: S.events, mode: S.mode, rosterId: S.rosterId, rosterName: S.rosterName, free: S.free });
   }
   function restore() {
     var d = HC.jget(SAVE_KEY, null);
@@ -80,12 +83,17 @@
         while (ev.slots.length < n) ev.slots.push(null);
         ev.sideTeams = Array.isArray(ev.sideTeams) ? ev.sideTeams : [null, null];
         ev.slots = ev.slots.map(function (x) { return x ? slim(x) : x; });
+        if (!TITLE_LABEL[ev.champ]) ev.champ = 'none';
+        ev.titleName = typeof ev.titleName === 'string' ? ev.titleName.slice(0, 28) : '';   // cards saved before the made-up titles
         return ev;
       });
       S.nextId = Math.max(d.nextId || 1, S.events.reduce(function (m, e) { return Math.max(m, e.id + 1); }, 1));
       S.showName = typeof d.showName === 'string' ? d.showName.slice(0, 28) : '';
       S.color = /^#[0-9a-f]{6}$/i.test(d.color || '') ? d.color : S.color;
     }
+    if (d && (d.mode === 'roster' || d.mode === 'free')) S.mode = d.mode;
+    if (d && typeof d.rosterId === 'string') { S.rosterId = d.rosterId; S.rosterName = typeof d.rosterName === 'string' ? d.rosterName : ''; }
+    if (d && Array.isArray(d.free)) S.free = d.free.filter(function (x) { return x && x.name; }).slice(0, 80).map(slim);
     if (!S.events.length) S.events = [newEvent('1v1')];
   }
 
@@ -207,9 +215,9 @@
     var s = ev.slots[i];
     var isNext = tgt && tgt.e === ev.id && tgt.i === i;
     if (s) {
-      return '<div class="mc-slot filled" data-e="' + ev.id + '" data-i="' + i + '" title="Click to remove"><img src="' + esc(s.img) + '" alt=""><span class="mc-slot-name">' + esc(s.name) + '</span><b class="mc-x">&times;</b></div>';
+      return '<div class="mc-slot filled" data-e="' + ev.id + '" data-i="' + i + '" title="' + (S.mode === 'free' ? 'Click to edit' : 'Click to remove') + '"><img src="' + esc(s.img) + '" alt=""><span class="mc-slot-name">' + esc(s.name) + '</span><b class="mc-x">&times;</b></div>';
     }
-    return '<div class="mc-slot empty' + (isNext ? ' next' : '') + '" data-e="' + ev.id + '" data-i="' + i + '"><span class="plus">+</span><span class="mc-slot-label">' + (isNext ? 'Pick a superstar' : 'Add superstar') + '</span></div>';
+    return '<div class="mc-slot empty' + (isNext ? ' next' : '') + '" data-e="' + ev.id + '" data-i="' + i + '"><span class="plus">+</span><span class="mc-slot-label">' + (S.mode === 'free' ? 'Name and photo' : isNext ? 'Pick a superstar' : 'Add superstar') + '</span></div>';
   }
 
   function eventHTML(ev, idx, tgt) {
@@ -237,13 +245,13 @@
       '<div class="mc-ev-sel">' +
       '<select class="hc-select" data-f="type" aria-label="Match type">' + FORMAT_OPTS.map(function (k) { return '<option value="' + k + '"' + (k === ev.type ? ' selected' : '') + '>' + FORMATS[k].label + '</option>'; }).join('') + '</select>' +
       '<select class="hc-select" data-f="stip" aria-label="Stipulation">' + optionsHTML(STIP_GROUPS, ev.stip) + '</select>' +
-      '<select class="hc-select" data-f="champ" aria-label="Championship"><option value="none">Non-title match</option>' + optionsHTML(CHAMP_GROUPS, ev.champ) + '</select>' +
+      '<select class="hc-select" data-f="champ" aria-label="Title"><option value="none">Non-title match</option>' + optionsHTML(TITLE_GROUPS, ev.champ) + '</select>' +
       '</div>' +
       '<div class="mc-ev-tools">' +
       '<button type="button" class="icon-btn" data-act="up" data-e="' + ev.id + '" title="Move up" aria-label="Move match up"' + (idx === 0 ? ' disabled' : '') + '>&#9650;</button>' +
       '<button type="button" class="icon-btn" data-act="down" data-e="' + ev.id + '" title="Move down" aria-label="Move match down"' + (idx === S.events.length - 1 ? ' disabled' : '') + '>&#9660;</button>' +
       '<button type="button" class="icon-btn" data-act="del" data-e="' + ev.id + '" title="Remove match" aria-label="Remove match">&times;</button></div></div>' +
-      (belt ? '<div class="mc-belt"><img src="' + esc(belt) + '" alt=""><span>Title match</span></div>' : '') +
+      (belt ? '<div class="mc-belt"><img src="' + esc(belt) + '" alt=""><input class="mc-belt-name" data-f="tname" maxlength="28" value="' + esc(ev.titleName || '') + '" placeholder="' + esc(TITLE_LABEL[ev.champ]) + '" autocomplete="off" aria-label="Title name" title="Click to rename this title"></div>' : '') +
       '<div class="mc-ev-body ' + (sd ? 'is-team' : 'is-free') + '">' + body + '</div></section>';
   }
 
@@ -259,7 +267,7 @@
     return m;
   }
   function filteredRoster() {
-    var q = S.q.trim().toLowerCase(), base = S.roster;
+    var base = S.roster;
     if (S.source !== 'all') {
       var last = HC.jget('2khub_last_draft', null);
       var show = last && last.rosterId === S.rosterId ? last.shows.filter(function (s) { return s.id === S.source; })[0] : null;
@@ -269,22 +277,37 @@
         base = S.roster.filter(function (s) { return keys[key(s)]; });
       }
     }
-    return base.filter(function (s) { return (!q || s.name.toLowerCase().indexOf(q) >= 0) && (S.sex === 'all' || s.sex === S.sex); });
+    return base.filter(function (s) { return S.sex === 'all' || s.sex === S.sex; });
+  }
+
+  function rowHTML(s, on, del) {
+    var k = key(s);
+    return '<div class="mrow' + (on[k] ? ' on-card' : '') + '" role="listitem" draggable="true" data-k="' + esc(k) + '">' +
+      '<img src="' + esc(s.img) + '" alt="" loading="lazy" decoding="async" draggable="false"><span class="nm">' + esc(s.name) + '</span>' +
+      (del ? '<button type="button" class="icon-btn" data-act="free-del" data-k="' + esc(k) + '" title="Remove from the list" aria-label="Remove from the list">&times;</button>'
+        : on[k] ? '<span class="tag">On card</span>' : '<span class="tag t-' + s.tier + '">' + HC.TIERS[s.tier].short + '</span>') + '</div>';
   }
 
   function renderRoster() {
-    var list = filteredRoster(), on = onCardKeys();
+    var on = onCardKeys(), list;
+    if (S.mode === 'free') {
+      $('roster-count').innerHTML = '<span>' + S.free.length + ' added</span><button type="button" class="mini hi" data-act="free-new">+ New superstar</button>';
+      $('roster-list').innerHTML = S.free.length ? S.free.map(function (s) { return rowHTML(s, on, true); }).join('')
+        : '<div class="empty-note"><b>Free mode</b>Click a slot on the card, type a name and add a photo.</div>';
+      return;
+    }
+    if (S.mode !== 'roster') {
+      $('roster-count').textContent = '';
+      $('roster-list').innerHTML = '<div class="empty-note"><b>Choose how to start</b>Browse a roster, or use free mode and type your own names.</div>';
+      return;
+    }
+    list = filteredRoster();
     $('roster-count').textContent = list.length + ' superstar' + (list.length === 1 ? '' : 's');
-    $('roster-list').innerHTML = list.length ? list.map(function (s) {
-      var k = key(s);
-      return '<div class="mrow' + (on[k] ? ' on-card' : '') + '" role="listitem" draggable="true" data-k="' + esc(k) + '">' +
-        '<img src="' + esc(s.img) + '" alt="" loading="lazy" draggable="false"><span class="nm">' + esc(s.name) + '</span>' +
-        (on[k] ? '<span class="tag">On card</span>' : '<span class="tag t-' + s.tier + '">' + HC.TIERS[s.tier].short + '</span>') + '</div>';
-    }).join('') : '<div class="empty-note">No superstars match.</div>';
+    $('roster-list').innerHTML = list.length ? list.map(function (s) { return rowHTML(s, on, false); }).join('') : '<div class="empty-note">No superstars here.</div>';
   }
 
   function renderTeams() {
-    var teams = TT.list(S.rosterId);
+    var teams = TT.list(tid());
     $('team-count').textContent = teams.length || '';
     $('team-list').innerHTML = teams.length ? teams.map(function (t) {
       return '<div class="team-row" draggable="true" data-team="' + esc(t.id) + '">' + TT.facesHTML(t) +
@@ -299,6 +322,14 @@
     $('side-teams').hidden = S.tab !== 'teams';
     document.querySelectorAll('#side-tabs button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === S.tab); });
     document.querySelectorAll('#sex-seg button').forEach(function (b) { b.classList.toggle('on', b.dataset.v === S.sex); });
+    $('sex-seg').hidden = S.mode !== 'roster';
+    var rt = $('mode-roster');
+    rt.classList.toggle('on', S.mode === 'roster');
+    rt.innerHTML = '<span>' + esc(S.rosterId ? (S.rosterName || 'Roster') : 'Browse a roster') + '</span>' + (S.mode === 'roster' ? '<em>Change roster</em>' : '');
+    $('mode-free').classList.toggle('on', S.mode === 'free');
+    $('card-hint').textContent = S.mode === 'free' ? 'Click a slot, type a name and add a photo if you like.'
+      : S.mode === 'roster' ? 'Click a slot, then a superstar \u2014 or just click superstars to fill the card top to bottom.'
+      : 'Browse a roster or use free mode to fill the card.';
   }
 
   // phone bottom-sheet covers the lower part of the card: keep the slot being filled in the visible strip
@@ -310,16 +341,18 @@
   }
 
   function render() {
-    renderEvents(); renderRoster(); renderTeams(); renderSide(); save();
+    renderEvents(); renderRoster(); renderTeams(); renderSide(); buildPoolSelect(); save();
     if (isMobile() && document.body.classList.contains('sheet-open')) scrollToTarget();
   }
 
   function buildPoolSelect() {
     var sel = $('pool-select');
     var last = HC.jget('2khub_last_draft', null);
-    if (!last || last.rosterId !== S.rosterId) { sel.hidden = true; S.source = 'all'; return; }
+    if (S.mode !== 'roster' || !last || last.rosterId !== S.rosterId) { sel.hidden = true; S.source = 'all'; return; }
     var shows = last.shows.filter(function (s) { return s.members && s.members.length; });
     if (!shows.length) { sel.hidden = true; S.source = 'all'; return; }
+    if (sel.dataset.for === S.rosterId + '|' + shows.length) { sel.hidden = false; sel.value = S.source; return; }
+    sel.dataset.for = S.rosterId + '|' + shows.length;
     sel.innerHTML = '<option value="all">Full roster</option>' + shows.map(function (s) { return '<option value="' + esc(s.id) + '">' + esc(s.name) + ' (' + s.members.length + ' drafted)</option>'; }).join('');
     sel.hidden = false;
     sel.value = S.source;
@@ -329,18 +362,77 @@
   // ------------------------------------------------------------------ roster loading
   function loadRoster(id) {
     S.rosterId = id;
-    HC.sset('draftRoster', id, true);
-    $('roster-list').innerHTML = '<div class="empty-note">Loading roster…</div>';
+    $('roster-list').innerHTML = '<div class="empty-note">Loading roster\u2026</div>';
     return HC.loadRoster(id).then(function (data) {
       if (S.rosterId !== id) return;
+      S.rosterName = data.name || 'Roster';
       S.roster = data.roster.slice().sort(function (a, b) { return a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }); });
       S.source = 'all';
-      buildPoolSelect();
       render();
     }).catch(function () {
-      S.roster = [];
-      $('roster-list').innerHTML = '<div class="empty-note"><b>Could not load roster</b>Pick a game from the menu above.</div>';
+      if (S.rosterId !== id) return;
+      S.roster = []; S.rosterId = ''; S.rosterName = ''; S.mode = '';
+      HC.toast('That roster could not be loaded. Browse rosters again.', 'warning');
+      render();
     });
+  }
+
+  // ------------------------------------------------------------------ free mode: a name and an optional photo for each superstar
+  // A photo is cut to a square, shrunk and blown back up with hard edges, so it looks like the pixel portraits.
+  function photoToSprite(file) {
+    return new Promise(function (resolve, reject) {
+      if (!file || !/^image\//.test(file.type)) { reject(new Error('That file is not a picture.')); return; }
+      var fr = new FileReader();
+      fr.onerror = function () { reject(new Error('Could not read that file.')); };
+      fr.onload = function () {
+        var im = new Image();
+        im.onerror = function () { reject(new Error('Could not read that picture.')); };
+        im.onload = function () {
+          var side = Math.min(im.width, im.height), sx = (im.width - side) / 2, sy = (im.height - side) * 0.2;
+          var small = document.createElement('canvas'); small.width = small.height = 32;
+          var sc = small.getContext('2d'); sc.imageSmoothingEnabled = true; sc.drawImage(im, sx, sy, side, side, 0, 0, 32, 32);
+          var big = document.createElement('canvas'); big.width = big.height = 96;
+          var bc = big.getContext('2d'); bc.imageSmoothingEnabled = false; bc.drawImage(small, 0, 0, 96, 96);
+          resolve(big.toDataURL('image/png'));
+        };
+        im.src = fr.result;
+      };
+      fr.readAsDataURL(file);
+    });
+  }
+
+  // target: {e, i} to fill/edit that slot, or null to just add to the list
+  function openFreeEditor(target) {
+    var ev = target ? getEvent(target.e) : null, cur = ev ? ev.slots[target.i] : null;
+    var img = cur && cur.img !== HC.FALLBACK_IMG ? cur.img : '';
+    var body = document.createElement('div');
+    body.className = 'fe';
+    body.innerHTML = '<label class="lbl" for="fe-name">Name</label><input id="fe-name" class="field" maxlength="24" autocomplete="off" placeholder="Superstar name">' +
+      '<label class="lbl" for="fe-file">Photo (optional)</label>' +
+      '<div class="fe-photo"><img id="fe-prev" alt="" src="' + esc(img || HC.FALLBACK_IMG) + '"><div class="fe-pick"><input id="fe-file" type="file" accept="image/*">' +
+      '<button type="button" class="btn btn-steel btn-sm" id="fe-clear">No photo</button></div></div>';
+    body.querySelector('#fe-name').value = cur ? cur.name : '';
+    var actions = [{ label: 'Cancel', kind: 'steel' }];
+    if (cur) actions.push({ label: 'Remove', kind: 'danger', onClick: function () { ev.slots[target.i] = null; var sd = sideIndex(ev, target.i); if (sd >= 0) ev.sideTeams[sd] = null; S.active = target; render(); } });
+    actions.push({ label: 'Save', kind: 'primary', close: false, onClick: function (h) {
+      var name = body.querySelector('#fe-name').value.trim().replace(/\s+/g, ' ');
+      if (!name) { HC.toast('Type a name first.', 'warning'); return false; }
+      var star = { name: name, img: img || HC.FALLBACK_IMG, sex: 'man', tier: 'mid' }, k = key(star);
+      var at = S.free.map(key).indexOf(k);
+      if (at >= 0) S.free[at] = star; else S.free.push(star);
+      if (target && ev) { fill(target.e, target.i, star); } else { addSuperstar(star); }
+      render();
+      h.close();
+      return false;
+    } });
+    HC.openModal({ title: cur ? 'Edit superstar' : 'New superstar', body: body, actions: actions });
+    body.querySelector('#fe-file').addEventListener('change', function (e) {
+      var f = e.target.files && e.target.files[0];
+      if (!f) return;
+      photoToSprite(f).then(function (url) { img = url; body.querySelector('#fe-prev').src = url; }, function (err) { HC.toast(err.message, 'warning'); e.target.value = ''; });
+    });
+    body.querySelector('#fe-clear').addEventListener('click', function () { img = ''; body.querySelector('#fe-prev').src = HC.FALLBACK_IMG; body.querySelector('#fe-file').value = ''; });
+    body.querySelector('#fe-name').addEventListener('keydown', function (e) { if (e.key === 'Enter') { e.preventDefault(); var b = body.closest('.hc-modal'); var btn = b && b.querySelector('.hc-modal-foot .btn-primary'); if (btn) btn.click(); } });
   }
 
   // ------------------------------------------------------------------ team picker (for a side)
@@ -348,7 +440,7 @@
     var r = sidesOf(ev)[side], size = r.end - r.start;
     var body = document.createElement('div');
     function draw() {
-      var teams = TT.list(S.rosterId).filter(function (t) { return t.members.length <= size; });
+      var teams = TT.list(tid()).filter(function (t) { return t.members.length <= size; });
       body.innerHTML = (teams.length ? teams.map(function (t) {
         return '<div class="team-row pick" data-id="' + esc(t.id) + '" tabindex="0">' + TT.facesHTML(t) +
           '<div class="team-info"><div class="team-name">' + esc(TT.displayName(t)) + '</div><div class="team-members">' + t.members.map(function (m) { return esc(m.name); }).join(' · ') + '</div></div></div>';
@@ -360,13 +452,13 @@
     body.addEventListener('click', function (e) {
       var row = e.target.closest('.team-row.pick');
       if (row) {
-        var t = TT.find(S.rosterId, row.dataset.id);
+        var t = TT.find(tid(), row.dataset.id);
         if (t && placeOnSide(ev, side, t)) { render(); m.close(); }
         return;
       }
       if (e.target.id === 'pk-new') {
         m.close();
-        TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, onSave: function (team) { if (placeOnSide(ev, side, team)) render(); } });
+        TT.openBuilder({ rosterId: tid(), pool: pool(), onSave: function (team) { if (placeOnSide(ev, side, team)) render(); } });
       }
     });
   }
@@ -382,7 +474,7 @@
       return s ? '<div class="mcx-slot"><img src="' + esc(s.img) + '" crossorigin="anonymous" alt=""><span>' + esc(s.name) + '</span></div>'
         : '<div class="mcx-slot empty"><i>?</i><span>TBA</span></div>';
     }
-    function beltX(belt) { return belt ? '<img class="mcx-belt" src="' + esc(belt) + '" crossorigin="anonymous" alt="">' : ''; }
+    function beltX(belt, name) { return belt ? '<img class="mcx-belt" src="' + esc(belt) + '" crossorigin="anonymous" alt=""><div class="mcx-belt-name">' + esc(name) + '</div>' : ''; }
     S.events.forEach(function (ev, idx) {
       var f = fmt(ev), sd = sidesOf(ev), belt = beltImg(ev.champ);
       var main = S.events.length > 1 && idx === S.events.length - 1;
@@ -395,13 +487,13 @@
           for (var i = sd[k].start; i < sd[k].end; i++) out += slotX(ev.slots[i]);
           return out + '</div></div>';
         };
-        html += '<div class="mcx-body">' + sideX(0) + '<div class="mcx-vs">' + beltX(belt) + '<b>VS</b></div>' + sideX(1) + '</div>';
+        html += '<div class="mcx-body">' + sideX(0) + '<div class="mcx-vs">' + beltX(belt, titleOf(ev)) + '<b>VS</b></div>' + sideX(1) + '</div>';
       } else {
-        html += '<div class="mcx-body free">' + beltX(belt) + '<div class="mcx-row">' + ev.slots.map(slotX).join('') + '</div></div>';
+        html += '<div class="mcx-body free">' + beltX(belt, titleOf(ev)) + '<div class="mcx-row">' + ev.slots.map(slotX).join('') + '</div></div>';
       }
       html += '</div>';
     });
-    return html + '<div class="mcx-wm"><span>Made on</span><img src="images/px/logo.png" crossorigin="anonymous" alt="2KHUB"><span>.info</span></div></div>';
+    return html + '<div class="mcx-wm"><span>Made on</span><img src="images/px/logo.png" crossorigin="anonymous" alt="2UHub"><span>.com</span></div></div>';
   }
 
   function waitImages(root) {
@@ -484,6 +576,13 @@
       var act = btn.dataset.act, ev = btn.dataset.e ? getEvent(+btn.dataset.e) : null;
       switch (act) {
         case 'tab': S.tab = btn.dataset.v; renderSide(); return;
+        case 'mode-roster':
+          if (S.rosterId && S.mode !== 'roster') { S.mode = 'roster'; if (!S.roster.length) loadRoster(S.rosterId); render(); }
+          else window.location.href = 'rosters.html?for=matchcard';
+          return;
+        case 'mode-free': S.mode = 'free'; S.sex = 'all'; render(); return;
+        case 'free-new': openFreeEditor(null); return;
+        case 'free-del': S.free = S.free.filter(function (x) { return key(x) !== btn.dataset.k; }); render(); return;
         case 'f-sex': S.sex = btn.dataset.v; renderSide(); renderRoster(); return;
         case 'add-match': {
           var m = newEvent('1v1');
@@ -526,15 +625,15 @@
         }
         case 'side-team': if (ev) openTeamPicker(ev, +btn.dataset.side); return;
         case 'team-new':
-          TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, onSave: function () { S.tab = 'teams'; render(); } });
+          TT.openBuilder({ rosterId: tid(), pool: pool(), onSave: function () { S.tab = 'teams'; render(); } });
           return;
         case 'team-edit': {
-          var t = TT.find(S.rosterId, btn.closest('.team-row').dataset.team);
-          if (t) TT.openBuilder({ rosterId: S.rosterId, pool: S.roster, team: t, onSave: function () { render(); } });
+          var t = TT.find(tid(), btn.closest('.team-row').dataset.team);
+          if (t) TT.openBuilder({ rosterId: tid(), pool: pool(), team: t, onSave: function () { render(); } });
           return;
         }
         case 'team-del': {
-          var td = TT.find(S.rosterId, btn.closest('.team-row').dataset.team);
+          var td = TT.find(tid(), btn.closest('.team-row').dataset.team);
           if (td) HC.confirm({ title: 'Delete tag team?', message: 'Delete "' + TT.displayName(td) + '"? Matches already on your card keep their wrestlers.', okLabel: 'Delete', kind: 'danger' }).then(function (ok) {
             if (ok) { TT.remove(S.rosterId, td.id); renderTeams(); }
           });
@@ -549,6 +648,7 @@
     if (slot) {
       var sev = getEvent(+slot.dataset.e), si = +slot.dataset.i;
       if (!sev) return;
+      if (S.mode === 'free') { S.active = { e: sev.id, i: si }; openFreeEditor({ e: sev.id, i: si }); return; }
       if (sev.slots[si]) {
         sev.slots[si] = null;
         var sd = sideIndex(sev, si);
@@ -563,13 +663,13 @@
     // roster / team rows
     var row = e.target.closest('#roster-list .mrow');
     if (row) {
-      var found = S.roster.filter(function (s) { return key(s) === row.dataset.k; })[0];
+      var found = pool().filter(function (s) { return key(s) === row.dataset.k; })[0];
       if (found) addSuperstar(found);
       return;
     }
     var trow = e.target.closest('#team-list .team-row');
     if (trow) {
-      var team = TT.find(S.rosterId, trow.dataset.team);
+      var team = TT.find(tid(), trow.dataset.team);
       if (team) placeTeam(team);
     }
   });
@@ -581,15 +681,19 @@
       if (!ev) return;
       if (sel.dataset.f === 'type') changeType(ev, sel.value);
       else if (sel.dataset.f === 'stip') ev.stip = sel.value;
-      else if (sel.dataset.f === 'champ') ev.champ = sel.value;
+      else if (sel.dataset.f === 'champ') { ev.champ = sel.value; ev.titleName = ''; }
       render();
       return;
     }
-    if (e.target.id === 'game-select') { loadRoster(e.target.value); }
-    else if (e.target.id === 'pool-select') { S.source = e.target.value; renderRoster(); }
+    if (e.target.id === 'pool-select') { S.source = e.target.value; renderRoster(); }
   });
 
-  $('q').addEventListener('input', function (e) { S.q = e.target.value; renderRoster(); });
+  document.addEventListener('input', function (e) {
+    var t = e.target.closest && e.target.closest('input[data-f="tname"]');
+    if (!t) return;
+    var ev = getEvent(+t.closest('.mc-event').dataset.e);
+    if (ev) { ev.titleName = t.value; save(); }
+  });
   $('show-name').addEventListener('input', function (e) { S.showName = e.target.value; save(); });
   $('show-color').addEventListener('input', function (e) { S.color = e.target.value; save(); });
 
@@ -626,10 +730,10 @@
     var ev = getEvent(+slot.dataset.e), i = +slot.dataset.i;
     if (!ev) return;
     if (d.t === 's') {
-      var ss = S.roster.filter(function (s) { return key(s) === d.k; })[0];
+      var ss = pool().filter(function (s) { return key(s) === d.k; })[0];
       if (ss) fill(ev.id, i, ss);
     } else {
-      var team = TT.find(S.rosterId, d.id), side = sideIndex(ev, i);
+      var team = TT.find(tid(), d.id), side = sideIndex(ev, i);
       if (!team) return;
       if (side < 0) { HC.toast('Drop a tag team onto a tag match (2 vs 2 or bigger).', 'warning'); return; }
       if (placeOnSide(ev, side, team)) render();
@@ -642,14 +746,12 @@
 
   // ------------------------------------------------------------------ boot
   restore();
+  // "Use roster" on the Rosters page leaves the chosen roster here
+  var picked = HC.jget('2uhub_mc_roster', null);
+  if (picked && typeof picked === 'string') { HC.sdel('2uhub_mc_roster'); S.rosterId = picked; S.rosterName = ''; S.roster = []; S.mode = 'roster'; }
+  if (S.mode === 'roster' && !S.rosterId) S.mode = '';
   $('show-name').value = S.showName;
   $('show-color').value = S.color;
-  renderEvents();
-  renderSide();
-  HC.loadRosterList().then(function (list) {
-    S.rosterList = list;
-    if (!list.some(function (r) { return r.id === S.rosterId; })) S.rosterId = list[0].id;
-    $('game-select').innerHTML = list.map(function (r) { return '<option value="' + esc(r.id) + '"' + (r.id === S.rosterId ? ' selected' : '') + '>' + esc(r.name) + '</option>'; }).join('');
-    return loadRoster(S.rosterId);
-  });
+  render();
+  if (S.rosterId) loadRoster(S.rosterId);
 })();

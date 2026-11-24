@@ -20,14 +20,30 @@
 .side-filters .hc-select, .side-filters .field { padding: 6px 10px; }
 .side-filters .seg { display: flex; }
 .side-filters .seg button { flex: 1; padding: 9px 2px; }
-.side-count { padding: 8px 12px; font: 700 11px var(--font); color: var(--accent); text-transform: uppercase; border-bottom: 2px solid var(--border); }
+.side-count { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 40px; padding: 6px 12px; font: 700 11px var(--font); color: var(--accent); text-transform: uppercase; border-bottom: 2px solid var(--border); }
+.side-count:empty { display: none; }
 .side-list { flex: 1 1 auto; min-height: 0; overflow-y: auto; padding: 8px; }
 .mrow { display: flex; align-items: center; gap: 10px; padding: 4px 10px 4px 6px; margin-bottom: 4px; background: var(--surface-2); border: 2px solid transparent; cursor: pointer; user-select: none; }
 .mrow:hover { border-color: var(--accent); }
-.mrow img { width: 48px; height: 48px; outline: 2px solid var(--border-2); background: #181828; flex: 0 0 auto; margin-left: 2px; pointer-events: none; }
+.mrow img { width: 48px; height: 48px; image-rendering: pixelated; outline: 2px solid var(--border-2); background: #181828; flex: 0 0 auto; margin-left: 2px; pointer-events: none; }
 .mrow .nm { flex: 1; min-width: 0; font: 400 15px var(--font); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .mrow.on-card { opacity: .45; }
 .mrow.dragging, #team-list .team-row.dragging { opacity: .4; }
+
+/* browse a roster / free mode */
+.mode-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.mode-grid .game-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; min-height: 64px; padding: 8px 6px; cursor: pointer; background: var(--bg); border: 2px dashed var(--border-2); color: var(--text-2); }
+.mode-grid .game-tile span { font: 400 20px/1.05 var(--font-d); text-align: center; text-transform: uppercase; color: var(--accent); overflow-wrap: anywhere; }
+.mode-grid .game-tile em { font: 700 9px var(--font); font-style: normal; text-transform: uppercase; color: var(--muted); }
+.mode-grid .game-tile:hover { border-color: var(--accent); background: var(--surface-2); }
+.mode-grid .game-tile.on { background: var(--surface-3); border: 2px solid var(--accent); }
+.mrow .icon-btn { flex: 0 0 auto; width: 28px; height: 28px; }
+.fe { display: grid; gap: 8px; }
+.fe .lbl { margin-top: 6px; }
+.fe-photo { display: flex; align-items: center; gap: 14px; }
+.fe-photo img { width: 96px; height: 96px; flex: 0 0 auto; outline: 2px solid var(--border-2); background: #181828; image-rendering: pixelated; }
+.fe-pick { display: grid; gap: 8px; min-width: 0; }
+.fe-pick input[type=file] { max-width: 100%; font-size: 14px; color: var(--text-2); }
 
 /* ---------- card ---------- */
 .mc-main { overflow-y: auto; padding: 0 8px 20px 0; }
@@ -50,8 +66,11 @@
 .mc-ev-tools .icon-btn:disabled { opacity: .25; cursor: not-allowed; }
 .mc-ev-tools .icon-btn:disabled:hover { background: var(--surface-3); border-color: var(--border); }
 .mc-belt { display: flex; align-items: center; justify-content: center; gap: 14px; padding: 14px 0 0; }
-.mc-belt img { height: 64px; width: auto; }
-.mc-belt span { font: 700 11px var(--font); color: var(--accent); text-transform: uppercase; }
+.mc-belt img { height: 64px; width: auto; image-rendering: pixelated; }
+.mc-belt-name { width: 220px; max-width: 60%; padding: 6px 8px; background: var(--bg); border: 2px solid transparent; color: var(--accent); font: 700 11px var(--font); text-transform: uppercase; }
+.mc-belt-name:hover { border-color: var(--border-2); }
+.mc-belt-name:focus { outline: none; border-color: var(--accent); background: var(--surface-2); }
+.mc-belt-name::placeholder { color: var(--accent); opacity: 1; }
 .mc-ev-body { padding: 14px 14px 0; }
 .mc-ev-body.is-team { display: flex; align-items: stretch; justify-content: center; gap: 14px; }
 
@@ -73,7 +92,7 @@
 .mc-slot:hover { border-color: var(--accent); }
 .mc-slot.filled { background: var(--surface-2); border: 2px solid var(--border-2); color: #fff; }
 .mc-slot.filled:hover { border-color: var(--red-hover); }
-.mc-slot img { width: 96px; height: 96px; outline: 2px solid var(--border-2); background: #181828; }
+.mc-slot img { width: 96px; height: 96px; image-rendering: pixelated; outline: 2px solid var(--border-2); background: #181828; }
 .mc-slot-name { font: 400 14px/1.1 var(--font); text-align: center; word-break: break-word; }
 .mc-x { position: absolute; top: 0; right: 4px; font: 700 15px var(--font); color: var(--red-hover); opacity: 0; }
 .mc-slot.filled:hover .mc-x { opacity: 1; }
@@ -108,7 +127,8 @@
 .mcx-slot.empty span { color: #54546f; }
 .mcx-vs { display: flex; flex-direction: column; align-items: center; gap: 10px; min-width: 90px; }
 .mcx-vs b { font: 400 60px/1 var(--font-d); color: var(--acc); }
-.mcx-belt { height: 64px; width: auto; }
+.mcx-belt { height: 64px; width: auto; image-rendering: pixelated; }
+.mcx-belt-name { max-width: 170px; font: 400 22px/1 var(--font-d); color: #8c8cb4; text-align: center; text-transform: uppercase; }
 .mcx-wm { margin-top: 6px; display: flex; align-items: center; justify-content: center; gap: 12px; font: 400 30px/1 var(--font-d); color: #8c8cb4; }
 .mcx-wm img { height: 36px; width: auto; }
 
@@ -130,7 +150,6 @@
   .side-top { padding: 8px; }
   .side-filters { grid-template-columns: 1fr 1fr; gap: 6px; padding: 8px; }
   .side-filters > * { grid-column: 1 / -1; }
-  .side-filters > #game-select:has(+ #pool-select:not([hidden])), .side-filters > #pool-select:not([hidden]) { grid-column: auto; }
   .card-title h2 { font-size: 14px; }
   .card-show { width: 100%; min-width: 0; }
   .mc-ev-head { display: grid; grid-template-columns: 1fr auto; gap: 8px; }

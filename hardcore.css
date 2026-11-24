@@ -1,5 +1,5 @@
 /* ==========================================================================
-   2KHUB shared styles: clean dark UI with pixel-art accents.
+   2UHub shared styles: clean dark UI with pixel-art accents.
    - Rubik for text, Pixelify Sans for headings
    - flat panels, 2px borders, hard offset shadows
    - portraits, logos and tiles are pixel art (images/px/*)
@@ -199,3 +199,92 @@ body.page-exit { opacity: 0; transition: opacity .15s ease-in; pointer-events: n
 @media (max-width: 640px) { .hc-nav { display: none; } }
 @media (max-width: 460px) { .hc-footer-grid { grid-template-columns: 1fr; } }
 @media (prefers-reduced-motion: reduce) { * { animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+
+/* ---------- account menu in the header (auth.js) ---------- */
+.auth-menu { position: relative; }
+.auth-pop { position: absolute; right: 0; top: calc(100% + 6px); z-index: 200; min-width: 230px; padding: 6px; background: var(--surface); border: 2px solid var(--border-2); box-shadow: var(--shadow); }
+.auth-who { display: grid; gap: 2px; padding: 8px 10px 10px; border-bottom: 2px solid var(--border); margin-bottom: 4px; }
+.auth-who b { font: 400 22px/1 var(--font-d); }
+.auth-who span { color: var(--muted); font-size: 12px; overflow-wrap: anywhere; }
+.auth-item { display: block; width: 100%; padding: 9px 10px; text-align: left; background: none; border: 0; color: #fff; font: 500 14px var(--font); text-decoration: none; cursor: pointer; }
+.auth-item:hover { background: var(--surface-3); }
+.auth-item.danger { color: var(--accent); }
+.auth-providers { display: grid; gap: 10px; margin: 14px 0; }
+.auth-providers .btn { width: 100%; }
+.auth-fine { font-size: 13px; margin-bottom: 0; }
+.auth-fine a { color: #fff; }
+
+/* ==========================================================================
+   Pixel motion: small, stepped movements (steps() keeps every frame on a hard pixel grid).
+   Nothing loops except one tiny sparkle on the main buttons. Turned off for "reduce motion".
+   ========================================================================== */
+.ico { display: inline-flex; width: 18px; height: 18px; flex: 0 0 auto; }
+.ico svg { display: block; width: 100%; height: 100%; }
+.ico-sm { width: 14px; height: 14px; }
+.auth-prov { justify-content: flex-start; gap: 14px; padding-left: 18px; }
+.auth-prov .ico { width: 22px; height: 22px; }
+.auth-prov.google:hover { border-color: #fbbc05; }
+.auth-prov.discord:hover { border-color: #7b86ff; }
+
+/* buttons: stepped press, and a pixel shine that crosses the button once on hover */
+.btn { position: relative; overflow: hidden; transition: transform .12s steps(2), box-shadow .12s steps(2), background .12s steps(2), border-color .12s steps(2); }
+.btn::after { content: ""; position: absolute; top: 0; bottom: 0; left: 0; width: 16%; pointer-events: none; opacity: 0; transform: translateX(-220%); will-change: transform;
+  background: linear-gradient(90deg, rgba(255, 255, 255, .18) 0 50%, rgba(255, 255, 255, .08) 50% 100%); }
+.btn:hover:not([disabled])::after { opacity: 1; animation: pxShine .5s steps(8) 1 both; }
+@keyframes pxShine { from { transform: translateX(-220%); } to { transform: translateX(780%); } }
+.btn:hover:not([disabled]) .ico svg { animation: pxBob .5s steps(2) infinite; }
+@keyframes pxBob { 50% { transform: translateY(-2px); } }
+
+/* one tiny sparkle that blinks now and then on the main call-to-action buttons */
+.btn-primary.btn-lg::before, .btn-support::before { content: ""; position: absolute; top: 3px; right: 4px; width: 4px; height: 4px; background: #fff; opacity: 0; pointer-events: none; animation: pxSpark 5s steps(1) infinite; }
+@keyframes pxSpark { 0%, 90%, 100% { opacity: 0; } 92%, 96% { opacity: .9; } 94% { opacity: .4; } }
+
+/* menu, tiles and cards move in whole pixels */
+.hc-nav a { position: relative; transition: background .1s steps(2), color .1s steps(2); }
+.hc-nav a:not(.on)::after { content: ""; position: absolute; left: 12px; bottom: 3px; height: 2px; width: 0; background: var(--accent); transition: width .16s steps(4); }
+.hc-nav a:not(.on):hover::after { width: calc(100% - 24px); }
+.card, .rcard, .game-tile, .type-tile, .show-card { transition: transform .12s steps(3), box-shadow .12s steps(3), border-color .12s steps(2), background .12s steps(2); }
+.rcard:hover { transform: translate(-2px, -2px); box-shadow: 6px 6px 0 #000; }
+.card-go::after { display: inline-block; }
+.card:hover .card-go::after { animation: pxNudge .6s steps(2) infinite; }
+@keyframes pxNudge { 50% { transform: translateX(3px); } }
+.hc-logo:hover img { animation: pxJit .3s steps(2) 1; }
+@keyframes pxJit { 50% { transform: translate(1px, -1px); } }
+
+/* things that appear: the page, panels, home cards, windows, menus and toasts */
+body.hc.enter { animation: pageIn .24s steps(4) both; }
+@keyframes pxIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.step, .sheet, .out-bar { animation: pxIn .3s steps(4) both; }
+.cards .card { animation: pxIn .3s steps(4) both; }
+.cards .card:nth-child(2) { animation-delay: .06s; }
+.cards .card:nth-child(3) { animation-delay: .12s; }
+.hc-modal-back { animation: pageIn .18s steps(3) both; }
+.hc-modal-box { animation: pxPop .2s steps(3) both; }
+@keyframes pxPop { from { opacity: 0; transform: translateY(8px) scale(.96); } to { opacity: 1; transform: none; } }
+.hc-toast { animation: pxToast .22s steps(4) both; }
+@keyframes pxToast { from { opacity: 0; transform: translateX(28px); } to { opacity: 1; transform: none; } }
+.auth-pop { animation: pxDrop .16s steps(3) both; }
+@keyframes pxDrop { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: none; } }
+
+/* choosing something flashes it for two frames */
+.seg button.on, .type-tile.on, .game-tile.on, .stab.on { animation: pxSel .2s steps(2) 1; }
+@keyframes pxSel { from { filter: brightness(1.7); } to { filter: none; } }
+.field:focus, .hc-select:focus { animation: pxFocus .2s steps(2) 1; }
+@keyframes pxFocus { from { box-shadow: 0 0 0 3px rgba(255, 106, 116, .45); } to { box-shadow: none; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .btn::before, .btn::after, .hc-nav a::after { display: none; }
+  .step, .sheet, .out-bar, .cards .card, .hc-modal-box, .hc-modal-back, .hc-toast, .auth-pop, body.hc.enter { animation: none !important; }
+}
+
+/* big grids (setup pool, roster preview): tiles that are off screen are not laid out or painted, so a 600-star roster opens quickly.
+   Not used on the draft and match card lists: there it made fast scrolling jumpier. */
+.ptile { content-visibility: auto; contain-intrinsic-size: auto 58px; }
+
+/* ---------- cookie choice (consent.js) ---------- */
+.cc-banner { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 9500; display: flex; align-items: center; gap: 16px; flex-wrap: wrap; max-width: 880px; margin: 0 auto; padding: 14px 16px; background: var(--surface); border: 2px solid var(--border-2); border-top: 6px solid var(--red); box-shadow: 6px 6px 0 #000; animation: pxIn .3s steps(4) both; }
+.cc-banner p { flex: 1 1 320px; margin: 0; color: var(--text-2); font-size: 14px; line-height: 1.5; }
+.cc-banner b { color: #fff; }
+.cc-banner a { color: #fff; }
+.cc-btns { display: flex; gap: 8px; flex: 0 0 auto; }
+@media (prefers-reduced-motion: reduce) { .cc-banner { animation: none; } }

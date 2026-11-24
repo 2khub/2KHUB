@@ -1,4 +1,4 @@
-/* 2KHUB Tag Teams — shared by setup, the draft board and the match card maker.
+/* 2UHub Tag Teams — shared by setup, the draft board and the match card maker.
    A team is 2 to 6 superstars with an optional name. Teams are saved per game in
    localStorage and drafted together as a single pick. Requires hardcore.js (window.HC). */
 (function () {
@@ -46,7 +46,7 @@
   function facesHTML(team) {
     var shown = team.members.slice(0, 5);
     return '<div class="team-faces">' + shown.map(function (m) {
-      return '<img src="' + HC.esc(m.img) + '" alt="" loading="lazy">';
+      return '<img src="' + HC.esc(m.img) + '" alt="" loading="lazy" decoding="async">';
     }).join('') + '</div>';
   }
 
@@ -119,7 +119,7 @@
       if (!items.length) { listEl.innerHTML = '<div class="tt-none">No superstars match.</div>'; return; }
       listEl.innerHTML = items.map(function (s) {
         return '<button type="button" class="tt-card' + (isPicked(s) ? ' picked' : '') + '" data-k="' + HC.esc(HC.keyOf(s.name)) + '">' +
-          '<img src="' + HC.esc(s.img) + '" alt="" loading="lazy"><span>' + HC.esc(s.name) + '</span></button>';
+          '<img src="' + HC.esc(s.img) + '" alt="" loading="lazy" decoding="async"><span>' + HC.esc(s.name) + '</span></button>';
       }).join('');
     }
 

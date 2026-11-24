@@ -95,3 +95,8 @@
   .launch-sum { grid-column: 1 / -1; text-align: center; font-size: 8px; }
   .launch .btn { padding: 12px 6px; font-size: 8px; }
 }
+
+/* browse rosters tile (step 1) */
+.browse-tile { display: flex; align-items: center; justify-content: center; min-height: 72px; padding: 8px 10px; text-decoration: none; background: var(--bg); border: 2px dashed var(--border-2); }
+.browse-tile span { font: 400 26px/1 var(--font-d); text-align: center; text-transform: uppercase; color: var(--accent); }
+.browse-tile:hover { border-color: var(--accent); background: var(--surface-2); }

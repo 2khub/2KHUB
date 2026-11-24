@@ -1,0 +1,42 @@
+{
+  "rules": {
+    ".read": false,
+    ".write": false,
+
+    "rooms": {
+      ".read": true,
+      ".write": true
+    },
+
+    "rosterIndex": {
+      ".read": true,
+      ".indexOn": ["created"],
+      "$id": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['name', 'author', 'count', 'created', 'reports'])",
+        "name": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 40" },
+        "author": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 24" },
+        "description": { ".validate": "newData.isString() && newData.val().length <= 300" },
+        "count": { ".validate": "newData.isNumber() && newData.val() >= 2 && newData.val() <= 500" },
+        "preview": { ".validate": "!newData.child('5').exists()" },
+        "created": { ".validate": "newData.val() === now" },
+        "reports": {
+          ".write": "newData.isNumber() && newData.val() === (data.exists() ? data.val() : 0) + 1",
+          ".validate": "newData.isNumber() && newData.val() >= 0"
+        },
+        "$other": { ".validate": false }
+      }
+    },
+
+    "rosterData": {
+      ".read": true,
+      "$id": {
+        ".write": "!data.exists()",
+        ".validate": "newData.hasChildren(['name', 'superstars'])",
+        "name": { ".validate": "newData.isString() && newData.val().length >= 1 && newData.val().length <= 40" },
+        "superstars": { ".validate": "newData.child('1').exists() && !newData.child('500').exists()" },
+        "$other": { ".validate": true }
+      }
+    }
+  }
+}

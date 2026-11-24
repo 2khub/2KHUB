@@ -2,26 +2,20 @@
 <html lang="en">
 <head>
 <meta name="referrer" content="no-referrer-when-downgrade" />
-
-
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
-          crossorigin="anonymous"></script>
   <meta charset="UTF-8">
 <meta name="e8e19f5ebbc49544f63e5d48a7673d0a2f18c729" content="e8e19f5ebbc49544f63e5d48a7673d0a2f18c729" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>2KHUB - WWE 2K Universe Mode & MyGM Companion</title>
-  <meta name="description" content="The ultimate companion app for WWE 2K Universe Mode and MyGM. Draft rosters, create match cards, and manage your wrestling universe with professional tools.">
+  <title>2UHub - Universe Mode & Wrestling Booking Companion</title>
+  <meta name="description" content="A companion for wrestling Universe Mode. Draft rosters, create match cards, write storylines, and manage your wrestling universe with simple tools.">
   <meta name="theme-color" content="#0a0a14">
-  <meta name="keywords" content="WWE 2K26, Universe Mode, MyGM, Draft tool, wrestling booking, WWE 2K tracker, 2KHUB">
-  <link rel="canonical" href="https://2khub.info/">
-  <meta property="og:title" content="2KHUB - WWE 2K Universe Mode & MyGM Companion">
-  <meta property="og:description" content="Professional tools for WWE 2K Universe Mode and MyGM. Draft rosters, manage brands, and elevate your wrestling universe.">
-  <meta property="og:image" content="https://2khub.info/logo.png">
-  <meta property="og:url" content="https://2khub.info/">
+  <meta name="keywords" content="Universe Mode, draft tool, wrestling booking, wrestling draft, 2UHub">
+  <link rel="canonical" href="https://2uhub.com/">
+  <meta property="og:title" content="2UHub - Universe Mode & Wrestling Booking Companion">
+  <meta property="og:description" content="Simple tools for wrestling Universe Mode. Draft rosters, manage shows, and write your storylines.">
+  <meta property="og:image" content="https://2uhub.com/logos/2uhub-social-preview-1200x630.png">
+  <meta property="og:url" content="https://2uhub.com/">
   <meta property="og:type" content="website">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="hardcore.css">
   <link rel="stylesheet" href="landing.css">
   <link rel="icon" type="image/png" href="icon.png">
@@ -30,20 +24,22 @@
   
 
   <header class="hc-header" role="banner">
-    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB Logo"></a>
+    <a href="index.html" class="hc-logo" aria-label="2UHub home"><img src="images/px/logo.png" alt="2UHub Logo"></a>
     <nav class="hc-nav" aria-label="Main navigation">
       <a href="index.html" class="on">Home</a>
       <a href="tools.html">Draft</a>
       <a href="matchcard-generator.html">Match Cards</a>
+      <a href="story.html">Story</a>
+      <a href="rosters.html">Rosters</a>
       <a href="multiplayer.html">Multiplayer</a>
     </nav>
     <div class="hc-header-actions">
-      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2KHUB</a>
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2UHub</a>
     </div>
   </header>
 
   <main class="home">
-    <img class="home-logo" src="images/px/logo.png" alt="2KHUB">
+    <img class="home-logo" src="images/px/logo.png" alt="2UHub">
     <div class="cards">
       <a href="tools.html" class="card">
         <span class="card-n">01</span>
@@ -67,7 +63,7 @@
     <div class="hc-footer-in">
       <div class="hc-footer-grid">
         <div>
-          <img src="images/px/logo.png" alt="2KHUB Logo" class="fl">
+          <img src="images/px/logo.png" alt="2UHub Logo" class="fl">
           
         </div>
         <div>
@@ -76,6 +72,8 @@
             <li><a href="index.html" class="fk">Home</a></li>
             <li><a href="tools.html" class="fk">Draft Tool</a></li>
             <li><a href="matchcard-generator.html" class="fk">Match Cards</a></li>
+            <li><a href="story.html" class="fk">Create a Story</a></li>
+            <li><a href="rosters.html" class="fk">Roster Community</a></li>
             <li><a href="multiplayer.html" class="fk">Multiplayer</a></li>
           </ul>
         </div>
@@ -93,16 +91,20 @@
             <li><a href="privacy.html" class="fk">Privacy Policy</a></li>
             <li><a href="terms.html" class="fk">Terms &amp; Conditions</a></li>
             <li><a href="contact.html" class="fk">Contact</a></li>
+            <li><a href="report.html" class="fk">Report content</a></li>
           </ul>
         </div>
       </div>
       <div class="hc-footer-bottom">
-        <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
-        <p>2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
+        <p>&copy; 2025-2026 2UHub. All rights reserved.</p>
+        <p>2UHub is an unofficial fan project and is not affiliated with, endorsed by, or sponsored by any wrestling promotion or video game company.</p>
       </div>
     </div>
   </footer>
 
   <script src="hardcore.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js" defer></script>
+  <script src="consent.js" defer></script>
 </body>
 </html>

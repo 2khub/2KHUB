@@ -10,7 +10,7 @@
 
   var saved = HC.jget('2khub_setup', null);
   var st = {
-    rosterId: (saved && saved.rosterId) || HC.currentRosterId() || 'wwe2k26',
+    rosterId: (saved && saved.rosterId) || '',
     shows: [],
     mode: (saved && saved.mode === 'turns') ? 'turns' : 'free',
     order: (saved && saved.order === 'snake') ? 'snake' : 'alt',
@@ -21,7 +21,7 @@
     poolQuery: ''
   };
   var rosterList = [];
-  var rosterInfo = null; // {id, roster, brands}
+  var rosterInfo = null; // {id, roster}
   var rosterNames = {};
 
   function newShowId() { return 'show' + Date.now().toString(36) + Math.floor(Math.random() * 1e5).toString(36); }
@@ -40,11 +40,27 @@
   function inPool() { return allCandidates().filter(function (s) { return !st.excluded[key(s)]; }); }
 
   // ---------- 1: game ----------
+  // the rosters you used most recently (up to 5) and a Browse rosters tile. Nothing used yet: just Browse rosters.
   function renderGames() {
-    $('game-grid').innerHTML = rosterList.map(function (r) {
+    var byId = {};
+    rosterList.forEach(function (r) { byId[r.id] = r; });
+    var recent = HC.recentRosters().filter(function (id) { return byId[id]; }), ids = recent.slice(0, 5);
+    if (st.rosterId && ids.indexOf(st.rosterId) < 0 && byId[st.rosterId]) ids = [st.rosterId].concat(ids.slice(0, 4));
+    $('s1').textContent = recent.length ? 'Recent rosters' : 'Browse rosters';
+    $('game-grid').innerHTML = ids.map(function (id) {
+      var r = byId[id];
       return '<button type="button" class="game-tile' + (r.id === st.rosterId ? ' on' : '') + '" data-id="' + esc(r.id) + '" role="radio" aria-checked="' + (r.id === st.rosterId) + '">' +
         '<span>' + esc(r.name) + '</span></button>';
-    }).join('');
+    }).join('') + '<a class="browse-tile" href="rosters.html?for=draft"><span>+ Browse rosters</span></a>';
+  }
+
+  // no roster picked yet: the page stays usable and says what to do
+  function noRoster() {
+    rosterInfo = null;
+    st.excluded = {}; st.custom = [];
+    $('roster-info').textContent = 'No roster yet. Browse the roster community or create your own.';
+    defaultShows();
+    renderPool(); renderTeams(); renderShows(); renderSummary();
   }
 
   function selectRoster(id, keepSaved) {
@@ -84,7 +100,7 @@
     $('pool-grid').innerHTML = shown.length ? shown.map(function (s) {
       var off = st.excluded[key(s)];
       return '<button type="button" class="ptile' + (off ? ' off' : '') + '" data-k="' + esc(key(s)) + '" aria-pressed="' + (!off) + '" title="' + (off ? 'Click to add to the draft' : 'Click to remove from the draft') + '">' +
-        '<img src="' + esc(s.img) + '" alt="" loading="lazy"><span class="nm">' + esc(s.name) + '</span>' +
+        '<img src="' + esc(s.img) + '" alt="" loading="lazy" decoding="async"><span class="nm">' + esc(s.name) + '</span>' +
         '<span class="tag t-' + s.tier + '">' + HC.TIERS[s.tier].short + '</span><i class="ck">' + (off ? '' : '&#10003;') + '</i></button>';
     }).join('') : '<div class="empty-note">No superstars match.</div>';
   }
@@ -176,8 +192,7 @@
 
   // ---------- 4: shows ----------
   function defaultShows() {
-    var brands = (rosterInfo && rosterInfo.brands) || HC.DEFAULT_BRANDS;
-    st.shows = brands.slice(0, MAX_SHOWS).map(function (b) { return { id: newShowId(), name: b.name, color: b.color }; });
+    st.shows = HC.DEFAULT_BRANDS.slice(0, MAX_SHOWS).map(function (b) { return { id: newShowId(), name: b.name, color: b.color }; });
     while (st.shows.length < MIN_SHOWS) st.shows.push({ id: newShowId(), name: 'Show ' + (st.shows.length + 1), color: PALETTE[st.shows.length] });
   }
 
@@ -273,7 +288,7 @@
   }
 
   $('start').addEventListener('click', function () {
-    if (!rosterInfo) { HC.toast('Roster is still loading…', 'warning'); return; }
+    if (!rosterInfo) { HC.toast(st.rosterId ? 'Roster is still loading…' : 'Browse rosters and pick one first.', 'warning'); return; }
     var pool = inPool();
     if (pool.length < 2) { HC.toast('Put at least 2 superstars in the pool first.', 'warning'); return; }
     var setup = {
@@ -291,12 +306,14 @@
     HC.jset('2khub_setup', setup);
     HC.jset('draftSetup', setup, true);
     HC.sset('draftRoster', st.rosterId, true);
+    HC.touchRecent(st.rosterId);
     HC.sdel('2khub_draft_state');
     window.location.href = 'draft.html';
   });
 
   $('to-matchcard').addEventListener('click', function () {
     HC.sset('draftRoster', st.rosterId, true);
+    HC.touchRecent(st.rosterId);
     HC.jset('2khub_setup', Object.assign({}, saved || {}, { rosterId: st.rosterId }));
   });
 
@@ -324,11 +341,12 @@
   // ---------- boot ----------
   renderStyle();
   initResume();
-  HC.loadRosterList().then(function (list) {
+  HC.loadMyRosterList().then(function (list) {
     rosterList = list;
     list.forEach(function (r) { rosterNames[r.id] = r.name; });
-    if (!list.some(function (r) { return r.id === st.rosterId; })) st.rosterId = list[0].id;
+    if (!list.some(function (r) { return r.id === st.rosterId; })) st.rosterId = list.length ? list[0].id : '';
     renderGames();
+    if (!st.rosterId) return noRoster();
     return selectRoster(st.rosterId, true);
   });
 })();

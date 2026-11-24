@@ -1,5 +1,5 @@
 """Convert the site's artwork into small palette-limited pixel art.
-Run `python make-pixel-art.py` after adding wrestlers or belts; output goes to images/px and belts_images/px.
+Run `python make-pixel-art.py` after adding wrestlers; output goes to images/px.
 Needs Pillow (pip install pillow). The site falls back to the original photo when a pixel version is missing."""
 from PIL import Image, ImageEnhance
 import json, os, re, glob
@@ -8,7 +8,6 @@ ROOT = os.path.dirname(os.path.abspath(__file__))
 BG = (24, 24, 40)          # portrait backdrop, matches the UI surface colour
 os.chdir(ROOT)
 os.makedirs('images/px', exist_ok=True)
-os.makedirs('belts_images/px', exist_ok=True)
 
 def _quant(rgb, colors):
     return rgb.quantize(colors=colors, method=Image.MEDIANCUT, dither=Image.NONE).convert('RGB')
@@ -46,7 +45,7 @@ def sprite(src, dst, size, colors=16, box=None, bg=None, boost=1.1):
 
 n = 0
 # ---- wrestler portraits ----
-d = json.load(open('data/superstars.json', encoding='utf-8'))
+d = json.load(open('data/rosters/all_time_roster.json', encoding='utf-8'))
 imgs = set()
 for s in d['superstars']:
     imgs.add(s['img'])
@@ -58,11 +57,5 @@ print('portraits', n)
 
 # ---- logos ----
 sprite('logo.png', 'images/px/logo.png', (None, 36), 16, boost=1.0)
-# ---- title belts ----
-m = 0
-for f in glob.glob('belts_images/*.png'):
-    sprite(f, 'belts_images/px/' + os.path.basename(f), (None, 32), 24, boost=1.05); m += 1
-print('belts', m)
-
-tot = sum(os.path.getsize(f) for f in glob.glob('images/px/*.png')) + sum(os.path.getsize(f) for f in glob.glob('belts_images/px/*.png'))
-print('files', len(glob.glob('images/px/*.png')) + m, 'total KB', tot // 1024)
+tot = sum(os.path.getsize(f) for f in glob.glob('images/px/*.png'))
+print('files', len(glob.glob('images/px/*.png')), 'total KB', tot // 1024)

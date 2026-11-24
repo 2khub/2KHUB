@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wibltdvrqy");
-  </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
-          crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Draft Setup - 2KHUB Universe Mode Manager</title>
-  <meta name="description" content="Set up your WWE 2K26 & AEW draft in three quick steps: pick a game, name your shows, choose free draft or take turns. Built for Universe Mode and MyGM.">
+  <title>Draft Setup - 2UHub Universe Mode Manager</title>
+  <meta name="description" content="Set up your wrestling draft in a few quick steps: pick a roster, name your shows, choose free draft or take turns.">
   <meta name="theme-color" content="#0a0a14">
-  <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
-  <link rel="canonical" href="https://2khub.info/">
-  <meta property="og:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
-  <meta property="og:description" content="Track WWE 2K26 and AEW Universe saves, draft rosters, and build match cards with free tools built for wrestling booking fans.">
-  <meta property="og:image" content="https://2khub.info/logo.png">
-  <meta property="og:url" content="https://2khub.info/">
+  <meta name="keywords" content="Universe Mode, draft tool, wrestling draft, match card generator, wrestling booking simulator, 2UHub">
+  <link rel="canonical" href="https://2uhub.com/tools">
+  <meta property="og:title" content="2UHub - Free Wrestling Draft & Booking Tools">
+  <meta property="og:description" content="Draft rosters, write storylines, and build match cards with free tools built for wrestling booking fans.">
+  <meta property="og:image" content="https://2uhub.com/logos/2uhub-social-preview-1200x630.png">
+  <meta property="og:url" content="https://2uhub.com/tools">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="2KHUB">
+  <meta property="og:site_name" content="2UHub">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="2KHUB - Free WWE 2K26 Universe Mode Tracker & Tools">
-  <meta name="twitter:description" content="Free WWE 2K26 & AEW Universe Mode tracker, draft roster tools, and match card maker for wrestling booking fans.">
-  <meta name="twitter:image" content="https://2khub.info/logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="twitter:title" content="2UHub - Free Wrestling Draft & Booking Tools">
+  <meta name="twitter:description" content="Free wrestling draft, storyline and match card tools for booking fans.">
+  <meta name="twitter:image" content="https://2uhub.com/logos/2uhub-social-preview-1200x630.png">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="hardcore.css">
   <link rel="stylesheet" href="setup.css">
   <link rel="icon" type="image/png" href="icon.png">
@@ -38,34 +27,36 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "2KHUB",
+    "name": "2UHub",
     "applicationCategory": "GameApplication",
     "operatingSystem": "Web Browser",
-    "description": "Free WWE 2K26 & AEW Universe Mode tracker with draft tools, match card generator, fantasy booking, and PPV card builder for modern wrestling rosters.",
+    "description": "Free wrestling tools: draft rosters, a match card generator, storylines and fantasy booking.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "url": "https://2khub.info/"
+    "url": "https://2uhub.com/"
   }
   </script>
 </head>
 <body class="hc enter setup-page">
 
   <header class="hc-header" role="banner">
-    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB"></a>
+    <a href="index.html" class="hc-logo" aria-label="2UHub home"><img src="images/px/logo.png" alt="2UHub"></a>
     <nav class="hc-nav" aria-label="Main navigation">
       <a href="index.html">Home</a>
       <a href="tools.html" class="on">Draft</a>
       <a href="matchcard-generator.html">Match Cards</a>
+      <a href="story.html">Story</a>
+      <a href="rosters.html">Rosters</a>
       <a href="multiplayer.html">Multiplayer</a>
     </nav>
     <div class="hc-header-actions">
-      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2KHUB</a>
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2UHub</a>
     </div>
   </header>
 
   <main class="setup">
     <div class="setup-hero">
       <h1 class="page-h1">Draft setup</h1>
-      <p class="lead">Choose the game, who is in the draft, any tag teams, your shows and the draft style. The defaults are fine &mdash; you can just press <b>Start draft</b>.</p>
+      <p class="lead">Choose the roster, who is in the draft, any tag teams, your shows and the draft style. The defaults are fine &mdash; you can just press <b>Start draft</b>.</p>
     </div>
 
     <div id="resume" class="resume panel" hidden>
@@ -77,8 +68,8 @@
     </div>
 
     <section class="panel step" aria-labelledby="s1">
-      <div class="ph"><span class="num">1</span><span class="grow" id="s1">Choose your game</span><span class="hint" id="roster-info"></span></div>
-      <div class="step-body"><div class="game-grid" id="game-grid" role="radiogroup" aria-label="Game roster"></div></div>
+      <div class="ph"><span class="num">1</span><span class="grow" id="s1">Browse rosters</span><span class="hint" id="roster-info"></span></div>
+      <div class="step-body"><div class="game-grid" id="game-grid" role="radiogroup" aria-label="Roster"></div></div>
     </section>
 
     <section class="panel step" aria-labelledby="s2">
@@ -173,7 +164,7 @@
     <div class="hc-footer-in">
       <div class="hc-footer-grid">
         <div>
-          <img src="images/px/logo.png" alt="2KHUB Logo" class="fl">
+          <img src="images/px/logo.png" alt="2UHub Logo" class="fl">
         </div>
         <div>
           <h4>Navigate</h4>
@@ -181,6 +172,8 @@
             <li><a href="index.html" class="fk">Home</a></li>
             <li><a href="tools.html" class="fk">Draft Tool</a></li>
             <li><a href="matchcard-generator.html" class="fk">Match Cards</a></li>
+            <li><a href="story.html" class="fk">Create a Story</a></li>
+            <li><a href="rosters.html" class="fk">Roster Community</a></li>
             <li><a href="multiplayer.html" class="fk">Multiplayer</a></li>
           </ul>
         </div>
@@ -198,18 +191,22 @@
             <li><a href="privacy.html" class="fk">Privacy Policy</a></li>
             <li><a href="terms.html" class="fk">Terms &amp; Conditions</a></li>
             <li><a href="contact.html" class="fk">Contact</a></li>
+            <li><a href="report.html" class="fk">Report content</a></li>
           </ul>
         </div>
       </div>
       <div class="hc-footer-bottom">
-        <p>&copy; 2025-2026 2KHUB. All rights reserved.</p>
-        <p>2KHUB is an unofficial fan project and is not affiliated with WWE, 2K Games, or Take-Two Interactive.</p>
+        <p>&copy; 2025-2026 2UHub. All rights reserved.</p>
+        <p>2UHub is an unofficial fan project and is not affiliated with, endorsed by, or sponsored by any wrestling promotion or video game company.</p>
       </div>
     </div>
   </footer>
 
   <script src="hardcore.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js" defer></script>
   <script src="tagteams.js"></script>
   <script src="setup.js"></script>
+  <script src="consent.js" defer></script>
 </body>
 </html>

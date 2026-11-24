@@ -22,10 +22,11 @@ const db = getDatabase(app);
 let currentTurn = 1;
 let currentBrandIndex = 0;
 let superstars = [];
-let selectedRoster = 'wwe2k26';
+let selectedRoster = '';
+let selectedRosterName = '';
 let brandsConfig = [
-    { id: 'brand-0', name: 'RAW', color: '#e10600' },
-    { id: 'brand-1', name: 'SmackDown', color: '#006bb6' }
+    { id: 'brand-0', name: 'Red Show', color: '#e10600' },
+    { id: 'brand-1', name: 'Blue Show', color: '#006bb6' }
 ];
 
 // Firebase room management
@@ -88,55 +89,61 @@ function switchState(stateId) {
     }
 }
 
-function initCustomRosterSelect() {
-    const selectSelected = document.getElementById('mp-select-selected-roster');
-    const selectItems = document.getElementById('mp-select-items-roster');
-    const rosterInput = document.getElementById('mp-roster-select');
+// roster step above "Host a draft": your recent rosters + Browse rosters. A roster must be picked before hosting.
+let rosterChoices = [];
 
-    HC.loadRosterList()
-        .then(list => {
-            if (!selectItems || !rosterInput) return;
-            selectItems.innerHTML = '';
+function renderRosterPicker() {
+    const grid = document.getElementById('mp-roster-grid');
+    const input = document.getElementById('mp-roster-select');
+    const title = document.getElementById('mp-roster-title');
+    const info = document.getElementById('mp-roster-info');
+    const hostBtn = document.getElementById('btn-host');
+    if (!grid || !input) return;
+    const byId = {};
+    rosterChoices.forEach(r => { byId[r.id] = r; });
+    const recent = HC.recentRosters().filter(id => byId[id]);
+    let ids = recent.slice(0, 5);
+    if (input.value && byId[input.value] && !ids.includes(input.value)) ids = [input.value].concat(ids.slice(0, 4));
+    title.textContent = recent.length ? 'Recent rosters' : 'Browse rosters';
+    grid.innerHTML = ids.map(id => {
+        const r = byId[id];
+        return '<button type="button" class="game-tile' + (id === input.value ? ' on' : '') + '" data-id="' + HC.esc(id) + '" role="radio" aria-checked="' + (id === input.value) + '"><span>' + HC.esc(r.name) + '</span></button>';
+    }).join('') + '<a class="browse-tile" href="rosters.html?for=multiplayer"><span>+ Browse rosters</span></a>';
+    if (hostBtn) hostBtn.disabled = !input.value;
+    if (!input.value) info.textContent = rosterChoices.length ? 'Pick a roster to host.' : 'No roster yet.';
+}
 
-            if (!list || list.length === 0) {
-                list = [{ id: "wwe2k26", name: "WWE 2K26" }];
-            }
+async function pickRoster(id) {
+    const input = document.getElementById('mp-roster-select');
+    const info = document.getElementById('mp-roster-info');
+    input.value = id;
+    renderRosterPicker();
+    info.textContent = 'Loading roster…';
+    await loadRosterData(id);
+    if (input.value !== id) return; // picked something else meanwhile
+    const men = superstars.filter(s => s.sex === 'man').length;
+    info.textContent = superstars.length + ' superstars · ' + men + ' men · ' + (superstars.length - men) + ' women';
+}
 
-            list.forEach(item => {
-                const optionDiv = document.createElement('div');
-                optionDiv.className = 'select-item';
-                optionDiv.innerHTML = `<span class="roster-select-name">${item.name}</span>`;
-                optionDiv.addEventListener('click', () => {
-                    rosterInput.value = item.id;
-                    selectSelected.innerHTML = `<span class="roster-select-name">${item.name}</span>`;
-                    selectItems.classList.add('select-hide');
-                    loadRosterData(item.id);
-                });
-                selectItems.appendChild(optionDiv);
-            });
-
-            if (list.length > 0) {
-                const first = list[0];
-                rosterInput.value = first.id;
-                selectSelected.innerHTML = `<span class="roster-select-name">${first.name}</span>`;
-            }
-        })
-        .catch(() => {
-            console.error('Could not load roster list.');
-            if (selectSelected) selectSelected.textContent = 'Error loading rosters';
-        });
-
-    if (selectSelected) {
-        selectSelected.addEventListener('click', (e) => {
-            e.stopPropagation();
-            selectItems.classList.toggle('select-hide');
+function initRosterPicker() {
+    const grid = document.getElementById('mp-roster-grid');
+    if (grid) {
+        grid.addEventListener('click', (e) => {
+            const tile = e.target.closest('.game-tile');
+            if (tile) pickRoster(tile.dataset.id);
         });
     }
-
-    document.addEventListener('click', () => {
-        if (selectItems && !selectItems.classList.contains('select-hide')) {
-            selectItems.classList.add('select-hide');
-        }
+    return HC.loadMyRosterList().then(list => {
+        rosterChoices = list || [];
+        const input = document.getElementById('mp-roster-select');
+        input.value = '';
+        renderRosterPicker();
+        const first = HC.recentRosters().find(id => rosterChoices.some(r => r.id === id)) || (rosterChoices[0] && rosterChoices[0].id);
+        if (first) return pickRoster(first);
+    }).catch(() => {
+        console.error('Could not load roster list.');
+        const info = document.getElementById('mp-roster-info');
+        if (info) info.textContent = 'Could not load rosters.';
     });
 }
 
@@ -146,6 +153,7 @@ async function loadRosterData(rosterId) {
         superstars = data.roster.slice();
         superstars.sort((a, b) => a.name.localeCompare(b.name, undefined, { sensitivity: 'base' }));
         selectedRoster = rosterId;
+        selectedRosterName = data.name || '';
         renderSuperstarList();
 
     } catch (e) {
@@ -305,7 +313,7 @@ function playDraftAnimation(superstarName, brandName, brandColor, imgSrc) {
                 <h3 class="tv-superstar-name">${superstarName}</h3>
             </div>
             <div class="tv-graphic-image">
-                <img src="${imgSrc || 'images/placeholder.png'}" alt="${superstarName}" onerror="this.style.display='none'">
+                <img src="${imgSrc || HC.FALLBACK_IMG}" alt="${superstarName}" onerror="this.style.display='none'">
             </div>
         </div>
     `;
@@ -331,7 +339,7 @@ function addToDraftedList(superstarName, imgSrc, brandId) {
     
     const thumb = document.createElement('img');
     thumb.className = 'list-thumb';
-    thumb.src = imgSrc || 'images/placeholder.png';
+    thumb.src = imgSrc || HC.FALLBACK_IMG;
     thumb.alt = superstarName;
     thumb.onerror = function() { this.style.display = 'none'; };
     
@@ -417,8 +425,7 @@ async function handleCardClick(card, superstar) {
 
 function hostRoom() {
     isHost = true;
-    const selectContainer = document.getElementById('host-roster-select-container');
-    if (selectContainer) selectContainer.style.display = 'block';
+    if (!document.getElementById('mp-roster-select').value) { showToast('Pick a roster first.', 'warning'); return; }
     switchState('state-brand-setup');
 }
 
@@ -429,10 +436,7 @@ function joinRoom(code) {
     }
     currentRoomCode = code.toUpperCase();
     isHost = false;
-    
-    const selectContainer = document.getElementById('host-roster-select-container');
-    if (selectContainer) selectContainer.style.display = 'none';
-    
+
     // Verify room exists before letting them setup brand
     const roomRef = ref(db, `rooms/${currentRoomCode}`);
     get(roomRef).then((snapshot) => {
@@ -455,7 +459,7 @@ async function createRoomInFirebase(brandName, brandColor) {
     
     // Get selected roster
     const rosterSelect = document.getElementById('mp-roster-select');
-    const selectedRosterVal = rosterSelect ? rosterSelect.value : 'wwe2k26';
+    const selectedRosterVal = rosterSelect ? rosterSelect.value : '';
     
     const roomRef = ref(db, `rooms/${code}`);
     
@@ -481,6 +485,7 @@ async function createRoomInFirebase(brandName, brandColor) {
     };
     
     await set(roomRef, initialData);
+    HC.touchRecent(selectedRosterVal);
     onDisconnect(roomRef).remove();
     listenToRoom(code);
     
@@ -490,12 +495,25 @@ async function createRoomInFirebase(brandName, brandColor) {
     switchState('state-lobby');
 }
 
+// A finished room is deleted a few minutes later, so nothing is left behind in the database.
+// Every player starts the same timer when they see the results; removing a room twice does nothing.
+const RESULTS_MINUTES = 5;
+let closeTimer = null;
+function scheduleRoomClose(code) {
+    if (closeTimer) return;
+    showToast('Save your results. This room closes in ' + RESULTS_MINUTES + ' minutes.', 'info');
+    closeTimer = setTimeout(() => {
+        remove(ref(db, `rooms/${code}`)).catch(err => console.error(err));
+    }, RESULTS_MINUTES * 60 * 1000);
+}
+
 function listenToRoom(code) {
     const roomRef = ref(db, `rooms/${code}`);
     
     onValue(roomRef, (snapshot) => {
         const data = snapshot.val();
         if (!data) {
+            if (closeTimer) { clearTimeout(closeTimer); closeTimer = null; }
             currentRoomCode = null;
             isHost = false;
             showToast('The Host has left or the room was closed.', 'warning');
@@ -546,6 +564,7 @@ function listenToRoom(code) {
             if (data.selectedRoster) selectedRoster = data.selectedRoster;
             switchState('state-end');
             if (data.players) renderEndScreen(data.players);
+            scheduleRoomClose(code);
         }
         
         // Handle Turn Change
@@ -596,11 +615,9 @@ function updateTurnBanner() {
 // === EXPORT FUNCTIONS ===
 
 function getDraftResultsHTML(players) {
-    const gameId = selectedRoster || 'wwe2k26';
+    const gameId = selectedRoster || 'roster';
     
-    let gameTitle = gameId.toUpperCase() + " DRAFT RESULTS";
-    if (gameId.startsWith('wwe2k')) gameTitle = "WWE 2K" + gameId.substring(5) + " DRAFT RESULTS";
-    if (gameId.startsWith('svr')) gameTitle = "SVR " + gameId.substring(3) + " DRAFT RESULTS";
+    const gameTitle = (selectedRosterName ? selectedRosterName.toUpperCase() + ' ' : '') + 'DRAFT RESULTS';
     
     const watermarkLogoUrl = "images/px/logo.png";
     
@@ -610,7 +627,7 @@ function getDraftResultsHTML(players) {
                 <div class="export-watermark-inline">
                     <span>Generated on </span>
                     <img src="${watermarkLogoUrl}" class="watermark-logo-img" crossorigin="anonymous">
-                    <span>.info</span>
+                    <span>.com</span>
                 </div>
             </div>
             <h1 class="export-title">${gameTitle}</h1>
@@ -650,7 +667,7 @@ function downloadDraftImage() {
     }
     if (!currentRoomPlayers) return;
     
-    const gameId = selectedRoster || 'wwe2k26';
+    const gameId = selectedRoster || 'roster';
     
     const exportBoard = document.createElement('div');
     exportBoard.style.cssText = 'position:absolute;left:-9999px;top:-9999px;width:1400px;background:#0a0a14;padding:50px;box-sizing:border-box;';
@@ -790,9 +807,6 @@ function leaveRoom() {
 
 document.addEventListener('DOMContentLoaded', async () => {
     
-    // Initial load, though btn-start-draft will override if host
-    await loadRosterData('wwe2k26');
-    
     const btnHost = document.getElementById('btn-host');
     if (btnHost) {
         btnHost.addEventListener('click', () => {
@@ -817,6 +831,11 @@ document.addEventListener('DOMContentLoaded', async () => {
             
             if (!brandName) {
                 showToast('Please enter a brand name.', 'warning');
+                return;
+            }
+            
+            if (isHost && !document.getElementById('mp-roster-select').value) {
+                showToast('Add a roster first on the Rosters page.', 'warning');
                 return;
             }
             
@@ -867,7 +886,8 @@ document.addEventListener('DOMContentLoaded', async () => {
             }
 
             // Use selected roster from lobby creation
-            const selectedRosterValue = roomData.selectedRoster || 'wwe2k26';
+            const selectedRosterValue = roomData.selectedRoster || '';
+            if (!selectedRosterValue) { showToast('Pick a roster first.', 'warning'); return; }
             await loadRosterData(selectedRosterValue);
             
             // Construct brandsConfig from players (each player is a brand)
@@ -938,7 +958,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         });
     }
     
-    initCustomRosterSelect();
+    initRosterPicker();
     updateTurnBanner();
     updateRosterCount();
 });

@@ -1,35 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <script type="text/javascript">
-    (function(c,l,a,r,i,t,y){
-      c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
-      t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
-      y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
-    })(window, document, "clarity", "script", "wibltdvrqy");
-  </script>
-  <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7224985162462472"
-          crossorigin="anonymous"></script>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WWE 2K26 & AEW Match Card Generator - 2KHUB</title>
-  <meta name="description" content="Free WWE 2K26 & AEW match card maker. Build PPV cards for WWE 2K26 and AEW Universe, add matches, name your show, and download graphics for your booking.">
+  <title>Match Card Generator - 2UHub</title>
+  <meta name="description" content="Free wrestling match card maker. Build show cards with your own rosters or type your own names, add made-up titles, name your show, and download the graphic.">
   <meta name="theme-color" content="#0a0a14">
-  <meta name="keywords" content="WWE 2K26, Universe Mode, Draft tool, AEW draft, match card generator, wrestling booking simulator, WWE 2K tracker, AEW Universe, 2KHUB">
-  <link rel="canonical" href="https://2khub.info/matchcard-generator">
-  <meta property="og:title" content="WWE 2K26 & AEW Match Card Generator - 2KHUB">
-  <meta property="og:description" content="Create WWE 2K26 and AEW match cards, name your show, add matches, and export PPV graphics for your WWE 2K26 and AEW Universe booking.">
-  <meta property="og:image" content="https://2khub.info/logo.png">
-  <meta property="og:url" content="https://2khub.info/matchcard-generator">
+  <meta name="keywords" content="Universe Mode, match card generator, wrestling card maker, wrestling booking, 2UHub">
+  <link rel="canonical" href="https://2uhub.com/matchcard-generator">
+  <meta property="og:title" content="Match Card Generator - 2UHub">
+  <meta property="og:description" content="Create wrestling match cards, name your show, add matches and titles, and export the graphic.">
+  <meta property="og:image" content="https://2uhub.com/logos/2uhub-social-preview-1200x630.png">
+  <meta property="og:url" content="https://2uhub.com/matchcard-generator">
   <meta property="og:type" content="website">
-  <meta property="og:site_name" content="2KHUB">
+  <meta property="og:site_name" content="2UHub">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="WWE 2K26 & AEW Match Card Generator - 2KHUB">
-  <meta name="twitter:description" content="Free WWE 2K26 & AEW match card generator. Build and download PPV cards for your WWE 2K26 and AEW Universe Mode.">
-  <meta name="twitter:image" content="https://2khub.info/logo.png">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Jersey+15&family=Rubik:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <meta name="twitter:title" content="Match Card Generator - 2UHub">
+  <meta name="twitter:description" content="Free wrestling match card generator. Build and download show cards for your Universe Mode booking.">
+  <meta name="twitter:image" content="https://2uhub.com/logos/2uhub-social-preview-1200x630.png">
+  <link rel="stylesheet" href="fonts.css">
   <link rel="stylesheet" href="hardcore.css">
   <link rel="stylesheet" href="matchcard.css">
   <link rel="icon" type="image/png" href="icon.png">
@@ -39,19 +28,19 @@
   {
     "@context": "https://schema.org",
     "@type": "WebApplication",
-    "name": "2KHUB WWE 2K26 & AEW Match Card Generator",
+    "name": "2UHub Match Card Generator",
     "applicationCategory": "GameApplication",
     "operatingSystem": "Web Browser",
-    "description": "Free WWE 2K26 and AEW match card generator. Create PPV cards, name your show, add matches and download graphics for Universe Mode fantasy booking.",
+    "description": "Free wrestling match card generator. Create show cards, name your show, add matches and download graphics for fantasy booking.",
     "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-    "url": "https://2khub.info/matchcard-generator"
+    "url": "https://2uhub.com/matchcard-generator"
   }
   </script>
 </head>
 <body class="hc mc-page">
 
   <header class="hc-header" role="banner">
-    <a href="index.html" class="hc-logo" aria-label="2KHUB home"><img src="images/px/logo.png" alt="2KHUB – WWE 2K26 & AEW Match Card Generator logo"></a>
+    <a href="index.html" class="hc-logo" aria-label="2UHub home"><img src="images/px/logo.png" alt="2UHub – Match Card Generator logo"></a>
     <h1 class="page-title">Match Card Maker</h1>
     <div class="hc-header-actions">
       <a class="btn btn-steel btn-sm" href="tools.html">Draft</a>
@@ -73,16 +62,18 @@
 
       <div id="side-stars" class="side-pane">
         <div class="side-filters">
-          <select id="game-select" class="hc-select" aria-label="Game roster"></select>
+          <div class="mode-grid">
+            <button type="button" class="game-tile" id="mode-roster" data-act="mode-roster"><span>Browse a roster</span></button>
+            <button type="button" class="game-tile" id="mode-free" data-act="mode-free"><span>Free mode</span></button>
+          </div>
           <select id="pool-select" class="hc-select" aria-label="Roster source" hidden></select>
-          <input id="q" class="field" type="search" placeholder="Search superstars..." autocomplete="off" aria-label="Search superstars">
-          <div class="seg" id="sex-seg">
+          <div class="seg" id="sex-seg" hidden>
             <button type="button" data-act="f-sex" data-v="all" class="on">All</button>
             <button type="button" data-act="f-sex" data-v="man">Men</button>
             <button type="button" data-act="f-sex" data-v="woman">Women</button>
           </div>
         </div>
-        <div class="side-count" id="roster-count">0</div>
+        <div class="side-count" id="roster-count"></div>
         <div id="roster-list" class="side-list" role="list"></div>
       </div>
 
@@ -100,12 +91,12 @@
       <div class="card-bar">
         <div class="card-title">
           <h2>Fight card</h2>
-          <p>Click a slot, then a superstar &mdash; or just click superstars to fill the card top to bottom.</p>
+          <p id="card-hint"></p>
         </div>
         <div class="card-show">
           <label class="lbl" for="show-name">Show name</label>
           <div class="show-form">
-            <input id="show-name" class="field" maxlength="28" placeholder="e.g. Monday Night Raw" autocomplete="off">
+            <input id="show-name" class="field" maxlength="28" placeholder="e.g. Monday Night Mayhem" autocomplete="off">
             <input id="show-color" class="show-color" type="color" value="#e0202c" aria-label="Show color" title="Show color">
           </div>
         </div>
@@ -129,5 +120,6 @@
   <script src="hardcore.js"></script>
   <script src="tagteams.js"></script>
   <script src="matchcard.js"></script>
+  <script src="consent.js" defer></script>
 </body>
 </html>

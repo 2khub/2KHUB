@@ -1,0 +1,3707 @@
+{
+ "format": "2uhub-roster",
+ "version": 1,
+ "id": "all_time_roster",
+ "name": "All-Time Roster",
+ "author": "brock_benoit",
+ "official": true,
+ "description": "Legends and current stars from every era in one big roster.",
+ "brands": [
+  {
+   "name": "NEW SHOW",
+   "color": "#FFFFFF"
+  }
+ ],
+ "superstars": [
+  {
+   "name": "A-Kid",
+   "img": "images/a-kid.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Abyss",
+   "img": "images/abyss.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ace Austin",
+   "img": "images/ace-austin.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Action Andretti",
+   "img": "images/action-andretti.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Adam Cole",
+   "img": "images/adam-cole-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Adam Copeland / Edge",
+   "img": "images/adam-copeland.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Adam Pearce",
+   "img": "images/adam-pearce.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Afa",
+   "img": "images/afa.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Aiden English",
+   "img": "images/aiden-english.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "AJ Hawk",
+   "img": "images/aj-hawk.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "AJ Lee",
+   "img": "images/aj-lee.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "AJ Styles",
+   "img": "images/aj-styles.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Akam",
+   "img": "images/akam.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Akira Tozawa",
+   "img": "images/akira-tozawa.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Alba Fyre",
+   "img": "images/alba-fyre.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Albert",
+   "img": "images/albert.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Alec Price",
+   "img": "images/alec-price.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Aleister Black / Malakai Black",
+   "img": "images/aleister-black.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Alex Reynolds",
+   "img": "images/alex-reynolds.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Alex Shelley",
+   "img": "images/alex-shelley.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Alex Windsor",
+   "img": "images/alex-windsor.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Alexa Bliss",
+   "img": "images/alexa-bliss.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Alexander Wolfe",
+   "img": "images/alexander-wolfe.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Alicia Fox",
+   "img": "images/alicia-fox.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Aliyah",
+   "img": "images/aliyah.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Alundra Blayze",
+   "img": "images/alundra-blayze.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Andrade El Ídolo",
+   "img": "images/andrade-el-idolo.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Andre Chase",
+   "img": "images/andre-chase.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Andre the Giant",
+   "img": "images/andre-the-giant.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Angel",
+   "img": "images/angel.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Angelo Dawkins",
+   "img": "images/angelo-dawkins.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Angelo Parker",
+   "img": "images/angelo-parker.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Angélico",
+   "img": "images/angelico.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Anna Jay",
+   "img": "images/anna-jay.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Anthony Bowens",
+   "img": "images/anthony-bowens.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Anthony Henry",
+   "img": "images/anthony-henry.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Apollo Crews",
+   "img": "images/apollo-crews.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ar Fox",
+   "img": "images/ar-fox.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Aryia Daivari",
+   "img": "images/ariya-daivari-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ashante Thee Adonis",
+   "img": "images/ashante-thee-adonis.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Asuka",
+   "img": "images/asuka.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Athena",
+   "img": "images/athena.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Austin Gunn",
+   "img": "images/austin-gunn.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Austin Theory",
+   "img": "images/austin-theory-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "AX",
+   "img": "images/ax.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Axiom",
+   "img": "images/axiom.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "B-Fab",
+   "img": "images/b-fab.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Bad Bunny",
+   "img": "images/bad-bunny.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Bam Bam Bigelow",
+   "img": "images/bam-bam-bigelow.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Bandido",
+   "img": "images/bandido.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Baron Corbin",
+   "img": "images/baron-corbin.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Batista",
+   "img": "images/batista.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bayley",
+   "img": "images/bayley.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Becky Lynch",
+   "img": "images/becky-lynch.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Berto",
+   "img": "images/berto.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Beth Phoenix",
+   "img": "images/beth-phoenix.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Bianca Belair",
+   "img": "images/bianca-belair.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Big Bill / Big Cass",
+   "img": "images/big-bill.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Big Boss Man",
+   "img": "images/big-boss-man.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Big E",
+   "img": "images/big-e.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Big Show",
+   "img": "images/big-show.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Billie Starkz",
+   "img": "images/billie-starkz.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Billy Gunn",
+   "img": "images/billy-gunn.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bishop Kaun",
+   "img": "images/bishop-kaun.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Blair Davenport",
+   "img": "images/blair-davenport.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Blake Christian",
+   "img": "images/blake-christian.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Blake Monroe",
+   "img": "images/blake-monroe.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Bo Dallas",
+   "img": "images/bo-dallas.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Bobby Fish",
+   "img": "images/bobby-fish.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Bobby Lashley",
+   "img": "images/bobby-lashley-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Bobby Roode",
+   "img": "images/robert-roode.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Boogeyman",
+   "img": "images/boogeyman.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Booker T",
+   "img": "images/booker-t.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Boston Connor",
+   "img": "images/boston-connor.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Braun Strowman",
+   "img": "images/braun-strowman.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Bray Wyatt",
+   "img": "images/bray-wyatt.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bret Hart",
+   "img": "images/bret-hit-man-hart.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Brian Cage",
+   "img": "images/brian-cage.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Brian Pillman",
+   "img": "images/brian-pillman.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Brie Bella",
+   "img": "images/brie-bella.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "British Bulldog",
+   "img": "images/british-bulldog.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Brock Lesnar",
+   "img": "images/brock-lesnar.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Brody King",
+   "img": "images/brody-king.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bron Breakker",
+   "img": "images/bron-breakker.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bronson Reed",
+   "img": "images/bronson-reed.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Brooks Jensen",
+   "img": "images/brooks-jensen.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Bruno Sammartino",
+   "img": "images/bruno-sammartino.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Brutus Beefcake",
+   "img": "images/brutus-beefcake.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Brutus Creed",
+   "img": "images/brutus-creed.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Bryan Danielson / Daniel Bryan",
+   "img": "images/bryan-danielson.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Bubba Ray Dudley",
+   "img": "images/bubba-ray-dudley.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Buddy Matthews / Buddy Murphy",
+   "img": "images/buddy-matthews.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Buddy Roberts",
+   "img": "images/buddy-roberts.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Bull Nakano",
+   "img": "images/bull-nakano.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Cactus Jack",
+   "img": "images/cactus-jack.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Cameron Grimes",
+   "img": "images/cameron-grimes.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Candice LeRae",
+   "img": "images/candice-lerae.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Carlie Bravo",
+   "img": "images/carlie-bravo.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Carlito",
+   "img": "images/carlito.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Carmella",
+   "img": "images/carmella.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Carmelo Hayes",
+   "img": "images/carmelo-hayes.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Cash Wheeler / Dash Wilder",
+   "img": "images/cash-wheeler.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Cassie Lee / Peyton Royce",
+   "img": "images/cassie-lee.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Cedric Alexander",
+   "img": "images/cedric-alexander.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Chad Gable",
+   "img": "images/chad-gable.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Channing Stacks Lorenzo",
+   "img": "images/channing-stacks-lorenzo.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Charlie Dempsey",
+   "img": "images/charlie-dempsey.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Charlotte Flair",
+   "img": "images/charlotte-flair.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Chelsea Green",
+   "img": "images/chelsea-green.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Chris Jericho",
+   "img": "images/chris-jericho-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Chris Sabin",
+   "img": "images/chris-sabin.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Christian Cage",
+   "img": "images/christian.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Chyna",
+   "img": "images/chyna.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Clark Connors",
+   "img": "images/clark-connors.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Claudio Castagnoli / Cesaro",
+   "img": "images/claudio-castagnoli.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "CM Punk",
+   "img": "images/cm-punk.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Cody Rhodes",
+   "img": "images/cody-rhodes.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Cole Karter",
+   "img": "images/cole-karter.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Colten Gunn",
+   "img": "images/colten-gunn.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Commander Azeez",
+   "img": "images/commander-azeez.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Cora Jade",
+   "img": "images/cora-jade.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Crush",
+   "img": "images/crush.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Cruz Del Toro",
+   "img": "images/cruz-del-toro.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Curt Hawkins",
+   "img": "images/curt-hawkins.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Curtis Axel",
+   "img": "images/curtis-axel.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "D Lo Brown",
+   "img": "images/dlo-brown.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "D-Von Dudley",
+   "img": "images/d-von-dudley.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Dakota Kai",
+   "img": "images/dakota-kai-2.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Dalton Castle",
+   "img": "images/dalton-castle.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Damian Priest",
+   "img": "images/damian-priest-2.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Damon Kemp",
+   "img": "images/damon-kemp.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dana Brooke",
+   "img": "images/dana-brooke.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Daniel Garcia",
+   "img": "images/daniel-garcia.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Danny Burch",
+   "img": "images/danny-burch.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dante Martin",
+   "img": "images/dante-martin.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Darby Allin",
+   "img": "images/darby-allin.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Darius Butler",
+   "img": "images/darius-butler.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Darius Martin",
+   "img": "images/darius-martin.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Darren Young",
+   "img": "images/darren-young.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "David Finlay",
+   "img": "images/david-finlay.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Dax Harwood / Scott Dawson",
+   "img": "images/dax-harwood.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "DDP",
+   "img": "images/ddp.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Deonna Purrazzo",
+   "img": "images/deonna-purrazzo.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Dexter Lumis",
+   "img": "images/dexter-lumis.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Dezmond Xavier",
+   "img": "images/dezmond-xavier.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Diamante",
+   "img": "images/diamante.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Dijak",
+   "img": "images/dijak.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Doink the Clown",
+   "img": "images/doink-the-clown.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dolph Ziggler",
+   "img": "images/dolph-ziggler.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Dominik Dijakovic",
+   "img": "images/cedric-alexander.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dominik Mysterio",
+   "img": "images/dirty-dominik-mysterio.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Dragon Lee",
+   "img": "images/dragon-lee.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dralístico",
+   "img": "images/dralistico.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Drew Gulak",
+   "img": "images/drew-gulak.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Drew McIntyre",
+   "img": "images/drew-mcintyre.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Dude Love",
+   "img": "images/dude-love.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Duke Hudson",
+   "img": "images/duke-hudson.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Dustin Rhodes / Goldust",
+   "img": "images/dustin-rhodes.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Dusty Rhodes",
+   "img": "images/dusty-rhodes.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Earthquake",
+   "img": "images/earthquake.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "EC3",
+   "img": "images/ec3.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Eddie Guerrero",
+   "img": "images/eddie-guerrero.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Eddie Kingston",
+   "img": "images/eddie-kingston.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Eddy Thorpe",
+   "img": "images/eddy-thorpe.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "El Clon",
+   "img": "images/el-clon.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "El Grande Americano",
+   "img": "images/el-grande-americano.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "El Grande Americano Original",
+   "img": "images/el-grande-americano-original.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "El Hijo Del Vikingo",
+   "img": "images/el-hijo-del-vikingo.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Elektra Lopez",
+   "img": "images/elektra-lopez.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Elias",
+   "img": "images/elias.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Elton Prince",
+   "img": "images/elton-prince.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ember Moon",
+   "img": "images/ember-moon.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Emma",
+   "img": "images/emma.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Epico Colon",
+   "img": "images/epico-colon.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Eric Bischoff",
+   "img": "images/eric-bischoff.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Eric Young",
+   "img": "images/eric-young.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Erick Rowan",
+   "img": "images/erick-rowan.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Erik",
+   "img": "images/erik.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ethan Page",
+   "img": "images/ethan-page.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Eve Torres",
+   "img": "images/eve-torres.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Evil Uno",
+   "img": "images/evil-uno.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ezekiel",
+   "img": "images/ezekiel.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Faarooq",
+   "img": "images/faarooq.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Fabian Aichner",
+   "img": "images/fabian-aichner.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Fallon Henley",
+   "img": "images/fallon-henley.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Fandango",
+   "img": "images/fandango.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Fatu",
+   "img": "images/fatu.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Finn Balor",
+   "img": "images/finn-balor.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Finn Balor Demon",
+   "img": "images/finn-balor-demon.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Flammer",
+   "img": "images/flammer.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Gabe Kidd",
+   "img": "images/gabe-kidd.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "George The Animal Steele",
+   "img": "images/george-the-animal-steele.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Gigi Dolin",
+   "img": "images/gigi-dolin.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Giovanni Vinci",
+   "img": "images/giovanni-vinci.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Giulia",
+   "img": "images/giulia.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Goldberg",
+   "img": "images/goldberg.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Gran Metalik",
+   "img": "images/gran-metalik.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Grayson Waller",
+   "img": "images/grayson-waller.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Greg Valentine",
+   "img": "images/greg-valentine.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Griff Garrison",
+   "img": "images/griff-garrison.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Gunther",
+   "img": "images/gunther.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Haku",
+   "img": "images/haku.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Hangman Adam Page",
+   "img": "images/hangman-adam-page.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Hank Walker",
+   "img": "images/hank-walker.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Harley Cameron",
+   "img": "images/harley-cameron.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Harley Race",
+   "img": "images/harley-race.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Harper",
+   "img": "images/harper.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Heath Slater",
+   "img": "images/heath-slater.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Hechicero",
+   "img": "images/hechicero.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Hideo Itami",
+   "img": "images/hideo-itami.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "High Chief Peter Maivia",
+   "img": "images/high-chief-peter-maivia.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Hologram",
+   "img": "images/hologram.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Honky Tonk Man",
+   "img": "images/honky-tonk-man.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Hook",
+   "img": "images/hook.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Hulk Hogan",
+   "img": "images/hulk-hogan.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Hyan",
+   "img": "images/hyan.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Ilja Dragunov",
+   "img": "images/ilja-dragunov.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Indi Hartwell",
+   "img": "images/indi-hartwell.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Isaiah Swerve Scott",
+   "img": "images/isaiah-swerve-scott.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Isiah Kassidy",
+   "img": "images/isiah-kassidy.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Isla Dawn",
+   "img": "images/isla-dawn.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Ivar",
+   "img": "images/ivar.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ivory",
+   "img": "images/ivory.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Ivy Nile",
+   "img": "images/ivy-nile.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Iyo Sky",
+   "img": "images/iyo-sky.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Izzi Dame",
+   "img": "images/izzi-dame.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Jack Gallagher",
+   "img": "images/jack-gallagher.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jacob Fatu",
+   "img": "images/jacob-fatu.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Jacqueline",
+   "img": "images/jacqueline.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Jacy Jayne",
+   "img": "images/jacy-jayne.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Jade Cargill",
+   "img": "images/jade-cargill.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Jaida Parker",
+   "img": "images/jaida-parker.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Jakara Jackson",
+   "img": "images/jakara-jackson.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Jake Doyle",
+   "img": "images/jake-doyle.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jake The Snake Roberts",
+   "img": "images/jake-the-snake-roberts.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jalen Brunson",
+   "img": "images/jalen-brunson.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jamal",
+   "img": "images/jamal.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "James Drake",
+   "img": "images/james-drake.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jamie Hayter",
+   "img": "images/jamie-hayter.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Jason Jordan",
+   "img": "images/jason-jordan.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jaxson Ryker",
+   "img": "images/jaxson-ryker.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jay Lethal",
+   "img": "images/jay-lethal.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jay White",
+   "img": "images/jay-white.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jazmyn Nyx",
+   "img": "images/jazmyn-nyx.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "JBL",
+   "img": "images/jbl.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "JC Mateo",
+   "img": "images/jc-mateo.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "JD Drake",
+   "img": "images/jd-drake.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "JD McDonagh",
+   "img": "images/jd-mcdonagh.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Je Von Evans",
+   "img": "images/jevon-evans.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jeff Hardy",
+   "img": "images/jeff-hardy.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jelly Roll",
+   "img": "images/jelly-roll.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jerry The King Lawler",
+   "img": "images/jerry-the-king-lawler.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Jesse Ventura",
+   "img": "images/jesse-ventura.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jessie McKay / Billie Kay",
+   "img": "images/jessie-mckay.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Jey Uso",
+   "img": "images/jey-uso.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Jim The Anvil Neidhart",
+   "img": "images/jim-the-anvil-neidhart.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jimmy Jam Garvin",
+   "img": "images/jimmy-jam-garvin.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jimmy Uso",
+   "img": "images/jimmy-uso.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Jinder Mahal",
+   "img": "images/jinder-mahal-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Joaquin Wilde",
+   "img": "images/joaquin-wilde-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Joe Coffey",
+   "img": "images/joe-coffey.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Joe Gacy",
+   "img": "images/joe-gacy-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Joe Hendry",
+   "img": "images/joe-hendry.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "John Cena",
+   "img": "images/john-cena.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "John Silver",
+   "img": "images/john-silver.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Johnny Gargano",
+   "img": "images/johnny-gargano.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Johnny TV / John Morrison",
+   "img": "images/johnny-tv.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jon Moxley / Dean Ambrose",
+   "img": "images/jon-moxley.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Jordan Devlin",
+   "img": "images/jordan-devlin.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jordan Oliver",
+   "img": "images/jordan-oliver.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jordynne Grace",
+   "img": "images/jordynne-grace.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Josh Alexander",
+   "img": "images/josh-alexander.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Josh Briggs",
+   "img": "images/josh-briggs.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Josh Woods",
+   "img": "images/josh-woods.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Juice Robinson",
+   "img": "images/juice-robinson.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Julia Hart",
+   "img": "images/julia-hart.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Julius Creed",
+   "img": "images/julius-creed.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Jungle Jack Perry",
+   "img": "images/jungle-jack-perry.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Junkyard Dog",
+   "img": "images/junkyard-dog.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kacy Catanzaro",
+   "img": "images/kacy-catanzaro.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Kairi Sane",
+   "img": "images/kairi-sane.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Kalisto",
+   "img": "images/kalisto.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kane",
+   "img": "images/kane.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Karl Anderson",
+   "img": "images/karl-anderson.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Karmen Petrovic",
+   "img": "images/karmen-petrovic.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Karrion Kross",
+   "img": "images/karrion-kross.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kassius Ohno",
+   "img": "images/kassius-ohno.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Katana Chance",
+   "img": "images/katana-chance.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Katsuyori Shibata",
+   "img": "images/katsuyori-shibata.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kay Lee Ray",
+   "img": "images/kay-lee-ray.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Kayden Carter",
+   "img": "images/kayden-carter.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Kazuchika Okada",
+   "img": "images/kazuchika-okada.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Keith Lee",
+   "img": "images/keith-lee.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kelani Jordan",
+   "img": "images/kelani-jordan.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Kelly Kelly",
+   "img": "images/kelly-kelly.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Ken Shamrock",
+   "img": "images/ken-shamrock.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kenny Omega",
+   "img": "images/kenny-omega.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kerry Von Erich",
+   "img": "images/kerry-von-erich.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kevin Knight",
+   "img": "images/kevin-knight.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kevin Nash",
+   "img": "images/kevin-nash.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kevin Owens",
+   "img": "images/kevin-owens.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kevin Von Erich",
+   "img": "images/kevin-von-erich.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kiana James",
+   "img": "images/kiana-james.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Killian Dain",
+   "img": "images/killian-dain.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kip Sabian",
+   "img": "images/kip-sabian.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kit Wilson",
+   "img": "images/kit-wilson.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kofi Kingston",
+   "img": "images/kofi-kingston.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Komander",
+   "img": "images/komander.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Konnor",
+   "img": "images/konnor.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Konosuke Takeshita",
+   "img": "images/konosuke-takeshita.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kota Ibushi",
+   "img": "images/kota-ibushi.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kris Statlander",
+   "img": "images/kris-statlander.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "KSI",
+   "img": "images/ksi.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kurt Angle",
+   "img": "images/kurt-angle.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Kushida",
+   "img": "images/kushida.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Kyle Fletcher",
+   "img": "images/kyle-fletcher.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Kyle O Reilly",
+   "img": "images/kyle-oreilly.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "LA Knight",
+   "img": "images/la-knight.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "La Parka",
+   "img": "images/la-parka.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Lacey Evans",
+   "img": "images/lacey-evans.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Lacey Lane",
+   "img": "images/lacey-lane.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Lady Shani",
+   "img": "images/lady-shani.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Lana",
+   "img": "images/lana.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Lance Archer",
+   "img": "images/lance-archer.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Larry Zbyszko",
+   "img": "images/larry-zbyszko.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Lars Sullivan",
+   "img": "images/lars-sullivan.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Lash Legend",
+   "img": "images/lash-legend.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Lee Johnson",
+   "img": "images/lee-johnson.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Lee Moriarty",
+   "img": "images/lee-moriarty.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Leila Grey",
+   "img": "images/leila-grey.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Lena Kross",
+   "img": "images/lena-kross.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Lex Luger",
+   "img": "images/lex-luger.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Lexis King",
+   "img": "images/lexis-king.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Lince Dorado",
+   "img": "images/lince-dorado.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Lio Rush",
+   "img": "images/lio-rush-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Lita",
+   "img": "images/lita.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Liv Morgan",
+   "img": "images/liv-morgan-2.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Logan Paul",
+   "img": "images/logan-paul.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Lola Vice",
+   "img": "images/lola-vice.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Ludwig Kaiser",
+   "img": "images/ludwig-kaiser.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Luke",
+   "img": "images/luke.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Luke Gallows",
+   "img": "images/luke-gallows.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Lyra Valkyria",
+   "img": "images/lyra-valkyria.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Mace",
+   "img": "images/mace.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Machine Gun Kelly",
+   "img": "images/machine-gun-kelly.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Macho Man Randy Savage",
+   "img": "images/macho-man-randy-savage.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Madcap Moss",
+   "img": "images/madcap-moss.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mandy Rose",
+   "img": "images/mandy-rose.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Mankind",
+   "img": "images/mankind.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Mansoor",
+   "img": "images/mansoor-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Marcel Barthel",
+   "img": "images/marcel-barthel.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Maria Kanellis",
+   "img": "images/maria-kanellis.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Marina Shafir",
+   "img": "images/marina-shafir.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Mark Andrews",
+   "img": "images/mark-andrews.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mark Briscoe",
+   "img": "images/mark-briscoe.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Mark Coffey",
+   "img": "images/mark-coffey.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mark Davis",
+   "img": "images/mark-davis.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Mark Henry",
+   "img": "images/mark-henry.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Marq Quen",
+   "img": "images/marq-quen.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Maryse",
+   "img": "images/maryse.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Mason Madden",
+   "img": "images/mason-madden.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Matt Cardona / Zack Ryder",
+   "img": "images/matt-cardona.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Matt Hardy",
+   "img": "images/matt-hardy.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Matt Jackson",
+   "img": "images/matt-jackson.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Matt Menard",
+   "img": "images/matt-menard.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Matt Riddle",
+   "img": "images/matt-riddle.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Max Caster",
+   "img": "images/max-caster.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Maxxine Dupri",
+   "img": "images/maxxine-dupri.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Maya World",
+   "img": "images/maya-world.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Megan Bayne",
+   "img": "images/megan-bayne.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Mercedes Moné / Sasha Banks",
+   "img": "images/sasha-banks.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Michael Nakazawa",
+   "img": "images/michael-nakazawa.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Michael PS Hayes",
+   "img": "images/michael-hayes.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Michelle McCool",
+   "img": "images/michelle-mccool.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Michin",
+   "img": "images/michin.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Mickie James",
+   "img": "images/mickie-james.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Mighty Molly",
+   "img": "images/mighty-molly.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Mike Kanellis",
+   "img": "images/mike-kanellis.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mina Shirakawa",
+   "img": "images/mina-shirakawa.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "MJF",
+   "img": "images/mjf.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Mojo Rawley",
+   "img": "images/mojo-rawley.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Molly Holly",
+   "img": "images/molly-holly.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Montez Ford",
+   "img": "images/montez-ford.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mosh",
+   "img": "images/mosh.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mr. Iguana",
+   "img": "images/mr-iguana.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Mr. McMahon",
+   "img": "images/mr-mcmahon.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Mr. Perfect",
+   "img": "images/mr.-perfect.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Mr. T",
+   "img": "images/mr-t.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Mr. Wonderful Paul Orndorff",
+   "img": "images/mr.-wonderful-paul-orndorff.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Muhammad Ali",
+   "img": "images/muhammad-ali.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Mustafa Ali",
+   "img": "images/mustafa-ali.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "MVP",
+   "img": "images/mvp.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Myles Borne",
+   "img": "images/myles-borne.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Myron Reed",
+   "img": "images/myron-reed.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Máscara Dorada",
+   "img": "images/mascara-dorada.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Naomi",
+   "img": "images/naomi-2.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Natalya",
+   "img": "images/natalya.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Nathan Frazer",
+   "img": "images/nathan-frazer.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "New Jack",
+   "img": "images/new-jack.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Nia Jax",
+   "img": "images/nia-jax-2.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Nick Aldis",
+   "img": "images/nick-aldis.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Nick Jackson",
+   "img": "images/nick-jackson.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Nick Miller",
+   "img": "images/nick-miller.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Nick Wayne",
+   "img": "images/nick-wayne.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Nigel McGuinness",
+   "img": "images/nigel-mcguinness.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Nikki Bella",
+   "img": "images/nikki-bella.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Nikki Cross",
+   "img": "images/nikki-cross-2.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Nikkita Lyons",
+   "img": "images/nikkita-lyons.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "No Way Jose",
+   "img": "images/no-way-jose.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Noam Dar",
+   "img": "images/noam-dar.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Oba Femi",
+   "img": "images/oba-femi.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Octagon Jr",
+   "img": "images/octagon-jr.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Omos",
+   "img": "images/omos.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Oney Lorcan",
+   "img": "images/oney-lorcan.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Orange Cassidy",
+   "img": "images/orange-cassidy.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Oro Mensah",
+   "img": "images/oro-mensah.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Otis",
+   "img": "images/otis.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Pac / Neville",
+   "img": "images/pac.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Pagano",
+   "img": "images/pagano.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Paige / Saraya",
+   "img": "images/paige.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Papa Shango",
+   "img": "images/papa-shango.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Pat McAfee",
+   "img": "images/pat-mcafee.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Penelope Ford",
+   "img": "images/penelope-ford.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Penta",
+   "img": "images/penta.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Pete Dunne",
+   "img": "images/pete-dunne-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Piper Niven",
+   "img": "images/piper-niven.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Post Malone",
+   "img": "images/post-malone.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Preston Vance",
+   "img": "images/preston-vance.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Primo Colon",
+   "img": "images/primo-colon.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Psycho Clown",
+   "img": "images/psycho-clown.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "QT Marshall",
+   "img": "images/qt-marshall.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Queen Aminata",
+   "img": "images/queen-aminata.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "R-Truth",
+   "img": "images/r-truth.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Randy Orton",
+   "img": "images/randy-orton.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Raquel Rodriguez",
+   "img": "images/raquel-rodriguez.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Raul Mendoza",
+   "img": "images/raul-mendoza.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ravishing Rick Rude",
+   "img": "images/ravishing-rick-rude.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Razor Ramon",
+   "img": "images/razor-ramon.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Reckoning",
+   "img": "images/reckoning.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Red Velver",
+   "img": "images/red-velvet.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Reggie",
+   "img": "images/reggie.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rey Fenix",
+   "img": "images/rey-fenix.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rey Mysterio",
+   "img": "images/rey-mysterio.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Rezar",
+   "img": "images/rezar.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rhea Ripley",
+   "img": "images/rhea-ripley-2.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Rhyno",
+   "img": "images/rhyno.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Ric Flair",
+   "img": "images/ric-flair.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Rich Swann",
+   "img": "images/rich-swann.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rick Boogs",
+   "img": "images/rick-boogs.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rick Martel",
+   "img": "images/rick-martel.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Rick Steiner",
+   "img": "images/rick-steiner.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ricky Morton",
+   "img": "images/ricky-morton.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ricky Saints",
+   "img": "images/ricky-saints.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ricky Steamboat",
+   "img": "images/ricky-the-dragon-steamboat.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Ricochet",
+   "img": "images/ricochet-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ridge Holland",
+   "img": "images/ridge-holland.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rikishi",
+   "img": "images/rikishi.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Road Dogg",
+   "img": "images/road-dogg.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rob Van Dam",
+   "img": "images/rob-van-dam.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Robert Gibson",
+   "img": "images/robert-gibson.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Rocky Romero",
+   "img": "images/rocky-romero.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Roderick Strong",
+   "img": "images/roderick-strong-2.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Roman Reigns",
+   "img": "images/roman-reigns.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Ronda Rousey",
+   "img": "images/ronda-rousey.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Rosey",
+   "img": "images/rosey.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Rowdy Roddy Piper",
+   "img": "images/rowdy-roddy-piper.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Roxanne Perez",
+   "img": "images/roxanne-perez.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Ruby Soho / Ruby Riott",
+   "img": "images/ruby-soho.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Rusev",
+   "img": "images/rusev-2025.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Rush",
+   "img": "images/rush.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Sami Zayn",
+   "img": "images/sami-zayn.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Sammy Guevara",
+   "img": "images/sammy-guevara.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Samoa Joe",
+   "img": "images/samoa-joe-2.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Samu",
+   "img": "images/samu.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Sanga",
+   "img": "images/sanga.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Santos Escobar",
+   "img": "images/santos-escobar.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Sarah Logan",
+   "img": "images/sarah-logan.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Sarray",
+   "img": "images/sarray.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Satnam Singh",
+   "img": "images/satnam-singh.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Sawyer Fulton",
+   "img": "images/sawyer-fulton.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Scarlett",
+   "img": "images/scarlett.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Scorpio Sky",
+   "img": "images/scorpio-sky.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Scott Hall",
+   "img": "images/scott-hall.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Scott Steiner",
+   "img": "images/scott-steiner.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Scrypts",
+   "img": "images/scrypts.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Sensational Sherri",
+   "img": "images/sensational-sherri.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Serena Deeb",
+   "img": "images/serena-deeb.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Serpentico",
+   "img": "images/serpentico.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Seth Rollins",
+   "img": "images/seth-rollins.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Shane McMahon",
+   "img": "images/shane-mcmahon.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shane Taylor",
+   "img": "images/shane-taylor.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shane Thorne",
+   "img": "images/shane-thorne.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shanky",
+   "img": "images/shanky.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shaquille O Neal",
+   "img": "images/shaquille-oneal.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Shawn Dean",
+   "img": "images/shawn-dean.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shawn Michaels",
+   "img": "images/shawn-michaels.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Shawn Spears",
+   "img": "images/shawn-spears.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Shayna Baszler",
+   "img": "images/shayna-baszler.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Sheamus",
+   "img": "images/sheamus.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Shelton Benjamin",
+   "img": "images/shelton-benjamin.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Shinsuke Nakamura",
+   "img": "images/shinsuke-nakamura-2.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Shotzi",
+   "img": "images/shotzi-2.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Sid Justice",
+   "img": "images/sid-justice.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Sika",
+   "img": "images/sika.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Sin Cara",
+   "img": "images/sin-cara.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Skye Blue",
+   "img": "images/skye-blue.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Slapjack",
+   "img": "images/slapjack.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Smart Mark Sterling",
+   "img": "images/smart-mark-sterling.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Smash",
+   "img": "images/smash.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Sol Ruca",
+   "img": "images/sol-ruca.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Solo Sikoa",
+   "img": "images/solo-sikoa.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Sonya Deville",
+   "img": "images/sonya-deville.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Speedball Mike Bailey",
+   "img": "images/speedball-mike-bailey.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Stacy Keibler",
+   "img": "images/stacy-keibler.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Stardust",
+   "img": "images/stardust.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Stephanie McMahon",
+   "img": "images/stephanie-mcmahon.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Stephanie Vaquer",
+   "img": "images/stephanie-vaquer.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Steve Austin",
+   "img": "images/stone-cold-steve-austin.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Sting",
+   "img": "images/sting.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Summer Rae",
+   "img": "images/summer-rae.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Superstar Billy Graham",
+   "img": "images/superstar-billy-graham.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Swerve Strickland",
+   "img": "images/swerve-strickland.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Syxx",
+   "img": "images/syxx.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "T-Bar",
+   "img": "images/t-bar.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tala Tonga",
+   "img": "images/tala-tonga.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tama Tonga",
+   "img": "images/tama-tonga.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Tamina",
+   "img": "images/tamina.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Tank Ledger",
+   "img": "images/tank-ledger.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tatanka",
+   "img": "images/tatanka.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Tatum Paxley",
+   "img": "images/tatum-paxley.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Tavion Heights",
+   "img": "images/tavion-heights.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tay Melo",
+   "img": "images/tay-melo.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Taya Valkyrie",
+   "img": "images/taya-valkyrie.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Ted DiBiase",
+   "img": "images/ted-dibiase.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Tegan Nox",
+   "img": "images/tegan-nox-2.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Terry Funk",
+   "img": "images/terry-funk.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "The Beast Mortos",
+   "img": "images/the-beast-mortos.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "The Brian Kendrick",
+   "img": "images/the-brian-kendrick.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "The Fiend Bray Wyatt",
+   "img": "images/the-fiend-bray-wyatt.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "The Godfather",
+   "img": "images/the-godfather.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "The Great Khali",
+   "img": "images/the-great-khali.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "The Great Muta",
+   "img": "images/the-great-muta.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "The Honky Tonk Man",
+   "img": "images/the-honky-tonk-man.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "The Hurricane",
+   "img": "images/the-hurricane.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "The Iron Sheik",
+   "img": "images/the-iron-sheik.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "The Miz",
+   "img": "images/the-miz.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "The Rock",
+   "img": "images/the-rock.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "The Sandman",
+   "img": "images/the-sandman.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Thea Hail",
+   "img": "images/thea-hail.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Thekla",
+   "img": "images/thekla.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Thrasher",
+   "img": "images/thrasher.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Thunder Rosa",
+   "img": "images/thunder-rosa.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Tiffany Stratton",
+   "img": "images/tiffany-stratton.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Timothy Thatcher",
+   "img": "images/timothy-thatcher.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tito Santana",
+   "img": "images/tito-santana.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Titus O Neil",
+   "img": "images/titus-oneil.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "TJP",
+   "img": "images/tjp.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Toa Liona",
+   "img": "images/toa-liona.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Tommaso Ciampa",
+   "img": "images/tommaso-ciampa-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tommy Billington",
+   "img": "images/tommy-billington.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tonga Loa",
+   "img": "images/tonga-loa.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Toni Storm",
+   "img": "images/timeless-toni-storm.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Tony D Angelo",
+   "img": "images/tony-dangelo.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tony Nese",
+   "img": "images/tony-nese-2.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Top Dolla",
+   "img": "images/top-dolla.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Torrie Wilson",
+   "img": "images/torrie-wilson.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Trent Beretta",
+   "img": "images/speedball-mike-bailey.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Trent Seven",
+   "img": "images/trent-seven.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Trick Williams",
+   "img": "images/trick-williams.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Triple H",
+   "img": "images/triple-h.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Trish Adora",
+   "img": "images/trish-adora.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Trish Stratus",
+   "img": "images/trish-stratus.png",
+   "sex": "woman",
+   "tier": "high"
+  },
+  {
+   "name": "Truth Magnum",
+   "img": "images/truth-magnum.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tucker",
+   "img": "images/tucker.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Turbo Floyd",
+   "img": "images/turbo-floyd.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ty Schmitt",
+   "img": "images/ty-schmitt.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tye Dillinger",
+   "img": "images/tye-dillinger.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tyler Bate",
+   "img": "images/tyler-bate.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Tyler Breeze",
+   "img": "images/tyler-breeze.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Typhoon",
+   "img": "images/typhoon.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Tyrese Haliburton",
+   "img": "images/tyrese-haliburton.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Tyson Kidd",
+   "img": "images/tyson-kidd.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Ultimate Warrior",
+   "img": "images/ultimate-warrior.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Umaga",
+   "img": "images/umaga.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Uncle Howdy",
+   "img": "images/uncle-howdy.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Undertaker",
+   "img": "images/undertaker.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Vader",
+   "img": "images/vader.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Valhalla",
+   "img": "images/valhalla.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Veer Mahaan",
+   "img": "images/veer-mahaan.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Velveteen Dream",
+   "img": "images/velveteen-dream.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Victoria",
+   "img": "images/victoria.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Viktor",
+   "img": "images/viktor.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Wade Barrett",
+   "img": "images/wade-barrett.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Wardlow",
+   "img": "images/wardlow.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Wendy Choo",
+   "img": "images/wendy-choo.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Wes Lee",
+   "img": "images/wes-lee.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Wheeler Yuta",
+   "img": "images/wheeler-yuta.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Will Ospreay",
+   "img": "images/will-ospreay.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "William Regal",
+   "img": "images/william-regal.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Willow Nightingale",
+   "img": "images/willow-nightingale.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Wolfgang",
+   "img": "images/wolfgang.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Wren Sinclair",
+   "img": "images/wren-sinclair.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "X-Pac",
+   "img": "images/x-pac.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Xavier Woods",
+   "img": "images/xavier-woods.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Xia Li",
+   "img": "images/xia-li.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Yokozuna",
+   "img": "images/yokozuna.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Yoshiki Inamura",
+   "img": "images/yoshiki-inamura.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Yuka Sakazaki",
+   "img": "images/yuka-sakazaki.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Zachary Wentz",
+   "img": "images/zachary-wentz.png",
+   "sex": "man",
+   "tier": "mid"
+  },
+  {
+   "name": "Zack Gibson",
+   "img": "images/zack-gibson.png",
+   "sex": "man",
+   "tier": "low"
+  },
+  {
+   "name": "Zaria",
+   "img": "images/zaria.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Zayda Steel",
+   "img": "images/zayda-steel.png",
+   "sex": "woman",
+   "tier": "low"
+  },
+  {
+   "name": "Zelina Vega",
+   "img": "images/zelina-vega.png",
+   "sex": "woman",
+   "tier": "mid"
+  },
+  {
+   "name": "Zeus",
+   "img": "images/zeus.png",
+   "sex": "man",
+   "tier": "high"
+  },
+  {
+   "name": "Zoey Stark",
+   "img": "images/zoey-stark.png",
+   "sex": "woman",
+   "tier": "low"
+  }
+ ]
+}

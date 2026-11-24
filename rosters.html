@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Roster Community - 2UHub</title>
+  <meta name="description" content="Browse rosters made by the community, make your own roster and share it with the 2UHub community.">
+  <meta name="theme-color" content="#0a0a14">
+  <link rel="canonical" href="https://2uhub.com/rosters">
+  <meta property="og:url" content="https://2uhub.com/rosters">
+  <link rel="stylesheet" href="fonts.css">
+  <link rel="stylesheet" href="hardcore.css">
+  <link rel="stylesheet" href="setup.css">
+  <link rel="stylesheet" href="rosters.css">
+  <link rel="icon" type="image/png" href="icon.png">
+  <link rel="apple-touch-icon" href="icon.png">
+</head>
+<body class="hc enter rosters-page">
+
+  <header class="hc-header" role="banner">
+    <a href="index.html" class="hc-logo" aria-label="2UHub home"><img src="images/px/logo.png" alt="2UHub"></a>
+    <nav class="hc-nav" aria-label="Main navigation">
+      <a href="index.html">Home</a>
+      <a href="tools.html">Draft</a>
+      <a href="matchcard-generator.html">Match Cards</a>
+      <a href="story.html">Story</a>
+      <a href="rosters.html" class="on">Rosters</a>
+      <a href="multiplayer.html">Multiplayer</a>
+    </nav>
+    <div class="hc-header-actions">
+      <a class="btn btn-support btn-sm" href="https://buymeacoffee.com/2khub" target="_blank" rel="noopener">Support 2UHub</a>
+    </div>
+  </header>
+
+  <main class="rc">
+    <div id="list-view">
+      <div class="rc-hero">
+        <h1 class="page-h1">Roster community</h1>
+        <p class="lead">Pick a roster for your draft, or make your own and share it.</p>
+      </div>
+
+      <div class="rc-tools">
+        <input id="rc-search" class="field" type="search" placeholder="Search rosters..." aria-label="Search rosters" autocomplete="off">
+        <div class="seg" id="rc-filter"><button type="button" data-v="community" class="on">Community</button><button type="button" data-v="mine">My rosters</button></div>
+        <select id="rc-sort" class="hc-select" aria-label="Sort"><option value="featured">Featured</option><option value="new">Newest</option><option value="size">Biggest</option><option value="az">A to Z</option></select>
+        <span class="grow"></span>
+        <label class="btn btn-steel btn-sm rc-file">Import file<input id="rc-import" type="file" accept=".json,application/json"></label>
+        <button type="button" class="btn btn-primary btn-sm" id="rc-create">+ Create roster</button>
+      </div>
+      <div id="rc-note" class="rc-note" hidden></div>
+      <div id="rc-grid" class="rc-grid"></div>
+    </div>
+
+    <section id="builder" hidden>
+      <div class="panel step">
+        <div class="ph"><span class="num">1</span><span class="grow" id="b-title">Create a roster</span><button type="button" class="btn btn-steel btn-sm" id="b-cancel">Back to rosters</button></div>
+        <div class="step-body b-details">
+          <div><label class="lbl" for="b-name">Roster name</label><input id="b-name" class="field" maxlength="40" placeholder="e.g. My 2000s Attitude roster" autocomplete="off"></div>
+          <div><label class="lbl" for="b-author">Your name</label><input id="b-author" class="field" maxlength="24" placeholder="Shown on the roster" autocomplete="off"></div>
+          <div class="wide"><label class="lbl" for="b-desc">Description <i>(optional)</i></label><textarea id="b-desc" class="field" rows="2" maxlength="300" placeholder="What is in this roster?"></textarea></div>
+        </div>
+      </div>
+
+      <div class="panel step">
+        <div class="ph"><span class="num">2</span><span class="grow">Add superstars</span></div>
+        <div class="step-body c-form">
+          <p class="muted c-help">Type a name. If the site already knows the superstar, pick the suggestion to fill in their side, level and portrait.</p>
+          <div class="ac"><label class="lbl" for="c-name">Name</label><input id="c-name" class="field" maxlength="40" autocomplete="off" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="c-sug" placeholder="e.g. Undertaker"><div id="c-sug" class="ac-list" role="listbox" hidden></div><div id="c-prev" class="c-prev" hidden></div></div>
+          <div><label class="lbl">Side</label><div class="seg" id="c-sex"><button type="button" data-v="man" class="on">Man</button><button type="button" data-v="woman">Woman</button></div></div>
+          <div><label class="lbl">Level</label><div class="seg" id="c-tier"><button type="button" data-v="high">Main event</button><button type="button" data-v="mid" class="on">Midcard</button><button type="button" data-v="low">Jobber</button></div></div>
+          <div><label class="lbl" for="c-file">Portrait <i>(optional, turned into pixel art)</i></label><input id="c-file" type="file" accept="image/*" class="field"></div>
+          <div class="c-go"><button type="button" class="btn btn-steel" id="c-add">Add superstar</button></div>
+        </div>
+      </div>
+
+      <div class="panel step">
+        <div class="ph"><span class="num">3</span><span class="grow">Superstars in this roster</span><span class="count"><span id="b-count">0</span> picked</span></div>
+        <div class="step-body">
+          <div class="b-bar"><span class="grow"></span><button type="button" class="link-btn" id="b-clear">Remove everyone</button></div>
+          <div id="b-stars" class="pool-grid"></div>
+        </div>
+      </div>
+
+      <div class="rc-save">
+        <span class="muted" id="b-msg"></span>
+        <span class="grow"></span>
+        <button type="button" class="btn btn-steel" id="b-save">Save to my rosters</button>
+        <button type="button" class="btn btn-primary" id="b-share">Save and share</button>
+      </div>
+    </section>
+  </main>
+
+  <footer class="hc-footer">
+    <div class="hc-footer-in">
+      <div class="hc-footer-grid">
+        <div>
+          <img src="images/px/logo.png" alt="2UHub Logo" class="fl">
+        </div>
+        <div>
+          <h4>Navigate</h4>
+          <ul>
+            <li><a href="index.html" class="fk">Home</a></li>
+            <li><a href="tools.html" class="fk">Draft Tool</a></li>
+            <li><a href="matchcard-generator.html" class="fk">Match Cards</a></li>
+            <li><a href="story.html" class="fk">Create a Story</a></li>
+            <li><a href="rosters.html" class="fk">Roster Community</a></li>
+            <li><a href="multiplayer.html" class="fk">Multiplayer</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Community</h4>
+          <ul>
+            <li><a href="https://www.reddit.com/user/2khub/" target="_blank" rel="noopener" class="fk">Reddit</a></li>
+            <li><a href="https://www.instagram.com/2khub.draft/" target="_blank" rel="noopener" class="fk">Instagram</a></li>
+            <li><a href="https://www.tiktok.com/@2khub.universe" target="_blank" rel="noopener" class="fk">TikTok</a></li>
+          </ul>
+        </div>
+        <div>
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy.html" class="fk">Privacy Policy</a></li>
+            <li><a href="terms.html" class="fk">Terms &amp; Conditions</a></li>
+            <li><a href="contact.html" class="fk">Contact</a></li>
+            <li><a href="report.html" class="fk">Report content</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="hc-footer-bottom">
+        <p>&copy; 2025-2026 2UHub. All rights reserved.</p>
+        <p>2UHub is an unofficial fan project and is not affiliated with, endorsed by, or sponsored by any wrestling promotion or video game company.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="hardcore.js"></script>
+  <script src="supabase-config.js"></script>
+  <script src="auth.js" defer></script>
+  <script type="module" src="community.js"></script>
+  <script src="rosters.js" defer></script>
+  <script src="consent.js" defer></script>
+</body>
+</html>

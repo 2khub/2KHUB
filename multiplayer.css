@@ -21,14 +21,20 @@
 .mp-setup-color { width: 56px; height: 44px; padding: 2px; background: var(--bg); border: 2px solid var(--border); cursor: pointer; }
 .mp-color-preview { color: var(--text-2); font: 700 13px var(--font); }
 
-/* game picker */
-.custom-select { position: relative; }
-.select-selected, .select-item { display: flex; align-items: center; gap: 12px; padding: 10px 12px; cursor: pointer; font: 400 15px var(--font); }
-.select-selected { background: var(--bg); border: 2px solid var(--border); }
-.select-selected::after { content: ""; margin-left: auto; width: 12px; height: 4px; background: var(--accent); box-shadow: 4px 4px var(--accent), -4px -4px 0 -0px transparent; }
-.select-items { position: absolute; left: 0; right: 0; top: calc(100% + 4px); z-index: 30; max-height: 300px; overflow-y: auto; background: var(--surface); border: 2px solid var(--border-2); }
-.select-hide { display: none; }
-.select-item:hover { background: var(--surface-3); }
+/* roster picker (above Host a draft): recent rosters + Browse rosters, same tiles as the draft setup */
+.mp-roster-head { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; margin-bottom: 8px; }
+.mp-roster-head .lbl { margin: 0; }
+.mp-roster-head .hint { color: var(--muted); font: 400 13px var(--font); text-align: right; }
+.game-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+.game-tile { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 64px; padding: 8px 10px; cursor: pointer; background: var(--bg); border: 2px solid var(--border); color: var(--text-2); }
+.game-tile span, .browse-tile span { font: 400 22px/1 var(--font-d); text-align: center; text-transform: uppercase; overflow-wrap: anywhere; }
+.game-tile:hover { border-color: var(--border-2); }
+.game-tile.on { background: var(--surface-3); border-color: var(--accent); }
+.game-tile.on span { color: var(--accent); }
+.browse-tile { display: flex; align-items: center; justify-content: center; min-height: 64px; padding: 8px 10px; text-decoration: none; background: var(--bg); border: 2px dashed var(--border-2); }
+.browse-tile span { color: var(--accent); }
+.browse-tile:hover { border-color: var(--accent); background: var(--surface-2); }
+#btn-host:disabled { opacity: .5; cursor: not-allowed; }
 
 /* lobby */
 .mp-room { display: flex; align-items: center; justify-content: space-between; padding-bottom: 16px; border-bottom: 2px solid var(--border); color: var(--text-2); font: 700 11px var(--font); text-transform: uppercase; }
