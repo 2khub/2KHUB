@@ -26,11 +26,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://2uhub.com/story</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://2uhub.com/report</loc>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
