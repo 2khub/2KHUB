@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://2uhub.com/sitemap.xml
+Sitemap: https://www.2uhub.com/sitemap.xml
